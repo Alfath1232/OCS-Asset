@@ -1,0 +1,41 @@
+=== TASK   : 0026-aeon-logo-cacheproof.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 20:11:48 WIB
+-----------------------------------------------------------
+##### 1) DOMAIN PUBLIK vs FILE LOKAL #####
+/assets/logo-white-ByPbYGo2.png          lokal=8f0eefe2c263 publik=8f0eefe2c263 http=200 SAMA
+    header: server: cloudflare cache-control: max-age=14400 cf-cache-status: MISS 
+/assets/illu_communaute-wIbJYpXT.png     lokal=4a5671ba2b69 publik=1ce52221d756 http=200 BEDA
+    header: server: cloudflare age: 4143 cache-control: max-age=14400 cf-cache-status: HIT 
+/favicon.ico                             lokal=6feaf2ec684e publik=6feaf2ec684e http=200 SAMA
+    header: server: cloudflare cache-control: max-age=14400 cf-cache-status: MISS 
+
+##### 2) PASANG LOGO DI URL BARU #####
+referensi logo bernomor versi di CSS: 2
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/aeon/favicon.ico?v=fdbc45c">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEON IT Asset Inventory</title>
+    <script type="module" crossorigin src="/assets/index-Dn4Ib-VN.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BmuZM_Nd.css">
+    <link rel="stylesheet" href="/aeon/aeon.css?v=fdbc45c">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
+
+##### 3) VERIFIKASI #####
+/aeon/aeon.css?v=fdbc45c                     -> 200
+/aeon/header-logo.png?v=fdbc45c              -> 200
+/aeon/login-logo.png?v=fdbc45c               -> 200
+/aeon/favicon.ico?v=fdbc45c                  -> 200
+-- lewat domain publik:
+/aeon/header-logo.png?v=fdbc45c              -> 200
+/aeon/login-logo.png?v=fdbc45c               -> 200
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 20:11:57 WIB
+=== STATUS : OK (exit 0)

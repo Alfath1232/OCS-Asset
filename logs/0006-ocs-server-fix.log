@@ -1,0 +1,185 @@
+=== TASK   : 0006-ocs-server-fix.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 15:47:35 WIB
+-----------------------------------------------------------
+== Pindahkan config yang nyasar di / (kalau ada)
+renamed '/z-ocsinventory-server.conf' -> '/root/ocs-install/stray/z-ocsinventory-server.conf'
+renamed '/zz-ocsinventory-restapi.conf' -> '/root/ocs-install/stray/zz-ocsinventory-restapi.conf'
+renamed '/ocsinventory-reports.conf' -> '/root/ocs-install/stray/ocsinventory-reports.conf'
+== Download 2.12.6
+ocs-2.12.6.tar.gz: OK
+== Jalankan setup.sh (non-interaktif, semua jawaban default)
+yes: standard output: Broken pipe
+|   Creating Communication server plugins configuration directory...   |
++----------------------------------------------------------------------+
+
+Creating Communication server plugins configuration directory /etc/ocsinventory-server/plugins.
+
+
++----------------------------------------------------------------------+
+| OK, Communication server plugins configuration directory created ;-) |
+|                                                                      |
+|        Creating Communication server plugins Perl directory...       |
++----------------------------------------------------------------------+
+
+Creating Communication server plugins Perl directory /etc/ocsinventory-server/perl.
+
+
++----------------------------------------------------------------------+
+|     OK, Communication server plugins Perl directory created ;-)      |
+|                                                                      |
+|               Now configuring Apache web server...                   |
++----------------------------------------------------------------------+
+
+To ensure Apache loads mod_perl before OCS Inventory NG Communication Server,
+Setup can name Communication Server Apache configuration file
+'z-ocsinventory-server.conf' instead of 'ocsinventory-server.conf'.
+Do you allow Setup renaming Communication Server Apache configuration file
+to 'z-ocsinventory-server.conf' ([y]/n) ?OK, using 'z-ocsinventory-server.conf' as Communication Server Apache configuration file
+Removing old communication server configuration to file /etc/apache2/conf-available/ocsinventory.conf
+Writing communication server configuration to file /etc/apache2/conf-available/z-ocsinventory-server.conf
+
++----------------------------------------------------------------------+
+|       OK, Communication server setup successfully finished ;-)       |
+|                                                                      |
+| Please, review /etc/apache2/conf-available/z-ocsinventory-server.conf |
+|         to ensure all is good. Then restart Apache daemon.           |
++----------------------------------------------------------------------+
+
+
+Do you wish to setup Administration Server (Web Administration Console)
+on this computer ([y]/n)?
++----------------------------------------------------------+
+|    Checking for Administration Server directories...     |
++----------------------------------------------------------+
+
+CAUTION: Setup now install files in accordance with Filesystem Hierarchy
+Standard. So, no file is installed under Apache root document directory
+(Refer to Apache configuration files to locate it).
+If you're upgrading from OCS Inventory NG Server 1.01 and previous, YOU
+MUST REMOVE (or move) directories 'ocsreports' and 'download' from Apache
+root document directory.
+If you choose to move directory, YOU MUST MOVE 'download' directory to
+Administration Server writable/cache directory (by default
+/var/lib/ocsinventory-reports), especially if you use deployment feature.
+
+Do you wish to continue ([y]/n)?Assuming directories 'ocsreports' and 'download' removed from
+Apache root document directory.
+
+Where to copy Administration Server static files for PHP Web Console
+[/usr/share/ocsinventory-reports] ?OK, using directory /usr/share/ocsinventory-reports to install static files ;-)
+
+Where to create writable/cache directories for deployment packages,
+administration console logs, IPDiscover and SNMP [/var/lib/ocsinventory-reports] ?OK, writable/cache directory is /var/lib/ocsinventory-reports ;-)
+
+
++----------------------------------------------------------+
+|         Checking for required Perl Modules...            |
++----------------------------------------------------------+
+
+Checking for DBI PERL module...
+Found that PERL module DBI is available.
+Checking for DBD::mysql PERL module...
+Found that PERL module DBD::mysql is available.
+Checking for XML::Simple PERL module...
+Found that PERL module XML::Simple is available.
+Checking for Net::IP PERL module...
+Found that PERL module Net::IP is available.
+
++----------------------------------------------------------+
+|      Installing files for Administration server...       |
++----------------------------------------------------------+
+
+Creating PHP directory /usr/share/ocsinventory-reports/ocsreports.
+Copying PHP files to /usr/share/ocsinventory-reports/ocsreports.
+Fixing permissions on directory /usr/share/ocsinventory-reports/ocsreports.
+Creating database configuration file /usr/share/ocsinventory-reports/ocsreports/dbconfig.inc.php.
+Creating IPDiscover directory /var/lib/ocsinventory-reports/ipd.
+Fixing permissions on directory /var/lib/ocsinventory-reports/ipd.
+Creating packages directory /var/lib/ocsinventory-reports/download.
+Fixing permissions on directory /var/lib/ocsinventory-reports/download.
+Creating snmp mibs directory /var/lib/ocsinventory-reports/snmp.
+Fixing permissions on directory /var/lib/ocsinventory-reports/snmp.
+Creating Administration server log files directory /var/lib/ocsinventory-reports/logs.
+Fixing permissions on directory /var/lib/ocsinventory-reports/logs.
+Creating Administration server temporary files directory /var/lib/ocsinventory-reports/tmp_dir.
+Fixing permissions on directory /var/lib/ocsinventory-reports/tmp_dir.
+Creating Administration server scripts log files directory /var/lib/ocsinventory-reports/scripts.
+Fixing permissions on directory /var/lib/ocsinventory-reports/scripts.
+Configuring IPDISCOVER-UTIL Perl script.
+Installing IPDISCOVER-UTIL Perl script.
+Fixing permissions on IPDISCOVER-UTIL Perl script.
+Writing Administration server configuration to file /etc/apache2/conf-available/ocsinventory-reports.conf
+
++----------------------------------------------------------------------+
+|        OK, Administration server installation finished ;-)           |
+|                                                                      |
+| Please, review /etc/apache2/conf-available/ocsinventory-reports.conf
+|          to ensure all is good and restart Apache daemon.            |
+|                                                                      |
+| Then, point your browser to http://server//ocsreports
+|        to configure database server and create/update schema.        |
++----------------------------------------------------------------------+
+
+
+Setup has created a log file /root/ocs-install/OCSNG_UNIX_SERVER-2.12.6/ocs_server_setup.log. Please, save this file.
+If you encounter error while running OCS Inventory NG Management server,
+we can ask you to show us its content !
+
+DON'T FORGET TO RESTART APACHE DAEMON !
+
+Enjoy OCS Inventory NG ;-)
+
+== Hasil deteksi setup.sh:
+Checking for Apache Include configuration directory
+Found Apache Include configuration directory /etc/apache2/conf-available
+Using Apache Include configuration directory /etc/apache2/conf-available
+Checking for Apache mod_perl version 1.99_22 or higher
+Using mod_perl version 1.99_22 or higher
+== File config yang dibuat setup.sh:
+-rw-r--r-- 1 root root 14515 Oct 26 15:47 /etc/apache2/conf-available/z-ocsinventory-server.conf
+-rw-r--r-- 1 root root 746 Oct 26 15:47 /etc/apache2/conf-available/zz-ocsinventory-restapi.conf
+-rw-r--r-- 1 root root 4168 Oct 26 15:47 /etc/apache2/conf-available/ocsinventory-reports.conf
+== Set password DB di config Communication server & REST API
+== Verifikasi (password disamarkan)
+  PerlSetEnv OCS_DB_HOST localhost
+  PerlSetEnv OCS_DB_PORT 3306
+  PerlSetEnv OCS_DB_NAME ocsweb
+  PerlSetEnv OCS_DB_USER ocs
+  PerlSetVar OCS_DB_PWD ********
+  $ENV{OCS_DB_HOST} = 'localhost';
+  $ENV{OCS_DB_PORT} = '3306';
+  $ENV{OCS_DB_NAME} = 'ocsweb';
+  $ENV{OCS_DB_USER} = 'ocs';
+  $ENV{OCS_DB_PWD} = '********';
+== Aktifkan config Apache
+Enabling conf ocsinventory-reports.
+Enabling conf z-ocsinventory-server.
+Enabling conf zz-ocsinventory-restapi.
+To activate the new configuration, you need to run:
+  systemctl reload apache2
+ocsinventory-server: Bad setting. `SNMP_LINK_TAG` is not set. Default: `0`
+[Mon Oct 26 15:47:40 2026] OCSINVENTORY: (SOAP): Cannot find XML::Entities
+ocsinventory-server: Can't load SOAP::Transport::HTTP* - Web service will be unavailable
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+Syntax OK
+active
+== Tes HTTP lokal
+/ocsreports/                 -> HTTP 200
+/ocsreports/install.php      -> HTTP 200
+/ocsinventory                -> HTTP 400
+== Error Apache terbaru (kalau ada):
+[Mon Oct 26 15:45:03.987317 2026] [mpm_prefork:notice] [pid 42136] AH00163: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Mon Oct 26 15:45:03.987378 2026] [core:notice] [pid 42136] AH00094: Command line: '/usr/sbin/apache2'
+[Mon Oct 26 15:45:05.494291 2026] [mpm_prefork:notice] [pid 42136] AH00170: caught SIGWINCH, shutting down gracefully
+[Mon Oct 26 15:45:05.591636 2026] [mpm_prefork:notice] [pid 42334] AH00163: Apache/2.4.58 (Ubuntu) mod_perl/2.0.13 Perl/v5.38.2 configured -- resuming normal operations
+[Mon Oct 26 15:45:05.591693 2026] [core:notice] [pid 42334] AH00094: Command line: '/usr/sbin/apache2'
+[Mon Oct 26 15:45:07.872298 2026] [mpm_prefork:notice] [pid 42334] AH00170: caught SIGWINCH, shutting down gracefully
+[Mon Oct 26 15:45:07.968176 2026] [mpm_prefork:notice] [pid 42522] AH00163: Apache/2.4.58 (Ubuntu) mod_perl/2.0.13 Perl/v5.38.2 configured -- resuming normal operations
+[Mon Oct 26 15:45:07.968246 2026] [core:notice] [pid 42522] AH00094: Command line: '/usr/sbin/apache2'
+[Mon Oct 26 15:47:40.810335 2026] [mpm_prefork:notice] [pid 42522] AH00170: caught SIGWINCH, shutting down gracefully
+[Mon Oct 26 15:47:41.227008 2026] [mpm_prefork:notice] [pid 43551] AH00163: Apache/2.4.58 (Ubuntu) mod_perl/2.0.13 Perl/v5.38.2 configured -- resuming normal operations
+[Mon Oct 26 15:47:41.227064 2026] [core:notice] [pid 43551] AH00094: Command line: '/usr/sbin/apache2'
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 15:47:43 WIB
+=== STATUS : OK (exit 0)

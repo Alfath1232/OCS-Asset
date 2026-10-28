@@ -1,0 +1,96 @@
+=== TASK   : 0034-agent-config-read.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-27 20:10:58 WIB
+-----------------------------------------------------------
+== /asset/configs/ (yang diterima agent)
+[
+    {
+        "name": "agent",
+        "value": [
+            {
+                "name": "frequency",
+                "description": "Frequency of inventory in hours",
+                "value": 4,
+                "type": "number input",
+                "unit": "hours"
+            },
+            {
+                "name": "inventory_checksum",
+                "description": "Enable differential update of inventory",
+                "value": true,
+                "type": "switch",
+                "unit": ""
+            },
+            {
+                "name": "inventory_loglevel",
+                "description": "Inventory log level (server)",
+                "value": "ERROR",
+                "type": "select",
+                "unit": "",
+                "options": [
+                    "DEBUG",
+                    "INFO",
+                    "WARNING",
+                    "ERROR",
+                    "CRITICAL"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "deployment",
+        "value": [
+            {
+                "name": "enabled",
+                "description": "Enable deployment",
+                "value": false,
+                "type": "switch",
+                "unit": ""
+            },
+            {
+                "name": "period_latency",
+                "description": "Period of latency between packages in seconds",
+                "value": 60,
+                "type": "number input",
+                "unit": "seconds"
+            },
+            {
+                "name": "auto_retry",
+                "description": "Enable auto retry if deployment failed",
+                "value": false,
+                "type": "switch",
+                "unit": ""
+            },
+            {
+                "name": "max_retry",
+                "description": "Max retry number for a package to retry",
+                "value": 3,
+                "type": "number input",
+                "unit": ""
+            },
+            {
+                "name": "execution_timeout",
+                "description": "Timeout of command execution in seconds",
+                "value": 300,
+                "type": "number input",
+                "unit": "seconds"
+            },
+            {
+                "name": "deployment_timeout",
+                "description": "Timeout of deployment in seconds",
+                "value": 240,
+                "type": "number input",
+                "unit": "seconds"
+            }
+        ]
+    }
+]
+
+== definisi di source backend
+
+== aset yang sudah masuk
+jumlah_aset
+2
+-----------------------------------------------------------
+=== SELESAI: 2026-10-27 20:11:02 WIB
+=== STATUS : OK (exit 0)

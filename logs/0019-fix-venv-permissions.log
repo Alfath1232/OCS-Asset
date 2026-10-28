@@ -1,0 +1,38 @@
+=== TASK   : 0019-fix-venv-permissions.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 16:35:38 WIB
+-----------------------------------------------------------
+== Sebelum: file venv yang tidak bisa dibaca 'other'
+/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/mysqlclient-2.3.0.dist-info
+/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/mysqlclient-2.3.0.dist-info/RECORD
+/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/mysqlclient-2.3.0.dist-info/licenses
+/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/mysqlclient-2.3.0.dist-info/licenses/LICENSE
+/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/mysqlclient-2.3.0.dist-info/WHEEL
+/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/mysqlclient-2.3.0.dist-info/INSTALLER
+/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/mysqlclient-2.3.0.dist-info/top_level.txt
+/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/mysqlclient-2.3.0.dist-info/REQUESTED
+/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/mysqlclient-2.3.0.dist-info/METADATA
+/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/MySQLdb
+jumlah: 41
+== Perbaiki izin baca (a+rX = baca semua, eksekusi hanya folder/yang sudah executable)
+sisa file venv tidak terbaca: 0
+== Tes import driver sebagai www-data
+MySQLdb OK (2, 3, 0, 'final', 0)
+System check identified no issues (0 silenced).
+== Restart uWSGI
+Mon Oct 26 09:33:31 2026 - --- no python application found, check your startup logs for errors ---
+Mon Oct 26 09:33:31 2026 - --- no python application found, check your startup logs for errors ---
+Mon Oct 26 09:35:44 2026 - WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x714dff8a4668 pid: 5525 (default app)
+== Verifikasi HTTP
+backend /                          -> 401 (harap 401)
+backend /api-check/                -> 200
+frontend /                         -> 200 (harap 200)
+-- isi /api-check/:
+{"message":"API is online!"}
+-- tes login admin/admin ke /login/ (status saja):
+403
+-- tes login ke /api-auth/token (status saja):
+200
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 16:35:49 WIB
+=== STATUS : OK (exit 0)

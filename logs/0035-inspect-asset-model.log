@@ -1,0 +1,532 @@
+=== TASK   : 0035-inspect-asset-model.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-28 10:37:48 WIB
+-----------------------------------------------------------
+
+##### STRUKTUR APP asset/ #####
+asset/agent_config/routers.py
+asset/agent_config/tests.py
+asset/agent_config/views.py
+asset/asset_group/apps.py
+asset/asset_group/models.py
+asset/asset_group/routers.py
+asset/asset_group/serializers.py
+asset/asset_group/tests.py
+asset/asset_group/views.py
+asset/collection/serializers.py
+asset/collection/tests.py
+asset/collection/views.py
+asset/inventory_base/apps.py
+asset/inventory_base/models.py
+asset/inventory_base/routers.py
+asset/inventory_base/serializers.py
+asset/inventory_base/tests.py
+asset/inventory_base/views.py
+asset/inventory_field/apps.py
+asset/inventory_field/models.py
+asset/inventory_field/routers.py
+asset/inventory_field/serializers.py
+asset/inventory_field/tests.py
+asset/inventory_field/views.py
+asset/inventory_section/apps.py
+asset/inventory_section/models.py
+asset/inventory_section/routers.py
+asset/inventory_section/serializers.py
+asset/inventory_section/tests.py
+asset/inventory_section/views.py
+asset/legacy/parsers.py
+asset/legacy/renderers.py
+asset/legacy/serializers.py
+asset/legacy/tests.py
+asset/legacy/views.py
+asset/log/admin.py
+asset/log/apps.py
+asset/log/models.py
+asset/log/routers.py
+asset/log/serializers.py
+asset/log/tests.py
+asset/log/views.py
+asset/reconciliation/serializers.py
+asset/reconciliation/tests.py
+asset/reconciliation/views.py
+asset/services.py
+
+##### SOURCE asset/inventory_base (models, serializers, routers, filter di views) #####
+======== asset/inventory_base/models.py
+import logging
+
+from automation.rule.logic import Logic
+from django.contrib.contenttypes.fields import GenericRelation
+from django.db import models
+from django.db.models.signals import post_delete, post_save, pre_delete
+from django.dispatch import receiver
+from inventory.template.models import Template
+
+
+# Create your models here.
+class InventoryBase(models.Model):
+    """
+    Asset's base model class definition
+
+    The model will contain the following info
+    - Name
+    - Description
+    - Serial
+    - OS Name
+    - OS Version
+    - UUID
+    - SRCIP
+    - SRCMAC
+    - Template
+    - Domain
+    - is_template_forced
+    """
+
+    name = models.CharField(max_length=50, null=False)
+    description = models.CharField(max_length=255, null=True)
+    serial = models.CharField(max_length=255)
+    osname = models.CharField(max_length=255, null=False)
+    osversion = models.CharField(max_length=255, blank=True)
+    uuid = models.CharField(max_length=255, null=False, unique=True)
+    srcip = models.CharField(max_length=255, blank=True)
+    srcmac = models.CharField(max_length=255, blank=True)
+    domain = models.CharField(max_length=255, blank=True)
+    agent = models.CharField(max_length=255, blank=True)
+    template = models.ForeignKey(
+        Template, on_delete=models.CASCADE, blank=True, null=True
+    )
+    is_template_forced = models.BooleanField(default=False)
+    accountinfo = GenericRelation(
+        "accountinfo.AccountinfoData",
+        content_type_field="content_type",
+        object_id_field="object_id",
+    )
+    last_update = models.DateTimeField(auto_now=True)
+
+
+@receiver(post_save, sender=InventoryBase)
+def inventory_received_handler(sender, instance, created, **kwargs):
+    logger = logging.getLogger(__name__)
+    # manually assigned > auto assigned
+    if instance.is_template_forced:
+        # skip auto os based template assignment logic
+        logger.debug(
+            f"Template is manually assigned for ID {instance.id}, "
+            "skipping inventory_received Rules."
+        )
+        return
+
+    if not getattr(instance, "processed", False):
+        logger.debug(f"Running inventory_received Rules for ID {instance.id}.")
+        logic = Logic("inventory_received", instance)
+        instance = logic.process_rules()
+
+
+@receiver(pre_delete, sender=InventoryBase)
+def inventory_delete_capture_dictionary_entries(sender, instance, **kwargs):
+    # get links before jjango removes m2M relations during deletion
+    instance._software_dictionary_ids = list(
+        instance.software_dictionary_entries.values_list("id", flat=True)
+    )
+
+
+@receiver(post_delete, sender=InventoryBase)
+def inventory_delete_cleanup_dictionary_entries(sender, instance, **kwargs):
+    entry_ids = getattr(instance, "_software_dictionary_ids", [])
+    if not entry_ids:
+        return
+
+    logger = logging.getLogger(__name__)
+    try:
+        from inventory.software.services import SoftwareDictionaryService
+
+        SoftwareDictionaryService.cleanup_delete(instance.id, entry_ids)
+    except Exception as exc:
+        logger.exception(
+            "Failed to cleanup software dictionary after deleting asset %s: %s",
+            getattr(instance, "id", "unknown"),
+            exc,
+        )
+======== asset/inventory_base/serializers.py
+from accountinfo.models import AccountinfoConfig, AccountinfoData, AccountinfoValue
+from accountinfo.serializers import AccountinfoDataSerializer
+from asset.inventory_base.models import InventoryBase
+from inventory.template.serializers import TemplateSerializer
+from ocsinventory_backend.ocs_framework.viewsets import ExpandableFieldsMixin
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
+
+
+class InventoryBaseSerializer(ExpandableFieldsMixin, ModelSerializer):
+    """
+    Serializer class for Base
+    """
+
+    matched = SerializerMethodField()
+
+    class Meta:
+        """Define the linked model and the fields registered in the API"""
+
+        model = InventoryBase
+        fields = [
+            "id",
+            "name",
+            "description",
+            "serial",
+            "osname",
+            "osversion",
+            "uuid",
+            "srcip",
+            "srcmac",
+            "domain",
+            "agent",
+            "template",
+            "last_update",
+            "is_template_forced",
+            "matched",
+        ]
+
+        expandable_fields = {
+            "template": TemplateSerializer,
+        }
+        extra_kwargs = {"last_update": {"read_only": True}}
+        http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_matched(self, obj):
+        match_map = self.context.get("match_map", {})
+        return match_map.get(obj.pk, {})
+
+    def to_representation(self, instance):
+        """
+        Customize the representation to include additional fields
+        based on the 'accountinfo' URL parameter.
+        """
+        representation = super().to_representation(instance)
+
+        # resolved per page by the viewset, nothing is queried per asset here
+        # every asked column is present, empty when the template has no value
+        virtual_col_map = self.context.get("virtual_col_map")
+        if virtual_col_map is not None:
+            values = virtual_col_map.get(instance.pk, {})
+            representation["virtual_cols"] = {
+                key: values.get(key) for key in self.context.get("virtual_col_keys", [])
+            }
+
+        request = self.context.get("request")
+        accountinfo = None
+
+        if request is not None:
+            accountinfo = request.query_params.get("accountinfo")
+
+        if not (accountinfo and accountinfo.lower() == "true"):
+            return representation
+
+        # get the accountinfo data first return if not found
+        data = AccountinfoData.objects.filter(object_id=representation["id"]).first()
+        if not data:
+            return representation
+
+        # get serialized data
+        serialized_data = AccountinfoDataSerializer(data).data
+        accountdata = serialized_data["accountdata"]
+
+        if not accountdata:
+            return representation
+
+        # get config and value records based on accountdata
+        config_ids = [int(key) for key in accountdata.keys()]
+        configs = AccountinfoConfig.objects.filter(id__in=config_ids)
+        config_mapping = {str(config.id): config.name for config in configs}
+
+        # collect value ids
+        value_ids = []
+        for value in accountdata.values():
+            if isinstance(value, list):
+                value_ids.extend(int(val) for val in value)
+
+        values_mapping = {}
+        if value_ids:
+            values = AccountinfoValue.objects.filter(id__in=value_ids)
+            values_mapping = {str(value.id): value.value for value in values}
+
+        # using a specific format for the accountinfo data (frontend requirement)
+        account_data = {}
+        for key, value in accountdata.items():
+            field_name = config_mapping.get(key, key)
+            # select
+            if isinstance(value, dict):
+                account_data[field_name] = value["text"]
+            # checkboxes
+            elif isinstance(value, list):
+                transformed_values = []
+                for val in value:
+                    transformed_values.append(values_mapping.get(str(val), val))
+                account_data[field_name] = ", ".join(transformed_values)
+            # text
+            else:
+                account_data[field_name] = value
+
+        representation["accountinfo"] = account_data
+        return representation
+======== asset/inventory_base/routers.py
+from asset.inventory_base.views import InventoryBaseViewSet
+
+
+class InventoryBaseRouter:
+    """
+    Router class is intended to define the route related to an app
+    defineRoutes method need to be defined and called in main urls.py
+    """
+
+    @staticmethod
+    def defineRoutes(defaultRouter):
+        """
+        Define app's routes
+
+        Args:
+            defaultRouter ([DefaultRouter]): Default router from main urls.py
+
+        Returns:
+            [DefaultRouter]: Updated router with app's dedicated routes
+        """
+        defaultRouter.register(r"asset/bases", InventoryBaseViewSet)
+        return defaultRouter
+======== asset/inventory_base/views.py (filter & search)
+16:class InventoryBaseViewSet(AccountinfoSearchMixin, viewsets.OCSViewSet):
+18:    This class will define the view behavior
+28:    serializer_class = InventoryBaseSerializer
+32:    search_fields = [
+45:    ordering_fields = [
+123:        Return (column, descending) when the ordering asks for a virtual column
+125:        The column key is sent as the ordering key, so it matches no model
+128:        ordering = self.request.query_params.get("ordering") or ""
+129:        descending = ordering.startswith("-")
+130:        key = ordering[1:] if descending else ordering
+
+##### CARA AGENT MENGENALI ASET (asset/collection, kunci identitas) #####
+/usr/share/ocsinventory-backend/asset/collection/serializers.py:1:from rest_framework import serializers
+/usr/share/ocsinventory-backend/asset/collection/serializers.py:4:class CollectionResponseSerializer(serializers.Serializer):
+/usr/share/ocsinventory-backend/asset/collection/serializers.py:9:    message = serializers.CharField()
+/usr/share/ocsinventory-backend/asset/collection/serializers.py:10:    id = serializers.IntegerField()
+/usr/share/ocsinventory-backend/asset/collection/serializers.py:13:class CollectionErrorSerializer(serializers.Serializer):
+/usr/share/ocsinventory-backend/asset/collection/serializers.py:14:    error = serializers.CharField()
+/usr/share/ocsinventory-backend/asset/collection/tests.py:5:from asset.services import ReconciliationService
+/usr/share/ocsinventory-backend/asset/collection/tests.py:40:def force_agent_uuid_reconciliation(db):
+/usr/share/ocsinventory-backend/asset/collection/tests.py:42:    Keeps reconciliation on plain uuid lookup for these tests: the collection
+/usr/share/ocsinventory-backend/asset/collection/tests.py:43:    endpoint always calls ReconciliationService, and its default fields are
+/usr/share/ocsinventory-backend/asset/collection/tests.py:44:    already ["uuid"], so this fixture only documents that assumption.
+/usr/share/ocsinventory-backend/asset/collection/tests.py:46:    assert ReconciliationService.get_reconciliation_fields() == ["uuid"]
+/usr/share/ocsinventory-backend/asset/collection/tests.py:86:                "serial": "SER-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:88:                "uuid": "uuid-asset-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:96:        assert InventoryBase.objects.filter(uuid="uuid-asset-1").exists()
+/usr/share/ocsinventory-backend/asset/collection/tests.py:105:                "serial": "SER-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:107:                "uuid": "uuid-asset-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:118:        asset = InventoryBase.objects.get(uuid="uuid-asset-1")
+/usr/share/ocsinventory-backend/asset/collection/tests.py:134:                "serial": "SER-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:136:                "uuid": "uuid-asset-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:152:        asset = InventoryBase.objects.get(uuid="uuid-asset-1")
+/usr/share/ocsinventory-backend/asset/collection/tests.py:170:                "serial": "SER-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:172:                "uuid": "uuid-asset-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:181:        assert InventoryBase.objects.filter(uuid="uuid-asset-1").exists()
+/usr/share/ocsinventory-backend/asset/collection/tests.py:194:                "serial": "SER-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:196:                "uuid": "uuid-asset-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:207:        assert InventoryBase.objects.filter(uuid="uuid-asset-1").exists()
+/usr/share/ocsinventory-backend/asset/collection/tests.py:217:                "serial": "SER-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:219:                "uuid": "uuid-asset-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:228:        assert not InventoryBase.objects.filter(uuid="uuid-asset-1").exists()
+/usr/share/ocsinventory-backend/asset/collection/tests.py:237:                "serial": "SER-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:239:                "uuid": "uuid-asset-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:248:        assert not InventoryBase.objects.filter(uuid="uuid-asset-1").exists()
+/usr/share/ocsinventory-backend/asset/collection/tests.py:250:    def test_create_rejects_blacklisted_serial(self, api_client, template):
+/usr/share/ocsinventory-backend/asset/collection/tests.py:251:        enable_blacklist_switch("serialnumbers", "BLOCKED-SERIAL")
+/usr/share/ocsinventory-backend/asset/collection/tests.py:257:                "serial": "BLOCKED-SERIAL",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:259:                "uuid": "uuid-asset-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:267:        assert not InventoryBase.objects.filter(uuid="uuid-asset-1").exists()
+/usr/share/ocsinventory-backend/asset/collection/tests.py:276:                "serial": "SER-1",
+/usr/share/ocsinventory-backend/asset/collection/tests.py:278:                "uuid": "uuid-asset-1",
+
+##### TABEL inventory_base_inventorybase #####
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+name	varchar(50)	NO		NULL	
+description	varchar(255)	YES		NULL	
+serial	varchar(255)	NO		NULL	
+osname	varchar(255)	NO		NULL	
+osversion	varchar(255)	NO		NULL	
+uuid	varchar(255)	NO	UNI	NULL	
+srcip	varchar(255)	NO		NULL	
+srcmac	varchar(255)	NO		NULL	
+domain	varchar(255)	NO		NULL	
+agent	varchar(255)	NO		NULL	
+is_template_forced	tinyint(1)	NO		NULL	
+last_update	datetime(6)	NO		NULL	
+template_id	bigint(20)	YES	MUL	NULL	
+jumlah_aset
+2
+-- isi ringkas (kolom teks dipotong 60 karakter):
+*************************** 1. row ***************************
+                id: 1
+              name: HQ-ID-L788
+       description: Computer System Product
+            serial: PF5KA6RH
+            osname: Microsoft Windows 11 Pro
+         osversion: 10.0.26200
+              uuid: B7F3D54C-2D2E-11B2-A85C-A3CC2A022E88
+             srcip: 100.111.150.18
+            srcmac: 00-50-56-C0-00-01,04-68-74-64-77-43,00-50-56-C0-00-08
+            domain: aeonindonesia.co.id
+             agent: 3.0.0-rc2
+is_template_forced: 0
+       last_update: 2026-10-27 14:11:17.717506
+       template_id: 5
+*************************** 2. row ***************************
+                id: 2
+              name: HQ-ID-L801
+       description: Computer System Product
+            serial: PF5KADGP
+            osname: Microsoft Windows 11 Pro
+         osversion: 10.0.26200
+              uuid: 2DF93BCC-2D31-11B2-A85C-EF97DA56E408
+             srcip: 192.168.90.1
+            srcmac: 00-50-56-C0-00-08,00-50-56-C0-00-01,04-68-74-63-A8-E5
+            domain: aeonindonesia.co.id
+             agent: 3.0.0-rc2
+is_template_forced: 0
+       last_update: 2026-10-27 21:42:00.352950
+       template_id: 5
+
+##### ACCOUNTINFO SAAT INI #####
+config
+0
+data
+0
+
+##### UJI API DENGAN TOKEN ADMIN SEMENTARA #####
+token sementara: OK (dihapus di akhir)
+--- GET /accountinfo/config/ -> 200
+[]
+--- GET /accountinfo/value/ -> 200
+[]
+--- GET /accountinfo/data/ -> 200
+[]
+--- GET /asset/bases/?limit=2 -> 200
+{
+ "count": 2,
+ "next": null,
+ "previous": null,
+ "results": [
+  {
+   "id": 1,
+   "name": "HQ-ID-L788",
+   "description": "Computer System Product",
+   "serial": "PF5KA6RH",
+   "osname": "Microsoft Windows 11 Pro",
+   "osversion": "10.0.26200",
+   "uuid": "B7F3D54C-2D2E-11B2-A85C-A3CC2A022E88",
+   "srcip": "100.111.150.18",
+   "srcmac": "00-50-56-C0-00-01,04-68-74-64-77-43,00-50-56-C0-00-08",
+   "domain": "aeonindonesia.co.id",
+   "agent": "3.0.0-rc2",
+   "template": 5,
+   "last_update": "2026-10-27T14:11:17+0000",
+   "is_template_forced": false,
+   "matched": {}
+  },
+  {
+   "id": 2,
+   "name": "HQ-ID-L801",
+   "description": "Computer System Product",
+   "serial": "PF5KADGP",
+   "osname": "Microsoft Windows 11 Pro",
+   "osversion": "10.0.26200",
+   "uuid": "2DF93BCC-2D31-11B2-A85C-EF97DA56E408",
+   "srcip": "192.168.90.1",
+   "srcmac": "00-50-56-C0-00-08,00-50-56-C0-00-01,04-68-74-63-A8-E5",
+   "domain": "aeonindonesia.co.id",
+   "agent": "3.0.0-rc2",
+   "template": 5,
+   "last_update": "2026-10-27T21:42:00+0000",
+   "is_template_forced": false,
+   "matched": {}
+  }
+ ]
+}
+--- OPTIONS /accountinfo/config/ (field yang diterima saat membuat custom field)
+{
+ "id": {
+  "type": "integer",
+  "required": false,
+  "read_only": true,
+  "label": "ID"
+ },
+ "name": {
+  "type": "string",
+  "required": true,
+  "read_only": false,
+  "label": "Name",
+  "max_length": 100
+ },
+ "description": {
+  "type": "string",
+  "required": true,
+  "read_only": false,
+  "label": "Description",
+  "max_length": 512
+ },
+ "datatype": {
+  "type": "choice",
+  "required": false,
+  "read_only": false,
+  "label": "Datatype",
+  "choices": [
+   {
+    "value": "TEXT",
+    "display_name": "Text"
+   },
+   {
+    "value": "TEXTAREA",
+    "display_name": "Textarea"
+   },
+   {
+    "value": "SELECT",
+    "display_name": "Select"
+   },
+   {
+    "value": "CHECKBOX",
+    "display_name": "Checkbox"
+   }
+  ]
+ },
+ "datatarget": {
+  "type": "choice",
+  "required": false,
+  "read_only": false,
+  "label": "Datatarget",
+  "choices": [
+   {
+    "value": "ASSET",
+    "display_name": "Assets"
+   },
+   {
+    "value": "IPDISCOVER",
+    "display_name": "IPDiscover"
+   }
+  ]
+ },
+ "accountinfo_values": {
+  "type": "field",
+  "required": false,
+  "read_only": true,
+  "label": "Accountinfo values"
+ }
+}
+
+##### UI FRONTEND UNTUK CUSTOM FIELD #####
+Accountinfo-Dh7-fEW4.js
+Asset-BixF8Oso.js
+AssetGroup-DdHzBwbj.js
+AssetGroupDetail-BnCW_6g6.js
+
+INSPEKSI SELESAI (tidak ada perubahan data)
+-----------------------------------------------------------
+=== SELESAI: 2026-10-28 10:37:52 WIB
+=== STATUS : OK (exit 0)

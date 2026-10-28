@@ -1,0 +1,515 @@
+=== TASK   : 0027-inspect-accountinfo.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-27 17:43:58 WIB
+-----------------------------------------------------------
+
+##### TABEL + PERKIRAAN JUMLAH BARIS #####
+table_name	table_rows
+accountinfo_accountinfoconfig	0
+accountinfo_accountinfodata	0
+accountinfo_accountinfovalue	0
+action_deploymentaction	0
+asset_group_assetgroup	0
+asset_group_assetgroup_assets	0
+asset_group_assetgroup_groups	0
+authtoken_token	0
+auth_config_authconfig	3
+auth_group	5
+auth_group_permissions	469
+auth_mapping_authmapping	8
+auth_method_authmethod	4
+auth_permission	229
+auth_user	2
+auth_user_groups	2
+auth_user_user_permissions	0
+category_category	7
+category_category_inventory_sections	249
+compliance_asseteolstatus	0
+compliance_complianceresult	0
+compliance_compliancerule	1
+compliance_compliancetype	3
+compliance_customeolextendedsupport	0
+compliance_eolcache	0
+compliance_windowsbuildmapping	6
+config_config	6
+django_admin_log	0
+django_cas_ng_proxygrantingticket	0
+django_cas_ng_sessionticket	0
+django_content_type	58
+django_migrations	119
+django_session	0
+extension_extension	0
+field_field	1669
+filemanager_filemanager	0
+group_groupprotection	5
+history_history	0
+inventory_base_inventorybase	0
+inventory_field_inventoryfield	0
+inventory_section_inventorysection	0
+knox_authtoken	2
+layout_dashboardlayout	1
+layout_dashboardlayout_groups	0
+log_log	0
+netdevice_netdevice	0
+netgroup_netgroup	0
+network_network	0
+notes_note	0
+package_package	0
+result_result	0
+rule_action	6
+rule_rule	6
+scanner_snmpscanner	0
+scanner_snmpscanner_assets	0
+scanner_snmpscanner_configs	0
+scheduler_scheduler	11
+search_search	0
+search_search_groups	0
+section_section	252
+snmp_config_snmpconfig	0
+software_softwaredictionary	0
+software_softwaredictionary_assets	0
+software_softwaremapping	5
+template_template	10
+template_templateversion	6
+user_usergroupassignment	1
+virtualcolumn_virtualcol	0
+virtualcolumn_virtualcol_groups	0
+
+##### STRUKTUR TABEL TERKAIT (accountinfo|asset|hardware|device|computer) #####
+--- accountinfo_accountinfoconfig
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+name	varchar(100)	NO	MUL	NULL	
+description	varchar(512)	NO		NULL	
+datatype	varchar(10)	NO		NULL	
+datatarget	varchar(10)	NO		NULL	
+--- accountinfo_accountinfodata
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+accountdata	longtext	YES		NULL	
+object_slug	varchar(100)	YES		NULL	
+object_id	int(10) unsigned	NO		NULL	
+content_type_id	int(11)	NO	MUL	NULL	
+--- accountinfo_accountinfovalue
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+value	varchar(100)	NO		NULL	
+accountinfo_config_id	bigint(20)	NO	MUL	NULL	
+--- asset_group_assetgroup
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+visibility	varchar(20)	NO		NULL	
+allow_group_modification	tinyint(1)	NO		NULL	
+name	varchar(50)	NO		NULL	
+description	varchar(255)	YES		NULL	
+is_dynamic	tinyint(1)	NO		NULL	
+search	longtext	YES		NULL	
+last_updated	datetime(6)	NO		NULL	
+user_id	int(11)	NO	MUL	NULL	
+--- asset_group_assetgroup_assets
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+assetgroup_id	bigint(20)	NO	MUL	NULL	
+inventorybase_id	bigint(20)	NO	MUL	NULL	
+--- asset_group_assetgroup_groups
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+assetgroup_id	bigint(20)	NO	MUL	NULL	
+group_id	int(11)	NO	MUL	NULL	
+--- compliance_asseteolstatus
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+asset_id	bigint(20)	NO	UNI	NULL	
+product	varchar(100)	YES		NULL	
+cycle	varchar(50)	YES		NULL	
+eol	varchar(20)	YES		NULL	
+is_eol	tinyint(1)	NO		NULL	
+support	tinyint(1)	NO		NULL	
+support_date	varchar(20)	YES		NULL	
+latest	varchar(50)	YES		NULL	
+fetched_at	datetime(6)	NO		NULL	
+--- netdevice_netdevice
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+ip	char(39)	NO		NULL	
+netname	varchar(128)	NO		NULL	
+mac	varchar(20)	NO		NULL	
+last_seen	datetime(6)	NO		NULL	
+network_id	bigint(20)	NO	MUL	NULL	
+--- scanner_snmpscanner_assets
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+snmpscanner_id	bigint(20)	NO	MUL	NULL	
+inventorybase_id	bigint(20)	NO	MUL	NULL	
+--- software_softwaredictionary_assets
+Field	Type	Null	Key	Default	Extra
+id	bigint(20)	NO	PRI	NULL	auto_increment
+softwaredictionary_id	bigint(20)	NO	MUL	NULL	
+inventorybase_id	bigint(20)	NO	MUL	NULL	
+
+##### ISI accountinfo config (nama field saja, tanpa data asset) #####
+--- accountinfo_accountinfoconfig
+
+##### SOURCE BACKEND accountinfo #####
+
+======== accountinfo/models.py
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
+
+# Create your models here.
+
+
+class AccountinfoConfig(models.Model):
+    """
+    Accountinfo configuration model class definition
+
+    The model will contain the following info
+    - Name
+    - Description
+    - datatype
+    - datatarget
+    """
+
+    ACC_TYPE_CHOICES = (
+        ("TEXT", "Text"),
+        ("TEXTAREA", "Textarea"),
+        ("SELECT", "Select"),
+        ("CHECKBOX", "Checkbox"),
+    )
+
+    ACC_TARGET_CHOICES = (
+        ("ASSET", "Assets"),
+        ("IPDISCOVER", "IPDiscover"),
+    )
+
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=512)
+
+    datatype = models.CharField(max_length=10, choices=ACC_TYPE_CHOICES, default="TEXT")
+
+    datatarget = models.CharField(
+        max_length=10, choices=ACC_TARGET_CHOICES, default="ASSET"
+    )
+
+    class Meta:
+        """Define unique constraints"""
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name", "datatarget"], name="unique_accountinfo"
+            )
+        ]
+
+    def delete(self, *args, **kwargs):
+        """Override delete to reflect the change in accountdata"""
+        # get all accountinfo data entries
+        accountinfo_data_entries = AccountinfoData.objects.all()
+
+        # update accountdata to remove the deleted config
+        for entry in accountinfo_data_entries:
+            if entry.accountdata and str(self.id) in entry.accountdata:
+                entry.accountdata.pop(str(self.id))
+                entry.save()
+
+        super().delete(*args, **kwargs)
+
+
+class AccountinfoValue(models.Model):
+    """
+    Accountinfo value model class definition
+
+    The model will contain the following info
+    - accountconfig link
+    - value
+    """
+
+    accountinfo_config = models.ForeignKey(
+        AccountinfoConfig, related_name="accountinfo_values", on_delete=models.CASCADE
+    )
+    value = models.CharField(max_length=100)
+
+
+class AccountinfoData(models.Model):
+    """
+    Accountinfo data model class definition
+
+    The model will contain the following info
+    - accountdata : JSON representation of the account infos
+    """
+
+    accountdata = models.JSONField(blank=True, null=True)
+
+    object_slug = models.CharField(null=True, max_length=100)
+    content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey("content_type", "object_id")
+
+    class Meta:
+        """Define unique constraints"""
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["object_id", "object_slug"],
+                name="unique_accountinfo_data",
+            )
+        ]
+
+======== accountinfo/serializers.py
+from accountinfo.models import AccountinfoConfig, AccountinfoData, AccountinfoValue
+from django.contrib.contenttypes.models import ContentType
+from ocsinventory_backend.ocs_framework.viewsets import ExpandableFieldsMixin
+from rest_framework.serializers import ModelSerializer
+
+
+class AccountinfoDataSerializer(ExpandableFieldsMixin, ModelSerializer):
+    """
+    This serialize class provide the API representation
+    """
+
+    class Meta:
+        """Define the linked model and the fields registered in the API"""
+
+        model = AccountinfoData
+        fields = ["id", "accountdata", "object_slug", "content_type", "object_id"]
+
+        extra_kwargs = {"content_type": {"read_only": True}}
+        expandable_fields = {}
+
+    def create(self, validated_data):
+        """Override create to allow nested creation of fields"""
+        content_type = validated_data.get("object_slug")
+        app, model = content_type.split(".")
+        ct = ContentType.objects.get_by_natural_key(app_label=app, model=model)
+
+        validated_data["content_type"] = ct
+
+        return super().create(validated_data)
+
+
+class AccountinfoValueSerializer(ExpandableFieldsMixin, ModelSerializer):
+    """
+    This serialize class provide the API representation
+    """
+
+    class Meta:
+        """Define the linked model and the fields registered in the API"""
+
+        model = AccountinfoValue
+        fields = ["id", "accountinfo_config", "value"]
+        expandable_fields = {}
+
+
+class AccountinfoConfigSerializer(ExpandableFieldsMixin, ModelSerializer):
+    """
+    This serialize class provide the API representation
+    """
+
+    class Meta:
+        """Define the linked model and the fields registered in the API"""
+
+        model = AccountinfoConfig
+        fields = [
+            "id",
+            "name",
+            "description",
+            "datatype",
+            "datatarget",
+            "accountinfo_values",
+        ]
+        extra_kwargs = {"accountinfo_values": {"read_only": True}}
+
+        expandable_fields = {
+            "accountinfo_values": AccountinfoValueSerializer,
+        }
+
+======== accountinfo/views.py
+from accountinfo.models import AccountinfoConfig, AccountinfoData, AccountinfoValue
+from accountinfo.serializers import (
+    AccountinfoConfigSerializer,
+    AccountinfoDataSerializer,
+    AccountinfoValueSerializer,
+)
+from django.contrib.contenttypes.models import ContentType
+from ocsinventory_backend.ocs_framework import viewsets
+from permission.permissions import DefaultModelPermissions
+
+
+class AccountinfoConfigViewSet(viewsets.OCSViewSet):
+    """
+    This class will define the view behavior
+
+    Args:
+        viewsets ([OCSVIewSet])
+    """
+
+    # Need to have permissions to consult
+    permission_classes = [DefaultModelPermissions]
+
+    queryset = AccountinfoConfig.objects.all()
+    serializer_class = AccountinfoConfigSerializer
+    model = AccountinfoConfig
+
+
+class AccountinfoValueViewSet(viewsets.OCSViewSet):
+    """
+    This class will define the view behavior
+
+    Args:
+        viewsets ([OCSVIewSet])
+    """
+
+    # Need to have permissions to consult
+    permission_classes = [DefaultModelPermissions]
+
+    queryset = AccountinfoValue.objects.all()
+    serializer_class = AccountinfoValueSerializer
+    model = AccountinfoValue
+
+
+class AccountinfoDataViewSet(viewsets.OCSViewSet):
+    """
+    This class will define the view behavior
+
+    Args:
+        viewsets ([OCSVIewSet])
+    """
+
+    # filters
+    filterset_fields = ["object_slug", "object_id"]
+
+    # Need to have permissions to consult
+    permission_classes = [DefaultModelPermissions]
+
+    queryset = AccountinfoData.objects.all()
+    serializer_class = AccountinfoDataSerializer
+    model = AccountinfoData
+
+    @classmethod
+    def generate_accountinfo(cls, obj, object_slug):
+        """
+        Creates AccountinfoData entries for an object if they don't exist
+
+        Args:
+            obj: The object to create account info for
+            object_slug: The object type slug (e.g. 'inventory_base.inventorybase')
+        """
+        app, model = object_slug.split(".")
+        content_type = ContentType.objects.get_by_natural_key(
+            app_label=app, model=model
+        )
+
+        # existing entry?
+        existing_data = AccountinfoData.objects.filter(
+            content_type=content_type, object_id=obj.id
+        ).first()
+
+        if not existing_data:
+            # getting all accountinfo configs for this target
+            configs = AccountinfoConfig.objects.prefetch_related(
+                "accountinfo_values"
+            ).filter(datatarget="ASSET")
+
+            if configs.exists():
+                # accountdata structure
+                accountdata = {}
+                for config in configs:
+                    if config.datatype == "CHECKBOX":
+                        # empty list for checkboxes
+                        accountdata[str(config.id)] = []
+                    elif config.datatype == "SELECT":
+                        # null value for select fields
+                        accountdata[str(config.id)] = None
+                    # TEXT or TEXTAREA
+                    else:
+                        accountdata[str(config.id)] = ""
+
+                AccountinfoData.objects.create(
+                    content_type=content_type,
+                    object_id=obj.id,
+                    object_slug=object_slug,
+                    accountdata=accountdata,
+                )
+
+======== accountinfo/routers.py
+from accountinfo.views import (
+    AccountinfoConfigViewSet,
+    AccountinfoDataViewSet,
+    AccountinfoValueViewSet,
+)
+
+
+class AccountinfoRouter:
+    """
+    Router class is intended to define the route related to an app
+    defineRoutes method need to be defined and called in main urls.py
+    """
+
+    @staticmethod
+    def defineRoutes(defaultRouter):
+        """
+        This method will provide the routes related to the app and return the new routes
+
+        Args:
+            defaultRouter ([DefaultRouter]): Default router from main urls.py
+
+        Returns:
+            [DefaultRouter]: Updated router with app's dedicated routes
+        """
+        defaultRouter.register(r"accountinfo/value", AccountinfoValueViewSet)
+        defaultRouter.register(r"accountinfo/config", AccountinfoConfigViewSet)
+        defaultRouter.register(r"accountinfo/data", AccountinfoDataViewSet)
+        return defaultRouter
+
+##### SOURCE BACKEND asset (models + serializers, 200 baris pertama) #####
+
+-- app backend:
+accountinfo
+asset
+auth
+automation
+compliance
+config
+conftest.py
+dashboard
+debug
+deployment
+extension
+extensions
+filemanager
+group
+inventory
+ipdiscover
+LICENSE
+logs
+manage.py
+media
+mgmt
+notes
+ocsinventory_backend
+permission
+pytest.ini
+README.md
+remove.txt
+requirements_mysql.txt
+requirements_psql.txt
+requirements-test.txt
+requirements.txt
+search
+snmp
+static
+tools
+user
+virtualcolumn
+
+##### ROUTE API (tanpa login: 401 = route ada) #####
+/accountinfo/config/         -> 401
+/accountinfo/value/          -> 401
+/asset/                      -> 404
+/asset/computer/             -> 404
+/api-check/                  -> 200
+
+INSPEKSI SELESAI (tidak ada perubahan di server)
+-----------------------------------------------------------
+=== SELESAI: 2026-10-27 17:44:02 WIB
+=== STATUS : OK (exit 0)

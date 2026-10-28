@@ -1,0 +1,150 @@
+=== TASK   : 0017-install-ocs3.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 16:29:08 WIB
+-----------------------------------------------------------
+== [1] Matikan Apache / OCS 2.12.6 (paket tetap ada untuk rollback)
+Synchronizing state of apache2.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install disable apache2
+Removed "/etc/systemd/system/multi-user.target.wants/apache2.service".
+port 80 bebas
+== [2] Dependensi build driver MariaDB (mysqlclient)
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+mysqlclient dev: OK
+== [3] Database ocsv3
+login_ok
+ocsv3@localhost
+== [4] Pasang paket OCS 3.0.0-1 (pip install di postinst, bisa beberapa menit)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/69.6 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m69.6/69.6 kB[0m [31m4.4 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+Downloading lxml-6.1.3-cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/5.2 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.6/5.2 MB[0m [31m17.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m1.2/5.2 MB[0m [31m17.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m1.8/5.2 MB[0m [31m17.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━[0m [32m2.4/5.2 MB[0m [31m17.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━[0m [32m3.0/5.2 MB[0m [31m17.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━[0m [32m3.6/5.2 MB[0m [31m17.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━[0m [32m4.2/5.2 MB[0m [31m17.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━[0m [32m4.8/5.2 MB[0m [31m17.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m5.2/5.2 MB[0m [31m17.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m5.2/5.2 MB[0m [31m17.1 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m5.2/5.2 MB[0m [31m14.0 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading pyasn1-0.6.4-py3-none-any.whl (84 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/84.4 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m84.4/84.4 kB[0m [31m5.2 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/181.3 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m181.3/181.3 kB[0m [31m9.6 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading referencing-0.37.0-py3-none-any.whl (26 kB)
+Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/371.3 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m368.6/371.3 kB[0m [31m21.1 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m371.3/371.3 kB[0m [31m8.4 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/135.7 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m135.7/135.7 kB[0m [31m5.5 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading pycparser-3.12-py3-none-any.whl (62 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/62.6 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m62.6/62.6 kB[0m [31m3.3 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/45.6 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━[0m [32m41.0/45.6 kB[0m [31m153.5 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m45.6/45.6 kB[0m [31m632.5 kB/s[0m eta [36m0:00:00[0m
+[?25hBuilding wheels for collected packages: python-ldap
+  Building wheel for python-ldap (pyproject.toml) ... [?25l- \ | / - \ | / done
+[?25h  Created wheel for python-ldap: filename=python_ldap-3.4.8-cp312-cp312-linux_x86_64.whl size=234423 sha256=8678ba68f1a67c03fdd81cfa19384faff2f75ca32cb5e1f2d08d815a0762823c
+  Stored in directory: /root/.cache/pip/wheels/e8/cb/1d/b54ec26a5242ae1c6f863465fae03b5dbb7a3da77e97dc0bcd
+Successfully built python-ldap
+Installing collected packages: pytz, xmltodict, urllib3, uritemplate, tzdata, typing-extensions, sqlparse, six, rpds-py, PyYAML, python-dotenv, pyjwt, pycparser, pyasn1, lxml, inflection, idna, defusedxml, charset_normalizer, certifi, attrs, asgiref, requests, referencing, python-dateutil, pyasn1_modules, djangorestframework-xml, django, cffi, python-ldap, python-cas, jsonschema-specifications, djangorestframework, django-filter, django-extensions, django-cors-headers, cryptography, mozilla-django-oidc, jsonschema, django-rest-knox, django-cas-ng, django-auth-ldap, drf-spectacular
+Successfully installed PyYAML-6.0.3 asgiref-3.13.0 attrs-26.1.0 certifi-2026.10.23 cffi-2.1.1 charset_normalizer-3.5.2 cryptography-50.0.2 defusedxml-0.7.1 django-6.1.2 django-auth-ldap-5.4.0 django-cas-ng-5.1.1 django-cors-headers-4.9.0 django-extensions-4.1 django-filter-26.2 django-rest-knox-5.1.0 djangorestframework-3.18.3 djangorestframework-xml-2.0.0 drf-spectacular-0.30.0 idna-3.20 inflection-0.5.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 lxml-6.1.3 mozilla-django-oidc-5.0.2 pyasn1-0.6.4 pyasn1_modules-0.4.2 pycparser-3.12 pyjwt-2.15.1 python-cas-1.7.2 python-dateutil-3.0.0 python-dotenv-1.2.4 python-ldap-3.4.8 pytz-2026.5 referencing-0.37.0 requests-2.34.2 rpds-py-2026.9.1 six-1.17.0 sqlparse-0.6.0 typing-extensions-4.16.0 tzdata-2026.5 uritemplate-4.2.0 urllib3-2.8.0 xmltodict-1.0.4
+OCS Inventory Backend successfully installed.
+=================================================================================================================================
+=                                                                                                                               =
+= Please run the script '/usr/share/ocsinventory-backend/tools/configure-ocsinventory-backend.sh' to configure the application. =
+=                                                                                                                               =
+=================================================================================================================================
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+ocsinventory-backend 3:3.0.0-1
+ocsinventory-frontend 3:3.0.0-1
+ocsinventory-server 3.0.0-1
+== [5] .env: encryption key + frontend redirect
+SECRET_KEY: sudah di-generate postinst
+== [6] Configure script resmi (non-interaktif: MariaDB @ localhost:3306)
+Default Nginx configuration removed.
+Select the database engine:
+
+[1] PostgreSQL
+[2] MySQL | MariaDB
+
+Database engine configured for MySQL or MariaDB.
+Attempting to install the MySQL/MariaDB Python library.
+Collecting mysqlclient>=1.4.3 (from -r /usr/share/ocsinventory-backend/requirements_mysql.txt (line 1))
+  Downloading mysqlclient-2.3.0.tar.gz (102 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 102.2/102.2 kB 2.0 MB/s eta 0:00:00
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: mysqlclient
+  Building wheel for mysqlclient (pyproject.toml): started
+  Building wheel for mysqlclient (pyproject.toml): finished with status 'done'
+  Created wheel for mysqlclient: filename=mysqlclient-2.3.0-cp312-cp312-linux_x86_64.whl size=150691 sha256=7e5ab4e14a8667b07fe652a09cd1c38195f351dfe69c75fca40225d7fbec3f92
+  Stored in directory: /root/.cache/pip/wheels/5e/fc/c5/02ab5a9350076c20c3dac5e376b3dfad1cc673c8cea7d810ba
+Successfully built mysqlclient
+Installing collected packages: mysqlclient
+Successfully installed mysqlclient-2.3.0
+Configuration completed!
+Running database migrations now...
+Database migrations applied successfully!
+Restarting uWSGI and Nginx services...
+uWSGI service restarted successfully.
+Nginx service restarted successfully.
+
+For more information, refer to /tmp/ocsinventory-backend-configuration.log for the database migration logs.
+
+===========================================================
+=                                                         =
+=      OCS Inventory Backend successfully configured      =
+=                                                         =
+===========================================================
+
+-- .env (rahasia disamarkan):
+DEBUG=False
+SECRET_KEY=********
+FRONTEND_REDIRECT='http://100.105.251.78'
+DB_ENGINE='django.db.backends.mysql'
+DB_NAME='ocsv3'
+DB_USER='ocsv3'
+DB_PASSWORD=********
+DB_HOST='localhost'
+DB_PORT='3306'
+FIELD_ENCRYPTION_KEY=********
+TOKEN_TTL=10
+TOKEN_AUTO_REFRESH=True== [7] collectstatic (untuk halaman API/admin Django)
+
+162 static files copied to '/usr/share/ocsinventory-backend/static'.
+== [8] Frontend -> alamat API
+{
+  "BACKEND_API_ROUTE": "http://100.105.251.78:8081/"
+}
+== [9] Service
+nginx    active / enabled
+uwsgi.service is not a native service, redirecting to systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install is-enabled uwsgi
+uwsgi    active / enabled
+mariadb  active / enabled
+LISTEN 0      511                                   0.0.0.0:80         0.0.0.0:*    users:(("nginx",pid=4855,fd=8),("nginx",pid=4854,fd=8),("nginx",pid=4853,fd=8))
+LISTEN 0      511                                   0.0.0.0:8081       0.0.0.0:*    users:(("nginx",pid=4855,fd=7),("nginx",pid=4854,fd=7),("nginx",pid=4853,fd=7))
+== [10] Verifikasi
+frontend  http://localhost/              -> 200
+backend   http://localhost:8081/         -> 500
+api-check http://localhost:8081/api-check/ -> 500
+<title>OCS Inventory</title>
+-- user default di DB:
+admin	1
+-- jumlah tabel ocsv3: 69
+-- log uWSGI backend (10 baris terakhir):
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 16:30:47 WIB
+=== STATUS : GAGAL (exit 1)

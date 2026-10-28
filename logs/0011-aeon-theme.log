@@ -1,0 +1,30 @@
+=== TASK   : 0011-aeon-theme.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 16:05:18 WIB
+-----------------------------------------------------------
+== Aset tema di repo:
+total 104
+-rw-r--r-- 1 root root  9933 Oct 26 16:05 aeon.svg
+-rw-r--r-- 1 root root 24500 Oct 26 16:05 banniere.png
+-rw-r--r-- 1 root root  6974 Oct 26 16:05 favicon.ico
+-rw-r--r-- 1 root root 39803 Oct 26 16:05 logo.png
+-rw-r--r-- 1 root root 17314 Oct 26 16:05 style.css
+== Pasang folder tema /usr/share/ocsinventory-reports/ocsreports/themes/AEON
+total 84
+-rw-r--r-- 1 root www-data 24500 Oct 26 16:05 banniere.png
+-rw-r--r-- 1 root www-data 39803 Oct 26 16:05 logo.png
+-rw-r--r-- 1 root www-data 17314 Oct 26 16:05 style.css
+== Favicon (backup asli sekali saja)
+'/usr/share/ocsinventory-reports/ocsreports/favicon.ico' -> '/root/ocs-install/favicon.ico.orig'
+== Aktifkan tema AEON di konfigurasi OCS
+CUSTOM_THEME	AEON
+== Verifikasi lewat HTTP
+themes/AEON/style.css        -> HTTP 200
+themes/AEON/banniere.png     -> HTTP 200
+themes/AEON/logo.png         -> HTTP 200
+favicon.ico                  -> HTTP 200
+Halaman login memakai tema AEON: OK
+Favicon AEON terpasang: OK
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 16:05:22 WIB
+=== STATUS : OK (exit 0)

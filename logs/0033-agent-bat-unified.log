@@ -1,0 +1,24 @@
+=== TASK   : 0033-agent-bat-unified.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-27 18:35:48 WIB
+-----------------------------------------------------------
+placeholder: semua terisi
+baris: 131, CRLF: 131
+-- konfigurasi (password disamarkan):
+   set "URL_NET=https://ocsaeon.itcnelita.com/api"
+   set "URL_LAN=http://192.168.100.122:8081"
+   set "DL_NET=https://ocsaeon.itcnelita.com"
+   set "DL_LAN=http://192.168.100.122"
+   set "OCS_USER=ocs-agent"
+   set "OCS_PASS=********"
+   set "SETUP_NAME=OCSInventory-Agent-Setup-Windows-3.0.0.exe"
+   set "SETUP_SHA256=f20f4b35e6dfdfe3b26abb4ce0343b5afc3c7b6e90fd00b5e13399dbe81a969d"
+-- jalur yang akan dicek .bat (dari server):
+   https://ocsaeon.itcnelita.com/api/api-check/ -> 200
+   http://192.168.100.122:8081/api-check/       -> 200
+-- akses file:
+   Install-OCS-Agent-AEON.bat             LAN=200 (harap 200)  domain tanpa password=401 (harap 401)
+   Install-OCS-Agent-AEON-Internet.bat    LAN=200 (harap 200)  domain tanpa password=401 (harap 401)
+-----------------------------------------------------------
+=== SELESAI: 2026-10-27 18:35:53 WIB
+=== STATUS : OK (exit 0)

@@ -1,0 +1,37 @@
+=== TASK   : 0025-aeon-theme-ocs3-v2.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 19:09:08 WIB
+-----------------------------------------------------------
+logo header : /usr/share/ocsinventory-frontend/assets/logo-white-ByPbYGo2.png
+gambar login: /usr/share/ocsinventory-frontend/assets/illu_communaute-wIbJYpXT.png
+== Backup file asli (sekali saja)
+backup sudah ada: /root/ocs-install/ocs3-frontend-orig
+== Pasang aset AEON
+== index.html: judul + link aeon.css (idempotent)
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEON IT Asset Inventory</title>
+    <script type="module" crossorigin src="/assets/index-Dn4Ib-VN.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BmuZM_Nd.css">
+    <link rel="stylesheet" href="/aeon/aeon.css?v=17af968">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
+== Verifikasi
+index memuat aeon.css: OK
+/aeon/aeon.css                                   -> 200
+/aeon/fonts/PlusJakartaSans-var.woff2            -> 200
+/assets/logo-white-ByPbYGo2.png                  -> 200
+/assets/illu_communaute-wIbJYpXT.png             -> 200
+/favicon.ico                                     -> 200
+logo header AEON: OK
+gambar login AEON: OK
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 19:09:12 WIB
+=== STATUS : OK (exit 0)

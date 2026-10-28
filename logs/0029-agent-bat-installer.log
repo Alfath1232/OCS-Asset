@@ -1,0 +1,30 @@
+=== TASK   : 0029-agent-bat-installer.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-27 09:00:58 WIB
+-----------------------------------------------------------
+installer: OCSInventory-Agent-Setup-Windows-3.0.0.exe  sha256=f20f4b35e6dfdfe3b26abb4ce0343b5afc3c7b6e90fd00b5e13399dbe81a969d
+== Generate .bat
+placeholder: semua terisi
+baris: 104, CRLF: 104
+-- isi (password disamarkan):
+set "OCS_SERVER=192.168.100.122"
+set "OCS_URL=http://%OCS_SERVER%:8081"
+set "OCS_USER=ocs-agent"
+set "OCS_PASS=********"
+set "SETUP_NAME=OCSInventory-Agent-Setup-Windows-3.0.0.exe"
+set "SETUP_URL=http://%OCS_SERVER%/aeon/agent/%SETUP_NAME%"
+set "SETUP_SHA256=f20f4b35e6dfdfe3b26abb4ce0343b5afc3c7b6e90fd00b5e13399dbe81a969d"
+set "WORKDIR=%ProgramData%\OCSAEON-Setup"
+== nginx: lokasi /aeon/private/ khusus LAN & Tailscale
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+== Verifikasi akses
+lokal                                -> 200 (harap 200)
+LAN 192.168.100.122                  -> 200 (harap 200)
+dengan header Cloudflare             -> 403 (harap 403)
+PUBLIK https://ocsaeon.itcnelita.com -> 403 (harap 403)
+isi file tersaji utuh: OK
+-- installer exe tetap tersedia: 200
+-----------------------------------------------------------
+=== SELESAI: 2026-10-27 09:01:03 WIB
+=== STATUS : OK (exit 0)

@@ -1,0 +1,17 @@
+=== TASK   : 0004-database.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 15:45:14 WIB
+-----------------------------------------------------------
+== Generate password DB baru (hex 32 karakter, tanpa simbol)
+== Buat database & user (via socket root MariaDB)
+== Tes login sebagai user ocs
+login_ok
+ocs@localhost
+Database (ocsweb)
+ocsweb
+== Pastikan MariaDB hanya listen di localhost
+LISTEN 0      80                                  127.0.0.1:3306       0.0.0.0:*    users:(("mariadbd",pid=40399,fd=22))                                                                                                                                                                                     
+== Password tersimpan di /root/ocsaeon-secrets/ocs-db.env (lihat via SSH: sudo cat /root/ocsaeon-secrets/ocs-db.env)
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 15:45:18 WIB
+=== STATUS : OK (exit 0)

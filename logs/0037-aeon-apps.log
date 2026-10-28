@@ -1,0 +1,27 @@
+=== TASK   : 0037-aeon-apps.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-28 10:48:39 WIB
+-----------------------------------------------------------
+versi: 95d6b18
+nomor versi terpasang
+/aeon/labels/                                    -> 200
+/aeon/stocktake/                                 -> 200
+/aeon/labels/labels.js?v=95d6b18                 -> 200
+/aeon/stocktake/stocktake.js?v=95d6b18           -> 200
+/aeon/shared/ocs.js?v=95d6b18                    -> 200
+/aeon/shared/aeon-app.css?v=95d6b18              -> 200
+/aeon/shared/aeon-logo.svg                       -> 200
+/aeon/shared/aeon-logo-black.svg                 -> 200
+/aeon/shared/PlusJakartaSans-var.woff2           -> 200
+/aeon/vendor/qrcode.js?v=95d6b18                 -> 200
+/aeon/vendor/JsBarcode.all.min.js?v=95d6b18      -> 200
+/aeon/vendor/html5-qrcode.min.js?v=95d6b18       -> 200
+-- halaman label benar-benar halaman label (bukan fallback console):
+<title>Label aset — AEON IT</title>
+<title>Stocktake — AEON IT</title>
+-- lewat domain publik:
+https://ocsaeon.itcnelita.com/aeon/labels/       -> 200
+https://ocsaeon.itcnelita.com/aeon/stocktake/    -> 200
+-----------------------------------------------------------
+=== SELESAI: 2026-10-28 10:48:46 WIB
+=== STATUS : OK (exit 0)

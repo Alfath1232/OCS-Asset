@@ -1,0 +1,95 @@
+=== TASK   : 0001-inspect.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 08:36:39 UTC
+-----------------------------------------------------------
+
+##### OS #####
+PRETTY_NAME="Ubuntu 24.04.3 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.3 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+6.8.0-71-generic
+
+##### CPU / RAM / DISK #####
+CPU core: 2
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       606Mi       2.4Gi       1.1Mi       1.1Gi       3.2Gi
+Swap:          3.1Gi          0B       3.1Gi
+/dev/mapper/ubuntu--vg-ubuntu--lv   15G  6.1G  7.9G  44% /
+Filesystem                         Size  Used Avail Use% Mounted on
+
+##### IP & ROUTE #####
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+ens18            UP             192.168.100.122/24 fe80::be24:11ff:fe19:ad04/64 
+tailscale0       UNKNOWN        100.105.251.78/32 fd7a:115c:a1e0::6235:fb53/128 fe80::45ea:2e2e:89cb:55ec/64 
+default via 192.168.100.1 dev ens18 proto static 
+192.168.100.0/24 dev ens18 proto kernel scope link src 192.168.100.122 
+
+##### DNS #####
+Current DNS Server: 1.1.1.1
+       DNS Servers: 1.1.1.1 8.8.8.8
+Current DNS Server: 100.100.100.100
+       DNS Servers: 100.100.100.100 fd7a:115c:a1e0::53
+
+##### INTERNET #####
+PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=3.36 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=3.42 ms
+
+--- 1.1.1.1 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1006ms
+rtt min/avg/max/mdev = 3.356/3.388/3.421/0.032 ms
+PING IP: OK
+DNS+PING github.com: OK
+HTTPS api.github.com: 200
+
+##### WAKTU #####
+               Local time: Mon 2026-10-26 08:36:45 UTC
+                Time zone: Etc/UTC (UTC, +0000)
+System clock synchronized: yes
+
+##### PORT YANG LISTEN #####
+State  Recv-Q Send-Q                          Local Address:Port  Peer Address:PortProcess                                                 
+LISTEN 0      4096                100.105.251.78%tailscale0:64860      0.0.0.0:*    users:(("tailscaled",pid=1913,fd=23))                  
+LISTEN 0      4096                                  0.0.0.0:22         0.0.0.0:*    users:(("sshd",pid=2084,fd=3),("systemd",pid=1,fd=169))
+LISTEN 0      4096                               127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=574,fd=17))              
+LISTEN 0      128                                 127.0.0.1:6010       0.0.0.0:*    users:(("sshd",pid=2144,fd=8))                         
+LISTEN 0      4096                            127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=574,fd=15))              
+LISTEN 0      4096                                     [::]:22            [::]:*    users:(("sshd",pid=2084,fd=4),("systemd",pid=1,fd=170))
+LISTEN 0      4096   [fd7a:115c:a1e0::6235:fb53]%tailscale0:50769         [::]:*    users:(("tailscaled",pid=1913,fd=26))                  
+LISTEN 0      128                                     [::1]:6010          [::]:*    users:(("sshd",pid=2144,fd=7))                         
+
+##### FIREWALL #####
+Status: inactive
+
+##### PAKET TERKAIT (sudah terpasang?) #####
+belum     : apache2
+belum     : nginx
+belum     : mariadb-server
+belum     : mysql-server
+belum     : php
+TERPASANG : perl 5.38.2-3.2ubuntu0.2
+belum     : libapache2-mod-perl2
+belum     : cpanminus
+TERPASANG : git 1:2.43.0-1ubuntu7.4
+This is perl 5, version 38, subversion 2 (v5.38.2) built for x86_64-linux-gnu-thread-multi
+
+##### VERSI PHP YANG TERSEDIA DI REPO APT #####
+php:
+  Installed: (none)
+  Candidate: 2:8.3+93ubuntu2
+  Version table:
+
+##### OCS RELEASE TERBARU (GitHub) #####
+  "tag_name": "2.12.6",
+  "published_at": "2026-08-25T07:57:09Z",
+
+##### APT LOCK / UPDATE PENDING #####
+dpkg bebas
+Paket bisa di-upgrade: 252
+
+INSPEKSI SELESAI
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 08:36:46 UTC
+=== STATUS : OK (exit 0)

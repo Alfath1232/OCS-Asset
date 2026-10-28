@@ -1,0 +1,557 @@
+=== TASK   : 0015-inspect-ocs3.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 16:24:56 WIB
+-----------------------------------------------------------
+
+##### RAM / DISK #####
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       587Mi       3.1Gi       5.7Mi       407Mi       3.2Gi
+Swap:          3.1Gi          0B       3.1Gi
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   15G  8.0G  5.9G  58% /
+-- LVM:
+  PV         VG        Fmt  Attr PSize   PFree 
+  /dev/sda3  ubuntu-vg lvm2 a--  <30.00g 15.00g
+  VG        #PV #LV #SN Attr   VSize   VFree 
+  ubuntu-vg   1   1   0 wz--n- <30.00g 15.00g
+  LV        VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  ubuntu-lv ubuntu-vg -wi-ao---- <15.00g                                                    
+-- Disk fisik:
+NAME                       SIZE TYPE FSTYPE      MOUNTPOINT
+sda                         32G disk             
+├─sda1                       1M part             
+├─sda2                       2G part ext4        /boot
+└─sda3                      30G part LVM2_member 
+  └─ubuntu--vg-ubuntu--lv   15G lvm  ext4        /
+sr0                       1024M rom              
+
+##### REPO OCS v3 #####
+Get:6 https://deb-v3.ocsinventory-ng.org noble InRelease [1,874 B]
+Get:7 https://deb-v3.ocsinventory-ng.org noble/main amd64 Packages [1,250 B]
+
+##### PAKET #####
+--- ocsinventory-server
+Version: 3.0.0-1
+Installed-Size: 8
+Depends: ocsinventory-backend, ocsinventory-frontend
+Version: 2.8.1+dfsg1+~2.11.1-1
+Installed-Size: 489
+Depends: perl:any, libapache-dbi-perl, libapache2-mod-perl2, libarchive-zip-perl, libdbd-mysql-perl, libdbi-perl, libnet-ip-perl, libswitch-perl, libxml-simple-perl
+Recommends: apache2 (>= 2.4.6-4~) | httpd, ocsinventory-reports
+--- ocsinventory-backend
+Version: 3:3.0.0-1
+Installed-Size: 2833
+Depends: python3, python3-pip, python3-venv, python3-dev, build-essential, libldap2-dev, libsasl2-dev, libssl-dev, uwsgi, uwsgi-plugin-python3, nginx
+--- ocsinventory-frontend
+Version: 3:3.0.0-1
+Installed-Size: 3957
+Depends: nginx, debconf-2.0
+-- Simulasi install (apa saja yang akan dipasang/dihapus):
+Inst python3-wheel (0.42.0-2
+Inst python3-pip (24.0+dfsg-1ubuntu1.3
+Inst python3-pip-whl (24.0+dfsg-1ubuntu1.3
+Inst python3-setuptools-whl (68.1.2-2ubuntu1.2
+Inst python3.12-venv (3.12.3-1ubuntu0.17
+Inst python3-venv (3.12.3-0ubuntu2.1
+Inst libexpat1-dev (2.6.1-2ubuntu0.6
+Inst zlib1g-dev (1:1.3.dfsg-3.1ubuntu2.3
+Inst libpython3.12-dev (3.12.3-1ubuntu0.17
+Inst libpython3-dev (3.12.3-0ubuntu2.1
+Inst python3.12-dev (3.12.3-1ubuntu0.17
+Inst libjs-underscore (1.13.4~dfsg+~1.11.4-3
+Inst libjs-sphinxdoc (7.2.6-6
+Inst python3-dev (3.12.3-0ubuntu2.1
+Inst gcc-13-base (13.3.0-6ubuntu2~24.04.1
+Inst libisl23 (0.26-3build1.1
+Inst libmpc3 (1.3.1-1build1.1
+Inst cpp-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1
+Inst cpp-13 (13.3.0-6ubuntu2~24.04.1
+Inst cpp-x86-64-linux-gnu (4:13.2.0-7ubuntu1
+Inst cpp (4:13.2.0-7ubuntu1
+Inst libcc1-0 (14.2.0-4ubuntu2~24.04.1
+Inst binutils-common (2.42-4ubuntu2.10
+Inst libsframe1 (2.42-4ubuntu2.10
+Inst libbinutils (2.42-4ubuntu2.10
+Inst libctf-nobfd0 (2.42-4ubuntu2.10
+Inst libctf0 (2.42-4ubuntu2.10
+Inst libgprofng0 (2.42-4ubuntu2.10
+Inst binutils-x86-64-linux-gnu (2.42-4ubuntu2.10
+Inst libgomp1 (14.2.0-4ubuntu2~24.04.1
+Inst libitm1 (14.2.0-4ubuntu2~24.04.1
+Inst libatomic1 (14.2.0-4ubuntu2~24.04.1
+Inst libasan8 (14.2.0-4ubuntu2~24.04.1
+Inst liblsan0 (14.2.0-4ubuntu2~24.04.1
+Inst libtsan2 (14.2.0-4ubuntu2~24.04.1
+Inst libubsan1 (14.2.0-4ubuntu2~24.04.1
+Inst libhwasan0 (14.2.0-4ubuntu2~24.04.1
+Inst libquadmath0 (14.2.0-4ubuntu2~24.04.1
+Inst libgcc-13-dev (13.3.0-6ubuntu2~24.04.1
+Inst gcc-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1
+Inst binutils (2.42-4ubuntu2.10
+Inst gcc-13 (13.3.0-6ubuntu2~24.04.1
+Inst gcc-x86-64-linux-gnu (4:13.2.0-7ubuntu1
+Inst gcc (4:13.2.0-7ubuntu1
+Inst libstdc++-13-dev (13.3.0-6ubuntu2~24.04.1
+Inst g++-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1
+Inst g++-13 (13.3.0-6ubuntu2~24.04.1
+Inst g++-x86-64-linux-gnu (4:13.2.0-7ubuntu1
+Inst g++ (4:13.2.0-7ubuntu1
+Inst libdpkg-perl (1.22.6ubuntu6.6
+Inst bzip2 (1.0.8-5.1ubuntu0.1
+Inst lto-disabled-list (47
+Inst dpkg-dev (1.22.6ubuntu6.6
+Inst build-essential (12.10ubuntu1
+Inst libldap-dev (2.6.10+dfsg-0ubuntu0.24.04.1
+Inst libldap2-dev (2.6.10+dfsg-0ubuntu0.24.04.1
+Inst libssl-dev (3.0.13-0ubuntu3.16
+Inst libsasl2-dev (2.1.28+dfsg1-5ubuntu3.1
+Inst libyajl2 (2.1.0-5build1
+Inst libnorm1t64 (1.5.9+dfsg-3.1build1
+
+##### ISI PAKET #####
+Get:3 https://deb-v3.ocsinventory-ng.org noble/main amd64 ocsinventory-server all 3.0.0-1 [1,522 B]
+Fetched 860 kB in 3s (322 kB/s)
+W: Download is performed unsandboxed as root as file '/root/ocs3-inspect/ocsinventory-backend_3%3a3.0.0-1_all.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+-rw-r--r-- 1 root root 223K Oct 13 16:58 ocsinventory-backend_3%3a3.0.0-1_all.deb
+-rw-r--r-- 1 root root 616K Oct 13 16:58 ocsinventory-frontend_3%3a3.0.0-1_all.deb
+-rw-r--r-- 1 root root 1.5K Oct 13 16:59 ocsinventory-server_3.0.0-1_all.deb
+-- Struktur (tanpa node_modules/site-packages):
+x
+ocsinventory-backend
+ocsinventory-backend/etc
+ocsinventory-backend/etc/uwsgi
+ocsinventory-backend/etc/uwsgi/apps-available
+ocsinventory-backend/etc/uwsgi/apps-available/ocsinventory-backend.ini
+ocsinventory-backend/etc/nginx
+ocsinventory-backend/etc/nginx/sites-available
+ocsinventory-backend/etc/nginx/sites-available/ocsinventory-backend
+ocsinventory-backend/usr
+ocsinventory-backend/usr/share
+ocsinventory-backend/usr/share/doc
+ocsinventory-backend/usr/share/doc/ocsinventory-backend
+ocsinventory-backend/usr/share/ocsinventory-backend
+ocsinventory-backend/usr/share/ocsinventory-backend/mgmt
+ocsinventory-backend/usr/share/ocsinventory-backend/auth
+ocsinventory-backend/usr/share/ocsinventory-backend/snmp
+ocsinventory-backend/usr/share/ocsinventory-backend/extensions
+ocsinventory-backend/usr/share/ocsinventory-backend/compliance
+ocsinventory-backend/usr/share/ocsinventory-backend/accountinfo
+ocsinventory-backend/usr/share/ocsinventory-backend/media
+ocsinventory-backend/usr/share/ocsinventory-backend/requirements-test.txt
+ocsinventory-backend/usr/share/ocsinventory-backend/extension
+ocsinventory-backend/usr/share/ocsinventory-backend/search
+ocsinventory-backend/usr/share/ocsinventory-backend/user
+ocsinventory-backend/usr/share/ocsinventory-backend/README.md
+ocsinventory-backend/usr/share/ocsinventory-backend/automation
+ocsinventory-backend/usr/share/ocsinventory-backend/remove.txt
+ocsinventory-backend/usr/share/ocsinventory-backend/debug
+ocsinventory-backend/usr/share/ocsinventory-backend/permission
+ocsinventory-backend/usr/share/ocsinventory-backend/virtualcolumn
+ocsinventory-backend/usr/share/ocsinventory-backend/pytest.ini
+ocsinventory-backend/usr/share/ocsinventory-backend/requirements_mysql.txt
+ocsinventory-backend/usr/share/ocsinventory-backend/manage.py
+ocsinventory-backend/usr/share/ocsinventory-backend/deployment
+ocsinventory-backend/usr/share/ocsinventory-backend/requirements_psql.txt
+ocsinventory-backend/usr/share/ocsinventory-backend/dashboard
+ocsinventory-backend/usr/share/ocsinventory-backend/.env
+ocsinventory-backend/usr/share/ocsinventory-backend/inventory
+ocsinventory-backend/usr/share/ocsinventory-backend/requirements.txt
+ocsinventory-backend/usr/share/ocsinventory-backend/LICENSE
+ocsinventory-backend/usr/share/ocsinventory-backend/conftest.py
+ocsinventory-backend/usr/share/ocsinventory-backend/ipdiscover
+ocsinventory-backend/usr/share/ocsinventory-backend/config
+ocsinventory-backend/usr/share/ocsinventory-backend/tools
+ocsinventory-backend/usr/share/ocsinventory-backend/logs
+ocsinventory-backend/usr/share/ocsinventory-backend/asset
+ocsinventory-backend/usr/share/ocsinventory-backend/ocsinventory_backend
+ocsinventory-backend/usr/share/ocsinventory-backend/group
+ocsinventory-backend/usr/share/ocsinventory-backend/filemanager
+ocsinventory-backend/usr/share/ocsinventory-backend/notes
+ocsinventory-server
+ocsinventory-server/usr
+ocsinventory-server/usr/share
+ocsinventory-server/usr/share/doc
+ocsinventory-server/usr/share/doc/ocsinventory-server
+ocsinventory-frontend
+ocsinventory-frontend/etc
+ocsinventory-frontend/etc/nginx
+ocsinventory-frontend/etc/nginx/sites-available
+ocsinventory-frontend/etc/nginx/sites-available/ocsinventory-frontend
+ocsinventory-frontend/usr
+ocsinventory-frontend/usr/share
+ocsinventory-frontend/usr/share/doc
+ocsinventory-frontend/usr/share/doc/ocsinventory-frontend
+ocsinventory-frontend/usr/share/ocsinventory-frontend
+ocsinventory-frontend/usr/share/ocsinventory-frontend/favicon.ico
+ocsinventory-frontend/usr/share/ocsinventory-frontend/extensions
+ocsinventory-frontend/usr/share/ocsinventory-frontend/remove.txt
+ocsinventory-frontend/usr/share/ocsinventory-frontend/config
+ocsinventory-frontend/usr/share/ocsinventory-frontend/index.html
+
+======== x/ocsinventory-backend/usr/share/ocsinventory-backend/tools/configure-ocsinventory-backend.sh
+#!/bin/bash
+
+echo ""
+echo "================================================="
+echo "=                                               ="
+echo "=      OCS Inventory Backend configuration      ="
+echo "=                                               ="
+echo "================================================="
+echo ""
+
+if [[ ! -w "/usr/share/ocsinventory-backend/.env" ]]; then
+	echo "You do not have sufficient permissions to configure the OCS Inventory Backend."
+	exit 1
+fi
+
+# remove default Nginx configuration
+if [ -f /etc/nginx/sites-enabled/default ]; then
+	echo "Removing default Nginx configuration..."
+	rm /etc/nginx/sites-enabled/default
+	echo "Default Nginx configuration removed."
+fi
+
+echo "Select the database engine:"
+echo ""
+echo "[1] PostgreSQL"
+echo "[2] MySQL | MariaDB"
+echo ""
+read -r -p "Choose the database engine [1|2]: " db_engine
+
+case $db_engine in
+1)
+	sed -i "s/DB_ENGINE=.*/DB_ENGINE='django.db.backends.postgresql'/" /usr/share/ocsinventory-backend/.env
+	echo "Database engine configured for PostgreSQL."
+	echo "Attempting to install the PostgreSQL Python library."
+	source /usr/lib/ocsinventory-backend/venv/bin/activate
+	pip3 install -r /usr/share/ocsinventory-backend/requirements_psql.txt
+	deactivate
+	;;
+2)
+	sed -i "s/DB_ENGINE=.*/DB_ENGINE='django.db.backends.mysql'/" /usr/share/ocsinventory-backend/.env
+	echo "Database engine configured for MySQL or MariaDB."
+	echo "Attempting to install the MySQL/MariaDB Python library."
+	source /usr/lib/ocsinventory-backend/venv/bin/activate
+	pip3 install -r /usr/share/ocsinventory-backend/requirements_mysql.txt
+	deactivate
+	;;
+*)
+	echo "Invalid option, configuration aborted!"
+	exit 1
+	;;
+esac
+
+read -r -p "Enter the database server host: " db_host
+sed -i "s/DB_HOST=.*/DB_HOST='$db_host'/" /usr/share/ocsinventory-backend/.env
+
+read -r -p "Enter the database server port: " db_port
+sed -i "s/DB_PORT=.*/DB_PORT='$db_port'/" /usr/share/ocsinventory-backend/.env
+
+read -r -p "Enter the database name: " db_name
+sed -i "s/DB_NAME=.*/DB_NAME='$db_name'/" /usr/share/ocsinventory-backend/.env
+
+read -r -p "Enter the database username: " db_user
+sed -i "s/DB_USER=.*/DB_USER='$db_user'/" /usr/share/ocsinventory-backend/.env
+
+read -r -p "Enter the database user password: " db_password
+sed -i "s/DB_PASSWORD=.*/DB_PASSWORD='$db_password'/" /usr/share/ocsinventory-backend/.env
+
+echo "Configuration completed!"
+echo "Running database migrations now..."
+
+source /usr/lib/ocsinventory-backend/venv/bin/activate
+
+if python3 /usr/share/ocsinventory-backend/manage.py migrate >/tmp/ocsinventory-backend-configuration.log 2>&1; then
+	echo "Database migrations applied successfully!"
+	deactivate
+else
+	echo "Error during database migrations, please check /tmp/ocsinventory-backend-configuration.log for more information."
+	deactivate
+	exit 1
+fi
+
+chown -R www-data:www-data /usr/share/ocsinventory-backend/logs
+
+# restart uWSGI service
+echo "Restarting uWSGI and Nginx services..."
+systemctl restart uwsgi
+if [ $? -eq 0 ]; then
+	echo "uWSGI service restarted successfully."
+else
+	echo "Error restarting uWSGI service. Please check the service status manually."
+	exit 1
+fi
+
+systemctl restart nginx
+if [ $? -eq 0 ]; then
+	echo "Nginx service restarted successfully."
+else
+	echo "Error restarting Nginx service. Please check the service status manually."
+	exit 1
+fi
+
+echo ""
+echo "For more information, refer to /tmp/ocsinventory-backend-configuration.log for the database migration logs."
+
+echo ""
+echo "==========================================================="
+echo "=                                                         ="
+echo "=      OCS Inventory Backend successfully configured      ="
+echo "=                                                         ="
+echo "==========================================================="
+echo ""
+
+======== c/ocsinventory-backend/postinst
+#!/bin/bash
+set -e
+
+echo "Launching OCS Inventory Backend post-installation script"
+
+# an upgrade is a previously configured version,
+# a backup left by the preinst, and a previous installation still in place
+if [ "$1" = configure ] && [ -n "$2" ] \
+   && [ -d "/usr/share/ocsinventory-backend-backup" ] \
+   && [ -d "/usr/lib/ocsinventory-backend/venv" ]; then
+    UPDATE=1
+else
+    UPDATE=0
+fi
+
+# venv and requirements
+if [ ! -d "/usr/lib/ocsinventory-backend/venv" ]; then
+    # generating secret for Django 
+    echo "Generating Django secret key..."
+    SECRET_KEY=$(python3 -c "import secrets; print(secrets.token_urlsafe(50))")
+    sed -i "s/SECRET_KEY=.*/SECRET_KEY='${SECRET_KEY}'/" /usr/share/ocsinventory-backend/.env
+    echo "Creating virtual environment..."
+    python3 -m venv /usr/lib/ocsinventory-backend/venv
+fi
+
+echo "Activating virtual environment ..."
+source /usr/lib/ocsinventory-backend/venv/bin/activate
+echo "Installing requirements ..."
+pip3 install -r /usr/share/ocsinventory-backend/requirements.txt
+
+# Check if update
+if [ $UPDATE -eq 1 ]; then
+    echo "OCS Inventory Backend update detected"
+    cp /usr/share/ocsinventory-backend-backup/.env /usr/share/ocsinventory-backend/.env
+    echo "Running database migrations..."
+    python3 /usr/share/ocsinventory-backend/manage.py migrate
+fi
+
+deactivate
+
+if [ $UPDATE -eq 0 ]; then
+    # enable NGINX configuration
+    ln -sf /etc/nginx/sites-available/ocsinventory-backend /etc/nginx/sites-enabled/ocsinventory-backend
+    # enable UWSGI configuration
+    ln -sf /etc/uwsgi/apps-available/ocsinventory-backend.ini /etc/uwsgi/apps-enabled/ocsinventory-backend.ini
+fi
+
+# change ownership and permissions on logs directory
+chown -R www-data:www-data /usr/share/ocsinventory-backend/
+chmod -R 755 /usr/share/ocsinventory-backend/logs
+
+
+if [ $UPDATE -eq 1 ]; then
+    # restart services only on update, on fresh install configure-ocsinventory-backend.sh script do it
+    echo "Restarting UWSGI and Nginx services..."
+    systemctl restart uwsgi
+    systemctl restart nginx
+fi
+
+if [ $UPDATE -eq 0 ]; then
+    echo "OCS Inventory Backend successfully installed."
+    echo "================================================================================================================================="
+    echo "=                                                                                                                               ="
+    echo "= Please run the script '/usr/share/ocsinventory-backend/tools/configure-ocsinventory-backend.sh' to configure the application. ="
+    echo "=                                                                                                                               ="
+    echo "================================================================================================================================="
+else
+    echo "OCS Inventory Backend successfully updated."
+    rm -rf /usr/share/ocsinventory-backend-backup
+fi
+
+======== c/ocsinventory-frontend/postinst
+#!/bin/sh
+set -e
+
+if [ -d "/var/lib/ocsinventory-frontend-update" ]
+then
+    echo "Restore ocsinventory-frontend configuration files"
+    if [ -d "/var/lib/ocsinventory-frontend-update/app" ] && [ "$(ls -A /var/lib/ocsinventory-frontend-update/app)" ]; then
+        cp -r /var/lib/ocsinventory-frontend-update/app/* /usr/share/ocsinventory-frontend
+    fi
+    rm -rf /var/lib/ocsinventory-frontend-update
+fi
+
+echo "Create ocsinventory-frontend log folder"
+mkdir -p /var/log/ocsinventory-frontend
+
+echo "Enable ocsinventory-frontend"
+ln -sf /etc/nginx/sites-available/ocsinventory-frontend /etc/nginx/sites-enabled/ocsinventory-frontend
+echo "Set nginx rights on ocsinventory-frontend"
+chown -R www-data: /usr/share/ocsinventory-frontend
+echo "Restart nginx"
+systemctl restart nginx
+
+exit 0
+
+======== c/ocsinventory-backend/preinst
+#!/bin/sh
+set -e
+
+# is this an update or a new install ?
+if [ -d /usr/share/ocsinventory-backend ]; then
+    echo "============================================"
+    echo "=                                          ="
+    echo "=      Updating OCS Inventory Backend      ="
+    echo "=                                          ="
+    echo "============================================"
+    echo "Backing up existing OCS Inventory Backend installation ..."
+    # create a backup dir
+    mkdir -p /usr/share/ocsinventory-backend-backup
+    # it receives .env and settings.py, which carry the database password
+    # and the field encryption key
+    chmod 700 /usr/share/ocsinventory-backend-backup
+
+    # backup settings.py
+    if [ -f /usr/share/ocsinventory-backend/ocsinventory_backend/settings.py ]; then
+        cp /usr/share/ocsinventory-backend/ocsinventory_backend/settings.py /usr/share/ocsinventory-backend-backup/settings.py
+    fi
+    # backup .env file
+    if [ -f /usr/share/ocsinventory-backend/.env ]; then
+        cp /usr/share/ocsinventory-backend/.env /usr/share/ocsinventory-backend-backup/.env
+    fi
+else
+    echo "=============================================="
+    echo "=                                            ="
+    echo "=      Installing OCS Inventory Backend      ="
+    echo "=                                            ="
+    echo "=============================================="
+fi
+======== c/ocsinventory-frontend/preinst
+#!/bin/sh
+set -e
+
+if [ -d "/usr/share/ocsinventory-frontend" ]
+then
+    echo "Before update, save ocsinventory-frontend configuration files"
+    mkdir -p /var/lib/ocsinventory-frontend-update/app
+    if [ -d "/usr/share/ocsinventory-frontend/config" ]; then
+        cp -r /usr/share/ocsinventory-frontend/config /var/lib/ocsinventory-frontend-update/app
+    fi
+    if [ -f "/usr/share/ocsinventory-frontend/.htaccess" ]; then
+        cp /usr/share/ocsinventory-frontend/.htaccess /var/lib/ocsinventory-frontend-update/app
+    fi
+    echo "Ocsinventory-frontend configuration files saved"
+fi
+
+exit 0
+
+======== c/*/prerm
+(tidak ada)
+
+======== x/ocsinventory-backend/etc/nginx/sites-available/ocsinventory-backend
+server {
+    listen 8081;
+    server_name _;
+
+    server_tokens off;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        root /usr/share/ocsinventory-backend/;
+    }
+
+    location / {
+        include         uwsgi_params;
+        uwsgi_pass      unix:/var/run/uwsgi/app/ocsinventory-backend/socket;
+        uwsgi_param     UWSGI_SCHEME $scheme;
+        uwsgi_param     SERVER_SOFTWARE nginx/$nginx_version;
+        uwsgi_param     HTTP_HOST $host;
+        uwsgi_param     REQUEST_URI $request_uri;
+        uwsgi_param     DOCUMENT_ROOT $document_root;
+    }
+}
+======== x/ocsinventory-frontend/etc/nginx/sites-available/ocsinventory-frontend
+server {
+    listen 80;
+    server_name _;
+
+    root /usr/share/ocsinventory-frontend;
+    index index.html;
+
+    access_log /var/log/ocsinventory-frontend/access.log;
+    error_log /var/log/ocsinventory-frontend/error.log;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+
+======== x/ocsinventory-frontend/usr/share/ocsinventory-frontend/config/config.json
+{
+  "BACKEND_API_ROUTE": "http://127.0.0.1/"
+}
+
+======== x/ocsinventory-backend/etc/uwsgi/apps-available/ocsinventory-backend.ini
+[uwsgi]
+# Django-related settings
+project = ocsinventory_backend
+base = /usr/share/ocsinventory-backend
+chdir = /usr/share/ocsinventory-backend
+plugins = python3
+
+# the virtualenv (if applicable)
+home = /usr/lib/ocsinventory-backend/venv
+
+# Django's wsgi file
+module = ocsinventory_backend.wsgi:application
+
+# process-related settings
+master = true
+processes = 5
+
+# the socket (use the full path to avoid any problems)
+socket = /var/run/uwsgi/app/ocsinventory-backend/socket
+chmod-socket = 644
+vacuum = true
+
+# Log settings
+logto = /var/log/uwsgi/ocsinventory-backend.log
+======== x/ocsinventory-backend/usr/share/ocsinventory-backend/pytest.ini
+[pytest]
+DJANGO_SETTINGS_MODULE = ocsinventory_backend.settings_test
+python_files = tests.py test_*.py *_tests.py
+log_level = WARNING
+
+-- File settings/env backend:
+x/ocsinventory-backend/usr/share/ocsinventory-backend/.env
+x/ocsinventory-backend/usr/share/ocsinventory-backend/ocsinventory_backend/settings_test.py
+x/ocsinventory-backend/usr/share/ocsinventory-backend/ocsinventory_backend/settings.py
+
+======== x/ocsinventory-backend/usr/share/ocsinventory-backend/.env
+DEBUG=False
+SECRET_KEY='a-not-secure-key'
+FRONTEND_REDIRECT='http://localhost:3000'
+DB_ENGINE='django.db.backends.postgresql'
+DB_NAME='dbname'
+DB_USER='user'
+DB_PASSWORD='pass'
+DB_HOST='localhost'
+DB_PORT='5432'
+FIELD_ENCRYPTION_KEY='your_encryption_key_generated'
+TOKEN_TTL=10
+TOKEN_AUTO_REFRESH=True
+##### PYTHON & PORT #####
+Python 3.12.3
+LISTEN 0      80                                  127.0.0.1:3306       0.0.0.0:*    users:(("mariadbd",pid=870,fd=30))                                                                                                                                                                                                                                                                                                                                                           
+LISTEN 0      511                                         *:80               *:*    users:(("/usr/sbin/apach",pid=1733,fd=4),("/usr/sbin/apach",pid=1732,fd=4),("/usr/sbin/apach",pid=1731,fd=4),("/usr/sbin/apach",pid=1730,fd=4),("/usr/sbin/apach",pid=1718,fd=4),("/usr/sbin/apach",pid=1717,fd=4),("/usr/sbin/apach",pid=1695,fd=4),("/usr/sbin/apach",pid=1694,fd=4),("/usr/sbin/apach",pid=1693,fd=4),("/usr/sbin/apach",pid=1692,fd=4),("/usr/sbin/apach",pid=1066,fd=4))
+
+INSPEKSI 3.0 SELESAI (belum ada yang dipasang)
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 16:25:08 WIB
+=== STATUS : OK (exit 0)

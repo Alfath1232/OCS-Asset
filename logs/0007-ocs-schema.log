@@ -1,0 +1,9 @@
+=== TASK   : 0007-ocs-schema.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 15:49:40 WIB
+-----------------------------------------------------------
+== Paket tambahan: XML::Entities (untuk SOAP)
+E: Unable to locate package libxml-entities-perl
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 15:49:44 WIB
+=== STATUS : GAGAL (exit 100)

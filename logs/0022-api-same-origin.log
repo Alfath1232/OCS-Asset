@@ -1,0 +1,34 @@
+=== TASK   : 0022-api-same-origin.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 17:27:28 WIB
+-----------------------------------------------------------
+== Backup
+'/etc/nginx/sites-available/ocsinventory-frontend' -> '/root/ocs-install/ocs3-frontend-site.bak-0022'
+'/usr/share/ocsinventory-frontend/config/config.json' -> '/root/ocs-install/ocs3-config.json.bak-0022'
+== Tulis site nginx frontend + proxy /api
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+== config.json frontend
+{
+  "BACKEND_API_ROUTE": "https://ocsaeon.itcnelita.com/api/"
+}
+== FRONTEND_REDIRECT backend
+FRONTEND_REDIRECT='https://ocsaeon.itcnelita.com'
+== Verifikasi (meniru request dari proxy HTTPS)
+/api/api-check/                      -> 200 (harap 200)
+/api/                                -> 401 (harap 401)
+/ (frontend)                         -> 200 (harap 200)
+:8081/api-check/ (tetap)             -> 200 (harap 200)
+-- isi: {"message":"API is online!"}
+-- config.json via frontend: {"BACKEND_API_ROUTE":"https://ocsaeon.itcnelita.com/api/"}
+-- tes token + URL absolut yang dibuat Django:
+token: OK (disamarkan)
+  automation/scheduler -> https://ocsaeon.itcnelita.com/api/automation/scheduler/
+  automation/history -> https://ocsaeon.itcnelita.com/api/automation/history/
+  automation/rule -> https://ocsaeon.itcnelita.com/api/automation/rule/
+  automation/action -> https://ocsaeon.itcnelita.com/api/automation/action/
+-- tes /api/login/ dengan Origin HTTPS (status saja):
+403
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 17:27:39 WIB
+=== STATUS : OK (exit 0)

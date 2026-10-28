@@ -1,0 +1,127 @@
+=== TASK   : 0021-diagnose-frontend-api.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 17:23:08 WIB
+-----------------------------------------------------------
+
+##### AKSES BROWSER KE FRONTEND (port 80) — 40 terakhir #####
+127.0.0.1 - - [26/Oct/2026:16:30:47 +0700] "GET / HTTP/1.1" 200 433 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:30:47 +0700] "GET / HTTP/1.1" 200 433 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:30:47 +0700] "GET / HTTP/1.1" 200 433 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:35:48 +0700] "GET / HTTP/1.1" 200 433 "-" "curl/8.5.0"
+192.168.100.110 - - [26/Oct/2026:17:15:51 +0700] "GET / HTTP/1.1" 200 309 "-" "UA"
+192.168.100.110 - - [26/Oct/2026:17:15:51 +0700] "GET /assets/index-Dn4Ib-VN.js HTTP/1.1" 200 1883680 "https://ocsaeon.itcnelita.com/" "UA"
+192.168.100.110 - - [26/Oct/2026:17:15:51 +0700] "GET /assets/index-BmuZM_Nd.css HTTP/1.1" 200 761879 "https://ocsaeon.itcnelita.com/" "UA"
+192.168.100.110 - - [26/Oct/2026:17:15:51 +0700] "GET /config/config.json HTTP/1.1" 200 57 "https://ocsaeon.itcnelita.com/ocsreports/" "UA"
+192.168.100.110 - - [26/Oct/2026:17:15:51 +0700] "GET /favicon.ico HTTP/1.1" 200 370070 "https://ocsaeon.itcnelita.com/ocsreports/" "UA"
+192.168.100.110 - - [26/Oct/2026:17:15:51 +0700] "GET /assets/Dashboard-Nk2GJnCe.js HTTP/1.1" 200 12933 "https://ocsaeon.itcnelita.com/ocsreports/" "UA"
+192.168.100.110 - - [26/Oct/2026:17:15:52 +0700] "GET /assets/logo-white-ByPbYGo2.png HTTP/1.1" 200 622541 "https://ocsaeon.itcnelita.com/ocsreports/dashboard" "UA"
+192.168.100.110 - - [26/Oct/2026:17:15:58 +0700] "GET /ocsreports/dashboard HTTP/1.1" 200 309 "-" "UA"
+192.168.100.110 - - [26/Oct/2026:17:16:05 +0700] "GET /ocsreports/dashboard HTTP/1.1" 200 309 "-" "UA"
+192.168.100.110 - - [26/Oct/2026:17:16:15 +0700] "GET /assets/MyAccount-BC58k8ZQ.js HTTP/1.1" 200 3878 "https://ocsaeon.itcnelita.com/ocsreports/dashboard" "UA"
+192.168.100.110 - - [26/Oct/2026:17:16:23 +0700] "GET /ocsreports/myaccount HTTP/1.1" 200 309 "-" "UA"
+192.168.100.110 - - [26/Oct/2026:17:17:23 +0700] "GET /ocsreports/myaccount HTTP/1.1" 200 309 "-" "UA"
+192.168.100.110 - - [26/Oct/2026:17:18:12 +0700] "GET / HTTP/1.1" 200 309 "-" "UA"
+192.168.100.110 - - [26/Oct/2026:17:18:13 +0700] "GET /config/config.json HTTP/1.1" 200 57 "https://ocsaeon.itcnelita.com/ocsreports/" "UA"
+192.168.100.110 - - [26/Oct/2026:17:18:18 +0700] "GET /ocsreports/dashboard HTTP/1.1" 200 309 "-" "UA"
+192.168.100.110 - - [26/Oct/2026:17:21:14 +0700] "GET /ocsreports/dashboard HTTP/1.1" 200 309 "-" "UA"
+192.168.100.110 - - [26/Oct/2026:17:21:33 +0700] "GET /ocsreports/dashboard HTTP/1.1" 200 309 "-" "UA"
+
+##### AKSES KE BACKEND (port 8081) via nginx — 40 terakhir #####
+127.0.0.1 - - [26/Oct/2026:16:30:47 +0700] "GET / HTTP/1.1" 500 32 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:30:47 +0700] "GET /api-check/ HTTP/1.1" 500 32 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:30:47 +0700] "GET / HTTP/1.1" 500 32 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:33:31 +0700] "GET / HTTP/1.1" 500 32 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:33:31 +0700] "GET /api-check/ HTTP/1.1" 500 32 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:35:48 +0700] "GET / HTTP/1.1" 401 58 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:35:48 +0700] "GET /api-check/ HTTP/1.1" 200 28 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:35:48 +0700] "GET /api-check/ HTTP/1.1" 200 28 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:35:48 +0700] "POST /login/ HTTP/1.1" 403 1420 "-" "curl/8.5.0"
+127.0.0.1 - - [26/Oct/2026:16:35:49 +0700] "POST /api-auth/token HTTP/1.1" 200 76 "-" "curl/8.5.0"
+
+##### IP UNIK YANG MENGAKSES #####
+-- frontend:
+      4 127.0.0.1
+     17 192.168.100.110
+-- backend :
+     10 127.0.0.1
+
+##### KONEKTIVITAS KE BACKEND #####
+http://127.0.0.1:8081/api-check/             -> 200
+http://192.168.100.122:8081/api-check/       -> 200
+http://100.105.251.78:8081/api-check/        -> 200
+-- CORS preflight dari origin frontend:
+HTTP/1.1 200 OK
+access-control-allow-origin: *
+access-control-allow-headers: accept, authorization, content-type, user-agent, x-csrftoken, x-requested-with
+access-control-allow-methods: DELETE, GET, OPTIONS, PATCH, POST, PUT
+access-control-max-age: 86400
+-- firewall:
+Status: inactive
+-P INPUT ACCEPT
+-A INPUT -j ts-input
+-- tailscale serve/funnel:
+No serve config
+
+##### CONFIG FRONTEND #####
+total 12
+drwxr-xr-x 2 www-data www-data 4096 Oct 26 16:29 .
+drwxr-xr-x 5 www-data www-data 4096 Oct 26 16:29 ..
+-rw-r--r-- 1 www-data www-data   57 Oct 26 16:30 config.json
+{
+  "BACKEND_API_ROUTE": "http://100.105.251.78:8081/"
+}
+
+GET /config/config.json lewat nginx -> 200
+{
+  "BACKEND_API_ROUTE": "http://100.105.251.78:8081/"
+}
+
+
+##### BAGAIMANA BUNDLE JS MEMBACA ALAMAT API #####
+total 392
+drwxr-xr-x   5 www-data www-data   4096 Oct 26 16:29 .
+drwxr-xr-x 155 root     root       4096 Oct 26 16:29 ..
+drwxr-xr-x   2 www-data www-data   4096 Oct 26 16:29 assets
+drwxr-xr-x   2 www-data www-data   4096 Oct 26 16:29 config
+drwxr-xr-x   2 www-data www-data   4096 Oct 26 16:29 extensions
+-rw-r--r--   1 www-data www-data 370070 Oct 12 16:10 favicon.ico
+-rw-r--r--   1 www-data www-data    433 Oct 12 16:10 index.html
+-rw-r--r--   1 www-data www-data     58 Oct 12 16:29 remove.txt
+Accountinfo-Dh7-fEW4.js
+AllSoftware-DfYZmuwQ.js
+Asset-BixF8Oso.js
+AssetGroup-DdHzBwbj.js
+AssetGroupDetail-BnCW_6g6.js
+Authentication-CD4QATNk.js
+Automation-DW8UM7R2.js
+AutomationHistory-CryyAnQj.js
+Category-5njstyrq.js
+ComplianceDashboard-CBs-Uouj.js
+======== /usr/share/ocsinventory-frontend/assets/index-Dn4Ib-VN.js
+method"),localStorage.removeItem("debug_mode");let t=`${this.$api.http.defaults.baseURL}logout/`;e==="sso"&&(t+="?method=sso"),window.location.href=t},toggleDebug(){pC
+ n(v,b);if(Xe.hasOwnProp(e,x))return n(void 0,v)}const g={url:o,method:o,data:o,baseURL:l,transformRequest:l,transformResponse:l,paramsSerializer:l,timeout:l,timeoutEr
+srfHeaderName"),l=i("xsrfCookieName");let u=i("headers");const f=i("auth"),g=i("baseURL"),v=i("allowAbsoluteUrls"),b=i("url");if(t.headers=u=pa.from(u),t.url=DE(jE(g,b
+owAbsoluteUrls:i.allowAbsoluteUrls=!0),Hf.assertOptions(i,{baseUrl:sa.spelling("baseURL"),withXsrfToken:sa.spelling("withXSRFToken")},!0),i.method=(Xe.getSafeProp(i,"m
+;)v=v.then(g[b++],g[b++]);return v}getUri(t){t=pl(this.defaults,t);const i=jE(t.baseURL,t.url,t.allowAbsoluteUrls,t);return DE(i,t.params,t.paramsSerializer)}};Xe.forE
+e:",n)}}function Lee(e,t,i){if(!(t!=null&&t.debugStart)||!yd())return;const n=t.baseURL||"";let a=e.getUri(t);a.startsWith(n)&&(a=a.slice(n.length)),a=a.replace(/^\//,
+-- index.html:
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCS Inventory</title>
+    <script type="module" crossorigin src="/assets/index-Dn4Ib-VN.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BmuZM_Nd.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
+
+
+DIAGNOSA SELESAI
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 17:23:12 WIB
+=== STATUS : OK (exit 0)

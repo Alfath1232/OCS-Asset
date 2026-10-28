@@ -1,0 +1,37 @@
+=== TASK   : 0010-post-reboot-check.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 16:01:14 WIB
+-----------------------------------------------------------
+
+##### BOOT #####
+Kernel aktif : 6.8.0-147-generic
+Uptime       : up 1 minute  (boot: 2026-10-26 16:00:05)
+reboot-required: tidak ada
+
+##### SERVICE #####
+tailscaled             active
+apache2                active
+mariadb                active
+ssh.socket             active
+ocsaeon-runner.timer   active
+Gagal (failed units):
+
+##### JARINGAN #####
+ens18            UP             192.168.100.122/24 fe80::be24:11ff:fe19:ad04/64 
+tailscale0       UNKNOWN        100.105.251.78/32 fd7a:115c:a1e0::6235:fb53/128 fe80::8a11:73f1:2f27:4f0/64 
+100.105.251.78  ocsaeon        itcnelita@  linux    -                            
+100.83.31.58    hermesagent    itcnelita@  linux    -                            
+100.111.150.18  hq-id-l788     itcnelita@  windows  -                            
+
+##### OCS #####
+GUI_VERSION DB : 7082
+/ocsreports/   -> HTTP 200
+/ocsinventory  -> HTTP 400
+
+##### ERROR APACHE SEJAK BOOT #####
+-- No entries --
+
+SEMUA OK
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 16:01:18 WIB
+=== STATUS : OK (exit 0)

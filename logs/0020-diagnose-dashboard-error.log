@@ -1,0 +1,136 @@
+=== TASK   : 0020-diagnose-dashboard-error.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 17:20:58 WIB
+-----------------------------------------------------------
+
+##### REQUEST API YANG GAGAL (uWSGI, status >= 400, 60 terakhir) #####
+[pid: 4985|app: -1|req: -1/1] 127.0.0.1 () {40 vars in 441 bytes} [Mon Oct 26 09:30:47 2026] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+[pid: 4984|app: -1|req: -1/2] 127.0.0.1 () {40 vars in 471 bytes} [Mon Oct 26 09:30:47 2026] GET /api-check/ => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+[pid: 4985|app: -1|req: -1/3] 127.0.0.1 () {40 vars in 441 bytes} [Mon Oct 26 09:30:47 2026] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+[pid: 4985|app: -1|req: -1/4] 127.0.0.1 () {40 vars in 441 bytes} [Mon Oct 26 09:33:31 2026] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+[pid: 4984|app: -1|req: -1/5] 127.0.0.1 () {40 vars in 471 bytes} [Mon Oct 26 09:33:31 2026] GET /api-check/ => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+[pid: 5536|app: 0|req: 1/1] 127.0.0.1 () {40 vars in 441 bytes} [Mon Oct 26 09:35:48 2026] GET / => generated 58 bytes in 173 msecs (HTTP/1.1 401) 9 headers in 282 bytes (2 switches on core 0)
+[pid: 5533|app: 0|req: 2/4] 127.0.0.1 () {44 vars in 540 bytes} [Mon Oct 26 09:35:48 2026] POST /login/ => generated 1420 bytes in 16 msecs (HTTP/1.1 403) 7 headers in 229 bytes (1 switches on core 0)
+
+##### SEMUA REQUEST API 40 TERAKHIR #####
+[pid: 4985|app: -1|req: -1/1] 127.0.0.1 () [Mon Oct 26 09:30:47 2026] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+[pid: 4984|app: -1|req: -1/2] 127.0.0.1 () [Mon Oct 26 09:30:47 2026] GET /api-check/ => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+[pid: 4985|app: -1|req: -1/3] 127.0.0.1 () [Mon Oct 26 09:30:47 2026] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+[pid: 4985|app: -1|req: -1/4] 127.0.0.1 () [Mon Oct 26 09:33:31 2026] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+[pid: 4984|app: -1|req: -1/5] 127.0.0.1 () [Mon Oct 26 09:33:31 2026] GET /api-check/ => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+[pid: 5536|app: 0|req: 1/1] 127.0.0.1 () [Mon Oct 26 09:35:48 2026] GET / => generated 58 bytes in 173 msecs (HTTP/1.1 401) 9 headers in 282 bytes (2 switches on core 0)
+[pid: 5533|app: 0|req: 1/2] 127.0.0.1 () [Mon Oct 26 09:35:48 2026] GET /api-check/ => generated 28 bytes in 171 msecs (HTTP/1.1 200) 8 headers in 247 bytes (2 switches on core 0)
+[pid: 5535|app: 0|req: 1/3] 127.0.0.1 () [Mon Oct 26 09:35:48 2026] GET /api-check/ => generated 28 bytes in 172 msecs (HTTP/1.1 200) 8 headers in 247 bytes (2 switches on core 0)
+[pid: 5533|app: 0|req: 2/4] 127.0.0.1 () [Mon Oct 26 09:35:48 2026] POST /login/ => generated 1420 bytes in 16 msecs (HTTP/1.1 403) 7 headers in 229 bytes (1 switches on core 0)
+[pid: 5537|app: 0|req: 1/5] 127.0.0.1 () [Mon Oct 26 09:35:48 2026] POST /api-auth/token => generated 76 bytes in 1049 msecs (HTTP/1.1 200) 8 headers in 234 bytes (2 switches on core 0)
+
+##### ERROR / TRACEBACK DI LOG BACKEND #####
+======== /usr/share/ocsinventory-backend/logs/ocs_backend.log
+1:[ERROR][2026-10-26 09:30:22,083][ocsinventory_backend.ocs_framework.logmanager:update_from_config:38]: Failed to fetch config: (1146, "Table 'ocsv3.config_config' doesn't exist")
+======== /usr/share/ocsinventory-backend/logs/ocs_django.log
+======== /usr/share/ocsinventory-backend/logs/ocs_auth.log
+======== uWSGI traceback terakhir
+29-Mon Oct 26 16:30:40 2026 - mapped 437520 bytes (427 KB) for 5 cores
+30-Mon Oct 26 16:30:40 2026 - *** Operational MODE: preforking ***
+31:Traceback (most recent call last):
+32-  File "/usr/share/ocsinventory-backend/ocsinventory_backend/wsgi.py", line 16, in <module>
+33-    application = get_wsgi_application()
+34-                  ^^^^^^^^^^^^^^^^^^^^^^
+35-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/core/wsgi.py", line 12, in get_wsgi_application
+36-    django.setup(set_prefix=False)
+37-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/__init__.py", line 24, in setup
+38-    apps.populate(settings.INSTALLED_APPS)
+39-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/apps/registry.py", line 116, in populate
+40-    app_config.import_models()
+41-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/apps/config.py", line 269, in import_models
+42-    self.models_module = import_module(models_module_name)
+43-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+44-  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+45-    return _bootstrap._gcd_import(name[level:], package, level)
+46-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+47-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/contrib/auth/models.py", line 5, in <module>
+48-    from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+49-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/contrib/auth/base_user.py", line 43, in <module>
+50-    class AbstractBaseUser(models.Model):
+51-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/base.py", line 146, in __new__
+52-    new_class.add_to_class("_meta", Options(meta, app_label))
+53-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/base.py", line 394, in add_to_class
+54-    value.contribute_to_class(cls, name)
+55-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/options.py", line 245, in contribute_to_class
+56-    self.db_table, connection.ops.max_name_length()
+--
+122-Mon Oct 26 16:30:43 2026 - mapped 437520 bytes (427 KB) for 5 cores
+123-Mon Oct 26 16:30:43 2026 - *** Operational MODE: preforking ***
+124:Traceback (most recent call last):
+125-  File "/usr/share/ocsinventory-backend/ocsinventory_backend/wsgi.py", line 16, in <module>
+126-    application = get_wsgi_application()
+127-                  ^^^^^^^^^^^^^^^^^^^^^^
+128-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/core/wsgi.py", line 12, in get_wsgi_application
+129-    django.setup(set_prefix=False)
+130-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/__init__.py", line 24, in setup
+131-    apps.populate(settings.INSTALLED_APPS)
+132-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/apps/registry.py", line 116, in populate
+133-    app_config.import_models()
+134-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/apps/config.py", line 269, in import_models
+135-    self.models_module = import_module(models_module_name)
+136-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+137-  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+138-    return _bootstrap._gcd_import(name[level:], package, level)
+139-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+140-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/contrib/auth/models.py", line 5, in <module>
+141-    from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+142-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/contrib/auth/base_user.py", line 43, in <module>
+143-    class AbstractBaseUser(models.Model):
+144-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/base.py", line 146, in __new__
+145-    new_class.add_to_class("_meta", Options(meta, app_label))
+146-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/base.py", line 394, in add_to_class
+147-    value.contribute_to_class(cls, name)
+148-  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/options.py", line 245, in contribute_to_class
+149-    self.db_table, connection.ops.max_name_length()
+
+##### NGINX ERROR #####
+2026/10/26 16:29:48 [notice] 3988#3988: using inherited sockets from "5;6;"
+
+##### DATA DASHBOARD DI DB #####
+-- template/section/field (data inventaris dasar):
+template_template      10
+section_section        252
+field_field            1669
+config_config          6
+
+##### PERINTAH manage.py demo (isi source, belum dijalankan) #####
+from django.core.management.base import BaseCommand
+
+
+class Command(BaseCommand):
+    """Name of the file equals command, e.g. 'demo'
+
+    Args:
+        BaseCommand ([type]): base class for management commands
+    """
+
+    help = "any arg passed to this cmd will be printed back"
+
+    def add_arguments(self, parser):
+        """Add custom argument
+
+        Args:
+            parser ([type]): [description]
+        """
+        parser.add_argument("msg", type=str, help="string")
+
+    def handle(self, *args, **options):
+        """Must be implemented, define the logic behind the command"""
+        msg = options["msg"]
+        # let's just print back the arg
+        self.stdout.write(str(msg))
+
+-- file data/fixture yang dipakai:
+
+##### MIGRASI BELUM DITERAPKAN? #####
+migrasi belum diterapkan: 0
+
+DIAGNOSA SELESAI
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 17:21:02 WIB
+=== STATUS : OK (exit 0)

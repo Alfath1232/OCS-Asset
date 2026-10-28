@@ -1,0 +1,79 @@
+=== TASK   : 0036-asset-id-fields.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-28 10:42:08 WIB
+-----------------------------------------------------------
+== Backup tabel accountinfo
+-rw------- 1 root root 4586 Oct 28 10:42 /root/ocs-backup/accountinfo-20261028-104211.sql
+== Pasang script
+== Dry-run
+
+[DRY] buat field: Asset ID (TEXT)
+[DRY] buat field: Lokasi (SELECT)
+[DRY] buat field: Area (SELECT)
+[DRY] buat field: PIC (TEXT)
+[DRY] buat field: Status aset (SELECT)
+[DRY] buat field: Stocktake terakhir (TEXT)
+[DRY] buat field: Hasil stocktake (SELECT)
+[DRY] buat field: Stocktake oleh (TEXT)
+[DRY] field belum ada; langkah aset dilewati pada dry-run
+== Jalankan
+
+buat field: Asset ID (TEXT)
+buat field: Lokasi (SELECT)
+  tambah pilihan: Lokasi -> HQ
+  tambah pilihan: Lokasi -> GMS
+  tambah pilihan: Lokasi -> SSM
+buat field: Area (SELECT)
+  tambah pilihan: Area -> Kasir
+  tambah pilihan: Area -> Backroom
+  tambah pilihan: Area -> Area penjualan
+  tambah pilihan: Area -> Admin/Office
+  tambah pilihan: Area -> Ruang server
+  tambah pilihan: Area -> Gudang
+buat field: PIC (TEXT)
+buat field: Status aset (SELECT)
+  tambah pilihan: Status aset -> Aktif
+  tambah pilihan: Status aset -> Rusak
+  tambah pilihan: Status aset -> Gudang
+  tambah pilihan: Status aset -> Disposal
+buat field: Stocktake terakhir (TEXT)
+buat field: Hasil stocktake (SELECT)
+  tambah pilihan: Hasil stocktake -> Sesuai
+  tambah pilihan: Hasil stocktake -> Pindah lokasi
+  tambah pilihan: Hasil stocktake -> Tidak ditemukan
+buat field: Stocktake oleh (TEXT)
+Asset ID AEON-IT-000001 -> aset #1 HQ-ID-L788 (serial PF5KA6RH)
+Asset ID AEON-IT-000002 -> aset #2 HQ-ID-L801 (serial PF5KADGP)
+selesai: aset=2 baris accountinfo baru=2 Asset ID baru=2
+== Jalankan ulang (harus tidak ada perubahan)
+
+selesai: aset=2 baris accountinfo baru=0 Asset ID baru=0
+== systemd timer tiap 10 menit
+Created symlink /etc/systemd/system/timers.target.wants/ocsaeon-assetid.timer → /etc/systemd/system/ocsaeon-assetid.timer.
+○ ocsaeon-assetid.service - OCS AEON - beri Asset ID untuk aset baru
+     Loaded: loaded (/etc/systemd/system/ocsaeon-assetid.service; static)
+     Active: inactive (dead) since Wed 2026-10-28 10:42:14 WIB; 13ms ago
+TriggeredBy: ● ocsaeon-assetid.timer
+    Process: 106483 ExecStart=/usr/lib/ocsinventory-backend/venv/bin/python3 manage.py shell -c exec(open('/usr/local/lib/ocsaeon/assign_asset_id.py').read()) (code=exited, status=0/SUCCESS)
+Oct 28 10:42:14 ocsaeon python3[106483]: selesai: aset=2 baris accountinfo baru=0 Asset ID baru=0
+Oct 28 10:42:14 ocsaeon systemd[1]: ocsaeon-assetid.service: Deactivated successfully.
+Oct 28 10:42:14 ocsaeon systemd[1]: Finished ocsaeon-assetid.service - OCS AEON - beri Asset ID untuk aset baru.
+== Verifikasi
+id	name	datatype	pilihan
+1	Asset ID	TEXT	NULL
+2	Lokasi	SELECT	HQ, GMS, SSM
+3	Area	SELECT	Kasir, Backroom, Area penjualan, Admin/Office, Ruang server, Gudang
+4	PIC	TEXT	NULL
+5	Status aset	SELECT	Aktif, Rusak, Gudang, Disposal
+6	Stocktake terakhir	TEXT	NULL
+7	Hasil stocktake	SELECT	Sesuai, Pindah lokasi, Tidak ditemukan
+8	Stocktake oleh	TEXT	NULL
+aset	name	accountdata
+1	HQ-ID-L788	{"1": "AEON-IT-000001", "2": null, "3": null, "4": "", "5": {"value": 10, "text": "Aktif"}, "6": "", "7": null, "8": ""}
+2	HQ-ID-L801	{"1": "AEON-IT-000002", "2": null, "3": null, "4": "", "5": {"value": 10, "text": "Aktif"}, "6": "", "7": null, "8": ""}
+NEXT                        LEFT LAST                           PASSED UNIT                  ACTIVATES
+Wed 2026-10-28 10:52:14 WIB 9min Wed 2026-10-28 10:42:14 WIB 556ms ago ocsaeon-assetid.timer ocsaeon-assetid.service
+
+-----------------------------------------------------------
+=== SELESAI: 2026-10-28 10:42:14 WIB
+=== STATUS : OK (exit 0)

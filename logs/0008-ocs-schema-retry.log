@@ -1,0 +1,63 @@
+=== TASK   : 0008-ocs-schema-retry.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 15:51:51 WIB
+-----------------------------------------------------------
+== Modul tambahan: XML::Entities (untuk SOAP API, opsional, tidak fatal)
+
+Running kernel seems to be up-to-date.
+
+Restarting services...
+
+Service restarts being deferred:
+ /etc/needrestart/restart.d/dbus.service
+ systemctl restart systemd-logind.service
+ systemctl restart unattended-upgrades.service
+
+No containers need to be restarted.
+
+User sessions running outdated binaries:
+ administrator @ session #2: login[1002]
+ administrator @ session #5: sshd[2086,2144]
+ administrator @ session #6: sshd[2105,2190]
+ administrator @ user manager service: systemd[1214]
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+OK XML::Entities (via cpanm)
+== ServerName Apache
+Enabling conf servername.
+ocsinventory-server: Bad setting. `SNMP_LINK_TAG` is not set. Default: `0`
+ocsinventory-server: Can't load SOAP::Transport::HTTP* - Web service will be unavailable
+Syntax OK
+== Versi skema yang dibutuhkan web console: 7082
+== Versi skema di DB sekarang: 
+== Langkah 1: install.php (buat skema dasar)
+HTTP 200
+   versi skema setelah install: 7068
+== Langkah 2.1: update skema 7068 -> 7082
+HTTP 200
+== Versi skema akhir: 7082 (target 7082)
+== Jumlah tabel di ocsweb: 106
+== Cek dbconfig.inc.php memakai user ocs (password disamarkan)
+define("DB_NAME", "ocsweb");
+define("SERVER_WRITE","localhost");
+define("COMPTE_BASE","ocs");
+PSWD_BASE: cocok dengan secret
+== Hardening: pindahkan install.php
+renamed '/usr/share/ocsinventory-reports/ocsreports/install.php' -> '/root/ocs-install/install.php.bak'
+== Tes halaman login
+/ocsreports/index.php -> HTTP 200
+Halaman login tampil
+== Error Apache 10 baris terakhir:
+[Mon Oct 26 15:45:05.591693 2026] [core:notice] [pid 42334] AH00094: Command line: '/usr/sbin/apache2'
+[Mon Oct 26 15:45:07.872298 2026] [mpm_prefork:notice] [pid 42334] AH00170: caught SIGWINCH, shutting down gracefully
+[Mon Oct 26 15:45:07.968176 2026] [mpm_prefork:notice] [pid 42522] AH00163: Apache/2.4.58 (Ubuntu) mod_perl/2.0.13 Perl/v5.38.2 configured -- resuming normal operations
+[Mon Oct 26 15:45:07.968246 2026] [core:notice] [pid 42522] AH00094: Command line: '/usr/sbin/apache2'
+[Mon Oct 26 15:47:40.810335 2026] [mpm_prefork:notice] [pid 42522] AH00170: caught SIGWINCH, shutting down gracefully
+[Mon Oct 26 15:47:41.227008 2026] [mpm_prefork:notice] [pid 43551] AH00163: Apache/2.4.58 (Ubuntu) mod_perl/2.0.13 Perl/v5.38.2 configured -- resuming normal operations
+[Mon Oct 26 15:47:41.227064 2026] [core:notice] [pid 43551] AH00094: Command line: '/usr/sbin/apache2'
+[Mon Oct 26 15:52:06.758350 2026] [mpm_prefork:notice] [pid 43551] AH00170: caught SIGWINCH, shutting down gracefully
+[Mon Oct 26 15:52:07.227638 2026] [mpm_prefork:notice] [pid 44206] AH00163: Apache/2.4.58 (Ubuntu) mod_perl/2.0.13 Perl/v5.38.2 configured -- resuming normal operations
+[Mon Oct 26 15:52:07.227698 2026] [core:notice] [pid 44206] AH00094: Command line: '/usr/sbin/apache2'
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 15:52:17 WIB
+=== STATUS : OK (exit 0)

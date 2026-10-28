@@ -1,0 +1,48 @@
+=== TASK   : 0027-agent-account.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-27 07:45:18 WIB
+-----------------------------------------------------------
+
+##### 1) IZIN GRUP AgentInventory #####
+64 objects imported automatically (use -v 2 for details).
+
+AgentDeployment -> ['add_log', 'change_result', 'view_deploymentaction', 'view_result']
+AgentInventory -> ['add_inventorybase', 'add_log', 'change_inventorybase', 'view_config', 'view_inventorybase', 'view_template']
+
+##### 2) AKUN AGENT #####
+  File "<string>", line 6, in <module>
+  File "<frozen os>", line 685, in __getitem__
+KeyError: 'OCS_AGENT_USER'
+password tersimpan di /root/ocsaeon-secrets/ocs3-agent.env (lihat via SSH: sudo cat /root/ocsaeon-secrets/ocs3-agent.env)
+
+##### 3) UJI IZIN AKUN AGENT #####
+!! login agent gagal
+GET /user/                   -> 404 (harap 403: bukan haknya)
+GET /config/                 -> 401 (harap 403: bukan haknya)
+GET /asset/collection/       -> 401 (endpoint kirim inventaris)
+
+##### 4) INSTALLER AGENT DARI GITHUB #####
+== 3.0.0 2026-10-12 stable
+    OCSInventory-Agent-Setup-Linux-Deb-3.0.0.tar.xz 2711504 https://github.com/OCSInventory-NG/OCSInventory-Agent-Rework/releases/download/3.0.0/OCSInventory-Agent-Setup-Linux-Deb-3.0.0.tar.xz
+    OCSInventory-Agent-Setup-Linux-Rhel-3.0.0.tar.xz 2710320 https://github.com/OCSInventory-NG/OCSInventory-Agent-Rework/releases/download/3.0.0/OCSInventory-Agent-Setup-Linux-Rhel-3.0.0.tar.xz
+    OCSInventory-Agent-Setup-Macos-3.0.0.tar.xz 2399016 https://github.com/OCSInventory-NG/OCSInventory-Agent-Rework/releases/download/3.0.0/OCSInventory-Agent-Setup-Macos-3.0.0.tar.xz
+    OCSInventory-Agent-Setup-Windows-3.0.0.exe 28325665 https://github.com/OCSInventory-NG/OCSInventory-Agent-Rework/releases/download/3.0.0/OCSInventory-Agent-Setup-Windows-3.0.0.exe
+== 3.0.0-rc2 2026-08-26 prerelease
+    OCSInventory-Agent-Setup-Linux-Deb-3.0.0-rc2.tar.xz 2688292 https://github.com/OCSInventory-NG/OCSInventory-Agent-Rework/releases/download/3.0.0-rc2/OCSInventory-Agent-Setup-Linux-Deb-3.0.0-rc2.tar.xz
+    OCSInventory-Agent-Setup-Linux-Rhel-3.0.0-rc2.tar.xz 2688208 https://github.com/OCSInventory-NG/OCSInventory-Agent-Rework/releases/download/3.0.0-rc2/OCSInventory-Agent-Setup-Linux-Rhel-3.0.0-rc2.tar.xz
+    OCSInventory-Agent-Setup-Macos-3.0.0-rc2.tar.xz 2379732 https://github.com/OCSInventory-NG/OCSInventory-Agent-Rework/releases/download/3.0.0-rc2/OCSInventory-Agent-Setup-Macos-3.0.0-rc2.tar.xz
+    OCSInventory-Agent-Setup-Windows-3.0.0-rc2.exe 28330608 https://github.com/OCSInventory-NG/OCSInventory-Agent-Rework/releases/download/3.0.0-rc2/OCSInventory-Agent-Setup-Windows-3.0.0-rc2.exe
+== 3.0.0-rc1 2026-06-04 prerelease
+    OCSInventory-Agent-Setup-Macos-3.0.0-rc1.tar.xz 1794976 https://github.com/OCSInventory-NG/OCSInventory-Agent-Rework/releases/download/3.0.0-rc1/OCSInventory-Agent-Setup-Macos-3.0.0-rc1.tar.xz
+    OCSInventory-Agent-Setup-Windows-3.0.0-rc1.exe 28073918 https://github.com/OCSInventory-NG/OCSInventory-Agent-Rework/releases/download/3.0.0-rc1/OCSInventory-Agent-Setup-Windows-3.0.0-rc1.exe
+total 27664
+-rw-r--r-- 1 www-data www-data 28325665 Oct 27 07:45 OCSInventory-Agent-Setup-Windows-3.0.0.exe
+f20f4b35e6dfdfe3b26abb4ce0343b5afc3c7b6e90fd00b5e13399dbe81a969d  /usr/share/ocsinventory-frontend/aeon/agent/OCSInventory-Agent-Setup-Windows-3.0.0.exe
+unduh dari LAN: http://192.168.100.122/aeon/agent/OCSInventory-Agent-Setup-Windows-3.0.0.exe -> 200
+
+##### 5) JANGKAUAN ENDPOINT AGENT #####
+http://192.168.100.122:8081/api-check/       -> 200
+http://100.105.251.78:8081/api-check/        -> 200
+-----------------------------------------------------------
+=== SELESAI: 2026-10-27 07:45:33 WIB
+=== STATUS : GAGAL (exit 1)

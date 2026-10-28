@@ -1,0 +1,20 @@
+=== TASK   : 0014-backup-ocs2.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 16:24:48 WIB
+-----------------------------------------------------------
+== Dump database ocsweb
+dump OK
+Jumlah tabel di dump: 106
+== Arsip config & file OCS 2.x
+arsip OK
+== Daftar paket terpasang (untuk reinstall bila rollback)
+== Isi backup:
+total 5.5M
+-rw------- 1 root root  28K Oct 26 16:24 dpkg-selections.txt
+-rw------- 1 root root 5.5M Oct 26 16:24 ocs2-files.tar.gz
+-rw------- 1 root root  13K Oct 26 16:24 ocsweb.sql.gz
+5.5M	/root/ocs-backup/ocs2-20261026-162451
+Lokasi backup: /root/ocs-backup/ocs2-20261026-162451
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 16:24:52 WIB
+=== STATUS : OK (exit 0)

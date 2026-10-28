@@ -1,0 +1,247 @@
+=== TASK   : 0018-diagnose-backend-500.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 16:33:28 WIB
+-----------------------------------------------------------
+
+##### REQUEST ULANG #####
+/              -> 500
+/api-check/    -> 500
+
+##### PROSES uWSGI #####
+USER         PID CMD
+www-data    4974 /usr/bin/uwsgi --ini /usr/share/uwsgi/conf/default.ini --ini /etc/uwsgi/apps-enabled/ocsinventory-backend.ini --daemonize /var/log/uwsgi/app/ocsinventory-backend.log
+www-data    4982 /usr/bin/uwsgi --ini /usr/share/uwsgi/conf/default.ini --ini /etc/uwsgi/apps-enabled/ocsinventory-backend.ini --daemonize /var/log/uwsgi/app/ocsinventory-backend.log
+www-data    4983 /usr/bin/uwsgi --ini /usr/share/uwsgi/conf/default.ini --ini /etc/uwsgi/apps-enabled/ocsinventory-backend.ini --daemonize /var/log/uwsgi/app/ocsinventory-backend.log
+www-data    4984 /usr/bin/uwsgi --ini /usr/share/uwsgi/conf/default.ini --ini /etc/uwsgi/apps-enabled/ocsinventory-backend.ini --daemonize /var/log/uwsgi/app/ocsinventory-backend.log
+www-data    4985 /usr/bin/uwsgi --ini /usr/share/uwsgi/conf/default.ini --ini /etc/uwsgi/apps-enabled/ocsinventory-backend.ini --daemonize /var/log/uwsgi/app/ocsinventory-backend.log
+www-data    4986 /usr/bin/uwsgi --ini /usr/share/uwsgi/conf/default.ini --ini /etc/uwsgi/apps-enabled/ocsinventory-backend.ini --daemonize /var/log/uwsgi/app/ocsinventory-backend.log
+total 4
+-rw-r--r-- 1 root     root 5 Oct 26 16:30 pid
+srw-r--r-- 1 www-data root 0 Oct 26 16:30 socket
+
+##### LOG FILES #####
+======== /var/log/uwsgi/app/ocsinventory-backend.log (root:root 640)
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/options.py", line 245, in contribute_to_class
+    self.db_table, connection.ops.max_name_length()
+                   ^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/utils/connection.py", line 15, in __getattr__
+    return getattr(self._connections[self._alias], item)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/utils/connection.py", line 62, in __getitem__
+    conn = self.create_connection(alias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/utils.py", line 196, in create_connection
+    backend = load_backend(db["ENGINE"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/utils.py", line 116, in load_backend
+    return import_module("%s.base" % backend_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/backends/mysql/base.py", line 22, in <module>
+    from MySQLdb.constants import CLIENT, FIELD_TYPE
+ModuleNotFoundError: No module named 'MySQLdb.constants'
+Mon Oct 26 09:30:44 2026 - unable to load app 0 (mountpoint='') (callable not found or import error)
+Mon Oct 26 09:30:44 2026 - *** no app loaded. going in full dynamic mode ***
+Mon Oct 26 09:30:44 2026 - *** uWSGI is running in multiple interpreter mode ***
+Mon Oct 26 09:30:44 2026 - spawned uWSGI master process (pid: 4974)
+Mon Oct 26 09:30:44 2026 - spawned uWSGI worker 1 (pid: 4982, cores: 1)
+Mon Oct 26 09:30:44 2026 - spawned uWSGI worker 2 (pid: 4983, cores: 1)
+Mon Oct 26 09:30:44 2026 - spawned uWSGI worker 3 (pid: 4984, cores: 1)
+Mon Oct 26 09:30:44 2026 - spawned uWSGI worker 4 (pid: 4985, cores: 1)
+Mon Oct 26 09:30:44 2026 - spawned uWSGI worker 5 (pid: 4986, cores: 1)
+Mon Oct 26 09:30:47 2026 - --- no python application found, check your startup logs for errors ---
+[pid: 4985|app: -1|req: -1/1] 127.0.0.1 () {40 vars in 441 bytes} [Mon Oct 26 09:30:47 2026] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+Mon Oct 26 09:30:47 2026 - --- no python application found, check your startup logs for errors ---
+[pid: 4984|app: -1|req: -1/2] 127.0.0.1 () {40 vars in 471 bytes} [Mon Oct 26 09:30:47 2026] GET /api-check/ => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+Mon Oct 26 09:30:47 2026 - --- no python application found, check your startup logs for errors ---
+[pid: 4985|app: -1|req: -1/3] 127.0.0.1 () {40 vars in 441 bytes} [Mon Oct 26 09:30:47 2026] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+Mon Oct 26 09:33:31 2026 - --- no python application found, check your startup logs for errors ---
+[pid: 4985|app: -1|req: -1/4] 127.0.0.1 () {40 vars in 441 bytes} [Mon Oct 26 09:33:31 2026] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+Mon Oct 26 09:33:31 2026 - --- no python application found, check your startup logs for errors ---
+[pid: 4984|app: -1|req: -1/5] 127.0.0.1 () {40 vars in 471 bytes} [Mon Oct 26 09:33:31 2026] GET /api-check/ => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (1 switches on core 0)
+======== /usr/share/ocsinventory-backend/logs/ocs_auth.log (www-data:www-data 600)
+======== /usr/share/ocsinventory-backend/logs/ocs_backend.log (www-data:www-data 600)
+[ERROR][2026-10-26 09:30:22,083][ocsinventory_backend.ocs_framework.logmanager:update_from_config:38]: Failed to fetch config: (1146, "Table 'ocsv3.config_config' doesn't exist")
+[WARNING][2026-10-26 09:30:22,083][ocsinventory_backend.ocs_framework.logmanager:set_level_for_logger:57]: root level set to DEBUG (using default)
+[WARNING][2026-10-26 09:30:22,083][ocsinventory_backend.ocs_framework.logmanager:set_level_for_logger:57]: auth level set to DEBUG (using default)
+[WARNING][2026-10-26 09:30:22,083][ocsinventory_backend.ocs_framework.logmanager:set_level_for_logger:57]: django level set to DEBUG (using default)
+[WARNING][2026-10-26 09:30:22,083][ocsinventory_backend.ocs_framework.logmanager:set_level_for_logger:57]: asset.collection.views level set to DEBUG (using default)
+[WARNING][2026-10-26 09:30:22,083][ocsinventory_backend.ocs_framework.logmanager:set_level_for_logger:57]: mgmt.management.commands level set to DEBUG (using default)
+======== /usr/share/ocsinventory-backend/logs/ocs_collection.log (www-data:www-data 600)
+======== /usr/share/ocsinventory-backend/logs/ocs_django.log (www-data:www-data 600)
+[DEBUG][2026-10-26 09:30:36,521][django.db.backends.schema]: CREATE TABLE `scanner_snmpscanner_configs` (`id` bigint AUTO_INCREMENT NOT NULL PRIMARY KEY, `snmpscanner_id` bigint NOT NULL, `snmpconfig_id` bigint NOT NULL); (params None)
+[DEBUG][2026-10-26 09:30:36,555][django.db.backends.schema]: ALTER TABLE `scanner_snmpscanner_assets` ADD CONSTRAINT `scanner_snmpscanner_asse_snmpscanner_id_inventory_aec03db5_uniq` UNIQUE (`snmpscanner_id`, `inventorybase_id`); (params None)
+[DEBUG][2026-10-26 09:30:36,625][django.db.backends.schema]: ALTER TABLE `scanner_snmpscanner_assets` ADD CONSTRAINT `scanner_snmpscanner__snmpscanner_id_baf7a681_fk_scanner_s` FOREIGN KEY (`snmpscanner_id`) REFERENCES `scanner_snmpscanner` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:36,700][django.db.backends.schema]: ALTER TABLE `scanner_snmpscanner_assets` ADD CONSTRAINT `scanner_snmpscanner__inventorybase_id_ea3e7f7c_fk_inventory` FOREIGN KEY (`inventorybase_id`) REFERENCES `inventory_base_inventorybase` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:36,783][django.db.backends.schema]: ALTER TABLE `scanner_snmpscanner_configs` ADD CONSTRAINT `scanner_snmpscanner_conf_snmpscanner_id_snmpconfi_c8115357_uniq` UNIQUE (`snmpscanner_id`, `snmpconfig_id`); (params None)
+[DEBUG][2026-10-26 09:30:36,835][django.db.backends.schema]: ALTER TABLE `scanner_snmpscanner_configs` ADD CONSTRAINT `scanner_snmpscanner__snmpscanner_id_606dc035_fk_scanner_s` FOREIGN KEY (`snmpscanner_id`) REFERENCES `scanner_snmpscanner` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:36,916][django.db.backends.schema]: ALTER TABLE `scanner_snmpscanner_configs` ADD CONSTRAINT `scanner_snmpscanner__snmpconfig_id_5ab0d4ad_fk_snmp_conf` FOREIGN KEY (`snmpconfig_id`) REFERENCES `snmp_config_snmpconfig` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:37,019][django.db.backends.schema]: CREATE TABLE `search_search` (`id` bigint AUTO_INCREMENT NOT NULL PRIMARY KEY, `visibility` varchar(20) NOT NULL, `allow_group_modification` bool NOT NULL, `search` json NOT NULL, `last_updated` datetime(6) NOT NULL, `name` varchar(50) NOT NULL, `description` longtext NULL, `user_id` integer NOT NULL); (params None)
+[DEBUG][2026-10-26 09:30:37,114][django.db.backends.schema]: CREATE TABLE `search_search_groups` (`id` bigint AUTO_INCREMENT NOT NULL PRIMARY KEY, `search_id` bigint NOT NULL, `group_id` integer NOT NULL); (params None)
+[DEBUG][2026-10-26 09:30:37,151][django.db.backends.schema]: ALTER TABLE `search_search` ADD CONSTRAINT `search_search_user_id_ee883c41_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:37,221][django.db.backends.schema]: ALTER TABLE `search_search_groups` ADD CONSTRAINT `search_search_groups_search_id_group_id_e877031b_uniq` UNIQUE (`search_id`, `group_id`); (params None)
+[DEBUG][2026-10-26 09:30:37,280][django.db.backends.schema]: ALTER TABLE `search_search_groups` ADD CONSTRAINT `search_search_groups_search_id_d34840ea_fk_search_search_id` FOREIGN KEY (`search_id`) REFERENCES `search_search` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:37,363][django.db.backends.schema]: ALTER TABLE `search_search_groups` ADD CONSTRAINT `search_search_groups_group_id_dd19ef30_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:37,468][django.db.backends.schema]: ALTER TABLE `section_section` ADD COLUMN `is_active` bool DEFAULT %s NOT NULL; (params [True])
+[DEBUG][2026-10-26 09:30:37,509][django.db.backends.schema]: ALTER TABLE `section_section` ALTER COLUMN `is_active` DROP DEFAULT; (params [])
+[DEBUG][2026-10-26 09:30:37,559][django.db.backends.schema]: CREATE TABLE `django_session` (`session_key` varchar(40) NOT NULL PRIMARY KEY, `session_data` longtext NOT NULL, `expire_date` datetime(6) NOT NULL); (params None)
+[DEBUG][2026-10-26 09:30:37,582][django.db.backends.schema]: CREATE INDEX `django_session_expire_date_a5c62663` ON `django_session` (`expire_date`); (params None)
+[DEBUG][2026-10-26 09:30:37,671][django.db.backends.schema]: CREATE TABLE `software_softwaremapping` (`id` bigint AUTO_INCREMENT NOT NULL PRIMARY KEY, `major_version_id` bigint NULL, `minor_version_id` bigint NULL, `name_id` bigint NULL, `patch_version_id` bigint NULL, `publisher_id` bigint NULL, `section_id` bigint NOT NULL, `template_id` bigint NOT NULL, `version_id` bigint NULL); (params None)
+[DEBUG][2026-10-26 09:30:37,722][django.db.backends.schema]: CREATE TABLE `software_softwaredictionary` (`id` bigint AUTO_INCREMENT NOT NULL PRIMARY KEY, `name` longtext NULL, `publisher` longtext NULL, `version` varchar(128) NULL, `major_version` integer NULL, `minor_version` integer NULL, `patch_version` integer NULL, `installation_number` integer NOT NULL, `updated_at` datetime(6) NOT NULL); (params None)
+[DEBUG][2026-10-26 09:30:37,757][django.db.backends.schema]: CREATE TABLE `software_softwaredictionary_assets` (`id` bigint AUTO_INCREMENT NOT NULL PRIMARY KEY, `softwaredictionary_id` bigint NOT NULL, `inventorybase_id` bigint NOT NULL); (params None)
+[DEBUG][2026-10-26 09:30:37,784][django.db.backends.schema]: ALTER TABLE `software_softwaremapping` ADD CONSTRAINT `software_softwaremap_major_version_id_891fe0f4_fk_field_fie` FOREIGN KEY (`major_version_id`) REFERENCES `field_field` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:37,915][django.db.backends.schema]: ALTER TABLE `software_softwaremapping` ADD CONSTRAINT `software_softwaremap_minor_version_id_a97b5cef_fk_field_fie` FOREIGN KEY (`minor_version_id`) REFERENCES `field_field` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:37,991][django.db.backends.schema]: ALTER TABLE `software_softwaremapping` ADD CONSTRAINT `software_softwaremapping_name_id_58873468_fk_field_field_id` FOREIGN KEY (`name_id`) REFERENCES `field_field` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:38,078][django.db.backends.schema]: ALTER TABLE `software_softwaremapping` ADD CONSTRAINT `software_softwaremap_patch_version_id_63ebb89c_fk_field_fie` FOREIGN KEY (`patch_version_id`) REFERENCES `field_field` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:38,145][django.db.backends.schema]: ALTER TABLE `software_softwaremapping` ADD CONSTRAINT `software_softwaremapping_publisher_id_8611dc06_fk_field_field_id` FOREIGN KEY (`publisher_id`) REFERENCES `field_field` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:38,220][django.db.backends.schema]: ALTER TABLE `software_softwaremapping` ADD CONSTRAINT `software_softwaremap_section_id_e4177ee4_fk_section_s` FOREIGN KEY (`section_id`) REFERENCES `section_section` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:38,328][django.db.backends.schema]: ALTER TABLE `software_softwaremapping` ADD CONSTRAINT `software_softwaremap_template_id_bc72d0f8_fk_template_` FOREIGN KEY (`template_id`) REFERENCES `template_template` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:38,429][django.db.backends.schema]: ALTER TABLE `software_softwaremapping` ADD CONSTRAINT `software_softwaremapping_version_id_037c7d13_fk_field_field_id` FOREIGN KEY (`version_id`) REFERENCES `field_field` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:38,538][django.db.backends.schema]: CREATE INDEX `software_so_name_0b22a7_idx` ON `software_softwaredictionary` (`name`); (params None)
+[DEBUG][2026-10-26 09:30:38,594][django.db.backends.schema]: CREATE INDEX `software_so_publish_164935_idx` ON `software_softwaredictionary` (`publisher`); (params None)
+[DEBUG][2026-10-26 09:30:39,078][django.db.backends.schema]: CREATE INDEX `software_so_version_e630b4_idx` ON `software_softwaredictionary` (`version`); (params None)
+[DEBUG][2026-10-26 09:30:39,136][django.db.backends.schema]: ALTER TABLE `software_softwaredictionary_assets` ADD CONSTRAINT `software_softwarediction_softwaredictionary_id_in_e80871d1_uniq` UNIQUE (`softwaredictionary_id`, `inventorybase_id`); (params None)
+[DEBUG][2026-10-26 09:30:39,190][django.db.backends.schema]: ALTER TABLE `software_softwaredictionary_assets` ADD CONSTRAINT `software_softwaredic_softwaredictionary_i_27521368_fk_software_` FOREIGN KEY (`softwaredictionary_id`) REFERENCES `software_softwaredictionary` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:39,265][django.db.backends.schema]: ALTER TABLE `software_softwaredictionary_assets` ADD CONSTRAINT `software_softwaredic_inventorybase_id_3305e73d_fk_inventory` FOREIGN KEY (`inventorybase_id`) REFERENCES `inventory_base_inventorybase` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:39,641][django.db.backends.schema]: CREATE TABLE `virtualcolumn_virtualcol` (`id` bigint AUTO_INCREMENT NOT NULL PRIMARY KEY, `visibility` varchar(20) NOT NULL, `allow_group_modification` bool NOT NULL, `name` varchar(100) NOT NULL, `target` varchar(30) NOT NULL, `mapping` json NOT NULL, `last_updated` datetime(6) NOT NULL, `user_id` integer NOT NULL); (params None)
+[DEBUG][2026-10-26 09:30:39,668][django.db.backends.schema]: CREATE TABLE `virtualcolumn_virtualcol_groups` (`id` bigint AUTO_INCREMENT NOT NULL PRIMARY KEY, `virtualcol_id` bigint NOT NULL, `group_id` integer NOT NULL); (params None)
+[DEBUG][2026-10-26 09:30:39,692][django.db.backends.schema]: ALTER TABLE `virtualcolumn_virtualcol` ADD CONSTRAINT `virtualcolumn_virtualcol_user_id_9a9abc31_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:39,773][django.db.backends.schema]: ALTER TABLE `virtualcolumn_virtualcol_groups` ADD CONSTRAINT `virtualcolumn_virtualcol_virtualcol_id_group_id_7d20e1c9_uniq` UNIQUE (`virtualcol_id`, `group_id`); (params None)
+[DEBUG][2026-10-26 09:30:39,825][django.db.backends.schema]: ALTER TABLE `virtualcolumn_virtualcol_groups` ADD CONSTRAINT `virtualcolumn_virtua_virtualcol_id_123d9c72_fk_virtualco` FOREIGN KEY (`virtualcol_id`) REFERENCES `virtualcolumn_virtualcol` (`id`); (params None)
+[DEBUG][2026-10-26 09:30:39,899][django.db.backends.schema]: ALTER TABLE `virtualcolumn_virtualcol_groups` ADD CONSTRAINT `virtualcolumn_virtua_group_id_92c4c0f8_fk_auth_grou` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`); (params None)
+======== /usr/share/ocsinventory-backend/logs/ocs_management.log (www-data:www-data 600)
+[DEBUG][2026-10-26 09:30:22,083][mgmt.management.commands:handle:26]: Command arguments: {'verbosity': 1, 'settings': None, 'pythonpath': None, 'traceback': False, 'no_color': False, 'force_color': False, 'skip_checks': False, 'app_label': None, 'migration_name': None, 'interactive': True, 'database': 'default', 'fake': False, 'fake_initial': False, 'plan': False, 'run_syncdb': False, 'check_unapplied': False, 'prune': False, 'loglevel': None}
+[DEBUG][2026-10-26 09:30:22,083][mgmt.management.commands:handle:35]: Using log level from server
+[INFO][2026-10-26 09:30:22,083][mgmt.management.commands:handle:37]: Running standard migrations
+[INFO][2026-10-26 09:30:40,444][mgmt.management.commands:handle:40]: Creating default permissions
+[INFO][2026-10-26 09:30:40,514][mgmt.management.commands:handle:46]: Assigning permissions to groups
+[INFO][2026-10-26 09:30:40,534][mgmt.management.commands:assign_group_permissions:122]: Added 229 permissions to 'super-admin'
+[INFO][2026-10-26 09:30:40,545][mgmt.management.commands:assign_group_permissions:122]: Added 172 permissions to 'admin'
+[INFO][2026-10-26 09:30:40,566][mgmt.management.commands:assign_group_permissions:122]: Added 58 permissions to 'user'
+[INFO][2026-10-26 09:30:40,573][mgmt.management.commands:assign_group_permissions:122]: Added 6 permissions to 'AgentInventory'
+[INFO][2026-10-26 09:30:40,579][mgmt.management.commands:assign_group_permissions:122]: Added 4 permissions to 'AgentDeployment'
+[INFO][2026-10-26 09:30:40,579][mgmt.management.commands:handle:49]: Finished all migrations and permission setup
+======== /var/log/nginx/error.log (www-data:adm 640)
+2026/10/26 16:29:48 [notice] 3988#3988: using inherited sockets from "5;6;"
+-- isi folder logs backend:
+total 68
+drwxr-xr-x  2 www-data www-data  4096 Oct 26 16:30 .
+drwxr-xr-x 29 www-data www-data  4096 Oct 26 16:30 ..
+-rwxr-xr-x  1 www-data www-data     0 Oct  5 16:14 .gitkeep
+-rw-------  1 www-data www-data     0 Oct 26 16:30 ocs_auth.log
+-rw-------  1 www-data www-data   954 Oct 26 16:30 ocs_backend.log
+-rw-------  1 www-data www-data     0 Oct 26 16:30 ocs_collection.log
+-rw-------  1 www-data www-data 52520 Oct 26 16:30 ocs_django.log
+-rw-------  1 www-data www-data  1580 Oct 26 16:30 ocs_management.log
+
+##### PERMISSION #####
+total 188
+drwxr-xr-x  29 www-data www-data  4096 Oct 26 16:30 .
+drwxr-xr-x 155 root     root      4096 Oct 26 16:29 ..
+drwxr-xr-x   4 www-data www-data  4096 Oct 26 16:30 accountinfo
+drwxr-xr-x  12 www-data www-data  4096 Oct 26 16:30 asset
+drwxr-xr-x   7 www-data www-data  4096 Oct 26 16:29 auth
+drwxr-xr-x   6 www-data www-data  4096 Oct 26 16:29 automation
+drwxr-xr-x   4 www-data www-data  4096 Oct 26 16:30 compliance
+drwxr-xr-x   4 www-data www-data  4096 Oct 26 16:30 config
+-rw-r--r--   1 www-data www-data  1269 Oct  5 16:14 conftest.py
+drwxr-xr-x   4 www-data www-data  4096 Oct 26 16:29 dashboard
+drwxr-xr-x   4 www-data www-data  4096 Oct 26 16:30 debug
+www-data:www-data 640 /usr/share/ocsinventory-backend/.env
+
+##### DJANGO CHECK (sebagai www-data) #####
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/contrib/auth/models.py", line 5, in <module>
+    from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/contrib/auth/base_user.py", line 43, in <module>
+    class AbstractBaseUser(models.Model):
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/base.py", line 146, in __new__
+    new_class.add_to_class("_meta", Options(meta, app_label))
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/base.py", line 394, in add_to_class
+    value.contribute_to_class(cls, name)
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/options.py", line 245, in contribute_to_class
+    self.db_table, connection.ops.max_name_length()
+                   ^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/utils/connection.py", line 15, in __getattr__
+    return getattr(self._connections[self._alias], item)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/utils/connection.py", line 62, in __getitem__
+    conn = self.create_connection(alias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/utils.py", line 196, in create_connection
+    backend = load_backend(db["ENGINE"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/utils.py", line 116, in load_backend
+    return import_module("%s.base" % backend_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/backends/mysql/base.py", line 22, in <module>
+    from MySQLdb.constants import CLIENT, FIELD_TYPE
+ModuleNotFoundError: No module named 'MySQLdb.constants'
+
+##### TEST CLIENT: GET / dan /api-check/ (traceback) #####
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/apps/registry.py", line 116, in populate
+    app_config.import_models()
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/apps/config.py", line 269, in import_models
+    self.models_module = import_module(models_module_name)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/contrib/auth/models.py", line 5, in <module>
+    from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/contrib/auth/base_user.py", line 43, in <module>
+    class AbstractBaseUser(models.Model):
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/base.py", line 146, in __new__
+    new_class.add_to_class("_meta", Options(meta, app_label))
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/base.py", line 394, in add_to_class
+    value.contribute_to_class(cls, name)
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/models/options.py", line 245, in contribute_to_class
+    self.db_table, connection.ops.max_name_length()
+                   ^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/utils/connection.py", line 15, in __getattr__
+    return getattr(self._connections[self._alias], item)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/utils/connection.py", line 62, in __getitem__
+    conn = self.create_connection(alias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/utils.py", line 196, in create_connection
+    backend = load_backend(db["ENGINE"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/utils.py", line 116, in load_backend
+    return import_module("%s.base" % backend_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/ocsinventory-backend/venv/lib/python3.12/site-packages/django/db/backends/mysql/base.py", line 22, in <module>
+    from MySQLdb.constants import CLIENT, FIELD_TYPE
+ModuleNotFoundError: No module named 'MySQLdb.constants'
+
+##### VERSI PAKET PYTHON #####
+cryptography              50.0.2
+Django                    6.1.2
+django-cors-headers       4.9.0
+django-rest-knox          5.1.0
+djangorestframework       3.18.3
+drf-spectacular           0.30.0
+mysqlclient               2.3.0
+
+DIAGNOSA SELESAI
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 16:33:32 WIB
+=== STATUS : OK (exit 0)

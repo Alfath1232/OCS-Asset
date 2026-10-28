@@ -1,0 +1,60 @@
+=== TASK   : 0012-console-at-root.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 16:11:48 WIB
+-----------------------------------------------------------
+== Site aktif sebelum:
+total 0
+lrwxrwxrwx 1 root root 35 Oct 26 15:45 000-default.conf -> ../sites-available/000-default.conf
+== Tulis /etc/apache2/sites-available/ocsaeon.conf
+# OCS AEON — web console di root URL (dikelola repo itcnelita/ocsaeon, task 0012)
+<VirtualHost *:80>
+    ServerName ocsaeon
+    DocumentRoot /usr/share/ocsinventory-reports/ocsreports
+
+    # URL lama /ocsreports -> URL baru di root
+    RedirectMatch 301 ^/ocsreports(/(.*))?$ /$2
+
+    <Directory /usr/share/ocsinventory-reports/ocsreports>
+        Require all granted
+        Options FollowSymLinks
+        DirectoryIndex index.php
+        AllowOverride Options AuthConfig
+        <IfModule mod_php.c>
+            php_flag  file_uploads        on
+            php_value post_max_size       101M
+            php_value upload_max_filesize 100M
+        </IfModule>
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+== Ganti site default -> ocsaeon
+Enabling site ocsaeon.
+Site 000-default disabled.
+ocsinventory-server: Bad setting. `SNMP_LINK_TAG` is not set. Default: `0`
+ocsinventory-server: Can't load SOAP::Transport::HTTP* - Web service will be unavailable
+Syntax OK
+total 0
+lrwxrwxrwx 1 root root 31 Oct 26 16:11 ocsaeon.conf -> ../sites-available/ocsaeon.conf
+== Verifikasi
+/                          -> HTTP 200 (harap 200)
+/index.php                 -> HTTP 200 (harap 200)
+/themes/AEON/logo.png      -> HTTP 200 (harap 200)
+/favicon.ico               -> HTTP 200 (harap 200)
+/ocsreports/               -> HTTP 301 (harap 301)
+/ocsinventory              -> HTTP 400 (harap 400)
+Redirect /ocsreports/  -> http://localhost/
+Redirect /ocsreports/index.php -> http://localhost/index.php
+Root menampilkan console OCS tema AEON: OK
+== Batas upload PHP yang berlaku di console:
+upload_max_filesize / post_max_size = 100M / 101M
+== Error Apache terbaru:
+[Mon Oct 26 16:11:52.546605 2026] [mpm_prefork:notice] [pid 1066] AH00171: Graceful restart requested, doing restart
+ocsinventory-server: Bad setting. `SNMP_LINK_TAG` is not set. Default: `0`
+ocsinventory-server: Can't load SOAP::Transport::HTTP* - Web service will be unavailable
+[Mon Oct 26 16:11:52.772559 2026] [mpm_prefork:notice] [pid 1066] AH00163: Apache/2.4.58 (Ubuntu) mod_perl/2.0.13 Perl/v5.38.2 configured -- resuming normal operations
+[Mon Oct 26 16:11:52.772573 2026] [core:notice] [pid 1066] AH00094: Command line: '/usr/sbin/apache2'
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 16:11:54 WIB
+=== STATUS : OK (exit 0)

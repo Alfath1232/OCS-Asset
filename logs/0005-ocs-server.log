@@ -1,0 +1,135 @@
+=== TASK   : 0005-ocs-server.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 15:45:21 WIB
+-----------------------------------------------------------
+== Download 2.12.6
+ocs-2.12.6.tar.gz: OK
+== Jalankan setup.sh (non-interaktif, semua jawaban default)
+yes: standard output: Broken pipe
+|   Creating Communication server plugins configuration directory...   |
++----------------------------------------------------------------------+
+
+Creating Communication server plugins configuration directory /etc/ocsinventory-server/plugins.
+
+
++----------------------------------------------------------------------+
+| OK, Communication server plugins configuration directory created ;-) |
+|                                                                      |
+|        Creating Communication server plugins Perl directory...       |
++----------------------------------------------------------------------+
+
+Creating Communication server plugins Perl directory /etc/ocsinventory-server/perl.
+
+
++----------------------------------------------------------------------+
+|     OK, Communication server plugins Perl directory created ;-)      |
+|                                                                      |
+|               Now configuring Apache web server...                   |
++----------------------------------------------------------------------+
+
+To ensure Apache loads mod_perl before OCS Inventory NG Communication Server,
+Setup can name Communication Server Apache configuration file
+'z-ocsinventory-server.conf' instead of 'ocsinventory-server.conf'.
+Do you allow Setup renaming Communication Server Apache configuration file
+to 'z-ocsinventory-server.conf' ([y]/n) ?OK, using 'z-ocsinventory-server.conf' as Communication Server Apache configuration file
+Removing old communication server configuration to file /ocsinventory.conf
+Writing communication server configuration to file /z-ocsinventory-server.conf
+
++----------------------------------------------------------------------+
+|       OK, Communication server setup successfully finished ;-)       |
+|                                                                      |
+| Please, review /z-ocsinventory-server.conf |
+|         to ensure all is good. Then restart Apache daemon.           |
++----------------------------------------------------------------------+
+
+
+Do you wish to setup Administration Server (Web Administration Console)
+on this computer ([y]/n)?
++----------------------------------------------------------+
+|    Checking for Administration Server directories...     |
++----------------------------------------------------------+
+
+CAUTION: Setup now install files in accordance with Filesystem Hierarchy
+Standard. So, no file is installed under Apache root document directory
+(Refer to Apache configuration files to locate it).
+If you're upgrading from OCS Inventory NG Server 1.01 and previous, YOU
+MUST REMOVE (or move) directories 'ocsreports' and 'download' from Apache
+root document directory.
+If you choose to move directory, YOU MUST MOVE 'download' directory to
+Administration Server writable/cache directory (by default
+/var/lib/ocsinventory-reports), especially if you use deployment feature.
+
+Do you wish to continue ([y]/n)?Assuming directories 'ocsreports' and 'download' removed from
+Apache root document directory.
+
+Where to copy Administration Server static files for PHP Web Console
+[/usr/share/ocsinventory-reports] ?OK, using directory /usr/share/ocsinventory-reports to install static files ;-)
+
+Where to create writable/cache directories for deployment packages,
+administration console logs, IPDiscover and SNMP [/var/lib/ocsinventory-reports] ?OK, writable/cache directory is /var/lib/ocsinventory-reports ;-)
+
+
++----------------------------------------------------------+
+|         Checking for required Perl Modules...            |
++----------------------------------------------------------+
+
+Checking for DBI PERL module...
+Found that PERL module DBI is available.
+Checking for DBD::mysql PERL module...
+Found that PERL module DBD::mysql is available.
+Checking for XML::Simple PERL module...
+Found that PERL module XML::Simple is available.
+Checking for Net::IP PERL module...
+Found that PERL module Net::IP is available.
+
++----------------------------------------------------------+
+|      Installing files for Administration server...       |
++----------------------------------------------------------+
+
+Creating PHP directory /usr/share/ocsinventory-reports/ocsreports.
+Copying PHP files to /usr/share/ocsinventory-reports/ocsreports.
+Fixing permissions on directory /usr/share/ocsinventory-reports/ocsreports.
+Creating database configuration file /usr/share/ocsinventory-reports/ocsreports/dbconfig.inc.php.
+Creating IPDiscover directory /var/lib/ocsinventory-reports/ipd.
+Fixing permissions on directory /var/lib/ocsinventory-reports/ipd.
+Creating packages directory /var/lib/ocsinventory-reports/download.
+Fixing permissions on directory /var/lib/ocsinventory-reports/download.
+Creating snmp mibs directory /var/lib/ocsinventory-reports/snmp.
+Fixing permissions on directory /var/lib/ocsinventory-reports/snmp.
+Creating Administration server log files directory /var/lib/ocsinventory-reports/logs.
+Fixing permissions on directory /var/lib/ocsinventory-reports/logs.
+Creating Administration server temporary files directory /var/lib/ocsinventory-reports/tmp_dir.
+Fixing permissions on directory /var/lib/ocsinventory-reports/tmp_dir.
+Creating Administration server scripts log files directory /var/lib/ocsinventory-reports/scripts.
+Fixing permissions on directory /var/lib/ocsinventory-reports/scripts.
+Configuring IPDISCOVER-UTIL Perl script.
+Installing IPDISCOVER-UTIL Perl script.
+Fixing permissions on IPDISCOVER-UTIL Perl script.
+Writing Administration server configuration to file /ocsinventory-reports.conf
+
++----------------------------------------------------------------------+
+|        OK, Administration server installation finished ;-)           |
+|                                                                      |
+| Please, review /ocsinventory-reports.conf
+|          to ensure all is good and restart Apache daemon.            |
+|                                                                      |
+| Then, point your browser to http://server//ocsreports
+|        to configure database server and create/update schema.        |
++----------------------------------------------------------------------+
+
+
+Setup has created a log file /root/ocs-install/OCSNG_UNIX_SERVER-2.12.6/ocs_server_setup.log. Please, save this file.
+If you encounter error while running OCS Inventory NG Management server,
+we can ask you to show us its content !
+
+DON'T FORGET TO RESTART APACHE DAEMON !
+
+Enjoy OCS Inventory NG ;-)
+
+== File config yang dibuat setup.sh:
+ls: cannot access '/etc/apache2/conf-available/z-ocsinventory-server.conf': No such file or directory
+ls: cannot access '/etc/apache2/conf-available/zz-ocsinventory-restapi.conf': No such file or directory
+ls: cannot access '/etc/apache2/conf-available/ocsinventory-reports.conf': No such file or directory
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 15:45:27 WIB
+=== STATUS : GAGAL (exit 2)

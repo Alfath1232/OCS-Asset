@@ -1,0 +1,40 @@
+=== TASK   : 0030-agent-via-domain.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-27 17:26:38 WIB
+-----------------------------------------------------------
+
+##### 1) ALUR AGENT LEWAT DOMAIN PUBLIK #####
+-- User-Agent: 'Dart/3.5 (dart:io)'
+   GET /api-check/                -> 200 {"message":"API is online!"}
+   POST /api-auth/token         -> token OK
+   GET /myaccount/                -> 200
+   GET /asset/configs/            -> 200
+-- User-Agent: '(kosong)'
+   GET /api-check/                -> 200 {"message":"API is online!"}
+   POST /api-auth/token         -> token OK
+   GET /myaccount/                -> 200
+   GET /asset/configs/            -> 200
+-- installer exe lewat domain: 200 28325665B
+
+##### 2) GENERATE .BAT (LAN & INTERNET) #####
+Install-OCS-Agent-AEON.bat: OK
+     set "OCS_URL=http://192.168.100.122:8081"
+     set "VARIAN=LAN kantor"
+     set "OCS_USER=ocs-agent"
+     set "OCS_PASS=********"
+     set "SETUP_NAME=OCSInventory-Agent-Setup-Windows-3.0.0.exe"
+     set "SETUP_URL=http://192.168.100.122/aeon/agent/%SETUP_NAME%"
+Install-OCS-Agent-AEON-Internet.bat: OK
+     set "OCS_URL=https://ocsaeon.itcnelita.com/api"
+     set "VARIAN=Internet"
+     set "OCS_USER=ocs-agent"
+     set "OCS_PASS=********"
+     set "SETUP_NAME=OCSInventory-Agent-Setup-Windows-3.0.0.exe"
+     set "SETUP_URL=https://ocsaeon.itcnelita.com/aeon/agent/%SETUP_NAME%"
+
+##### 3) AKSES FILE .BAT #####
+Install-OCS-Agent-AEON.bat             LAN=200 (harap 200)  publik=403 (harap 403)
+Install-OCS-Agent-AEON-Internet.bat    LAN=200 (harap 200)  publik=403 (harap 403)
+-----------------------------------------------------------
+=== SELESAI: 2026-10-27 17:26:56 WIB
+=== STATUS : OK (exit 0)

@@ -1,0 +1,39 @@
+=== TASK   : 0013-remove-ocsreports-path.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 16:13:58 WIB
+-----------------------------------------------------------
+== Backup config
+'/etc/apache2/conf-available/ocsinventory-reports.conf' -> '/root/ocs-install/ocsinventory-reports.conf.bak-0013'
+'/etc/apache2/sites-available/ocsaeon.conf' -> '/root/ocs-install/ocsaeon.conf.bak-0013'
+== Baris Alias sebelum:
+20:# Alias used to put Administration Server static page (typically PHP) outside
+23:Alias /ocsreports /usr/share/ocsinventory-reports/ocsreports
+90:# Alias to put Deployment package files outside Apache document root directory
+102:Alias /download /var/lib/ocsinventory-reports/download
+108:# Alias to put Snmp custom Mibs files outside Apache document root directory
+120:Alias /snmp /var/lib/ocsinventory-reports/snmp
+== Nonaktifkan Alias /ocsreports
+20:# Alias used to put Administration Server static page (typically PHP) outside
+23:# [ocsaeon 0013] Alias /ocsreports /usr/share/ocsinventory-reports/ocsreports
+90:# Alias to put Deployment package files outside Apache document root directory
+102:Alias /download /var/lib/ocsinventory-reports/download
+108:# Alias to put Snmp custom Mibs files outside Apache document root directory
+120:Alias /snmp /var/lib/ocsinventory-reports/snmp
+== Hapus redirect /ocsreports dari site
+4:    DocumentRoot /usr/share/ocsinventory-reports/ocsreports
+7:    <Directory /usr/share/ocsinventory-reports/ocsreports>
+ocsinventory-server: Bad setting. `SNMP_LINK_TAG` is not set. Default: `0`
+ocsinventory-server: Can't load SOAP::Transport::HTTP* - Web service will be unavailable
+Syntax OK
+== Verifikasi
+/                            -> HTTP 200 (harap 200)
+/themes/AEON/style.css       -> HTTP 200 (harap 200)
+/ocsreports                  -> HTTP 404 (harap 404)
+/ocsreports/                 -> HTTP 404 (harap 404)
+/ocsreports/index.php        -> HTTP 404 (harap 404)
+/ocsinventory                -> HTTP 400 (harap 400)
+/download/                   -> HTTP 403 (harap bukan 5xx)
+Root = console OCS tema AEON: OK
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 16:14:04 WIB
+=== STATUS : OK (exit 0)

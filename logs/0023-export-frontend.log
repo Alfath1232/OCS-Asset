@@ -1,0 +1,15 @@
+=== TASK   : 0023-export-frontend.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-26 17:51:18 WIB
+-----------------------------------------------------------
+4.0M	/opt/ocsaeon/logs/ocs3-frontend
+jumlah file: 51
+-- gambar:
+29987	assets/illu_communaute-wIbJYpXT.png
+622541	assets/logo-white-ByPbYGo2.png
+370070	favicon.ico
+-- css:
+761879	assets/index-BmuZM_Nd.css
+-----------------------------------------------------------
+=== SELESAI: 2026-10-26 17:51:21 WIB
+=== STATUS : OK (exit 0)

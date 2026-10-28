@@ -1,0 +1,20 @@
+=== TASK   : 0031-bat-download-via-domain.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-27 17:30:58 WIB
+-----------------------------------------------------------
+== Kredensial download
+user download: aeon-it (password di /root/ocsaeon-secrets/download.env)
+== nginx: /aeon/private/ = LAN/Tailscale bebas, selain itu wajib password
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+== Verifikasi
+domain tanpa password                        -> 401 (harap 401)
+domain password salah                        -> 401 (harap 401)
+domain password benar                        -> 200 (harap 200)
+domain tanpa password (setelah unduh)        -> 401 (harap 401, bukan dari cache)
+LAN tanpa password                           -> 200 (harap 200)
+-- header Cloudflare: cache-control: private, no-store, max-age=0 content-disposition: attachment cf-cache-status: DYNAMIC 
+isi file lewat domain utuh: OK
+-----------------------------------------------------------
+=== SELESAI: 2026-10-27 17:31:09 WIB
+=== STATUS : OK (exit 0)

@@ -1,0 +1,20 @@
+=== TASK   : 0028-agent-account-fix.sh
+=== HOST   : ocsaeon
+=== MULAI  : 2026-10-27 07:47:28 WIB
+-----------------------------------------------------------
+
+##### BUAT / PERBARUI AKUN AGENT #####
+
+dibuat | user: ocs-agent | grup: ['AgentInventory'] | superuser: False
+
+##### UJI IZIN #####
+login token agent: OK
+GET /myaccount/            -> 200
+GET /permission/           -> 404 (harap 403)
+GET /group/                -> 404 (harap 403)
+GET /template/             -> 404
+-- izin efektif akun agent:
+   ocs-agent ['config_view_config', 'inventory_base_add_inventorybase', 'inventory_base_change_inventorybase', 'inventory_base_view_inventorybase', 'log_add_log', 'template_view_template']
+-----------------------------------------------------------
+=== SELESAI: 2026-10-27 07:47:34 WIB
+=== STATUS : OK (exit 0)
