@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Label aset — AEON IT</title>
+<link rel="icon" href="/aeon/favicon.ico">
+<link rel="stylesheet" href="../shared/aeon-app.css?v=__VER__">
+<style>
+  .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 16px; }
+  .toolbar .grow { flex: 1 1 220px; }
+  .toolbar .input, .toolbar .select { width: 100%; }
+  .count { color: var(--muted); font-size: .9rem; margin: 0 0 10px; }
+
+  .tablebox { background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: auto; max-height: 52vh; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { position: sticky; top: 0; background: var(--tint); color: var(--plum); font-weight: 600; font-size: .8125rem; z-index: 1; }
+  tbody tr:hover { background: var(--tint); }
+  tbody tr.sel { background: #FCEFF7; }
+  td.id { font-weight: 700; font-variant-numeric: tabular-nums; }
+  td.empty { color: var(--muted); font-style: italic; }
+  input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--magenta); }
+
+  .preview-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 28px 0 10px; }
+  .preview-head h2 { font-size: 1.1rem; margin: 0; }
+  .preview { background: #EDE6EB; border-radius: 12px; padding: 18px; overflow: auto; }
+  .preview .sheet { background: #fff; box-shadow: 0 6px 20px rgba(42,36,48,.12); margin: 0 auto 18px; }
+  .preview .roll { display: flex; flex-wrap: wrap; gap: 10px; }
+  .preview .roll .label { background: #fff; box-shadow: 0 2px 8px rgba(42,36,48,.12); }
+
+  /* ---------- label (ukuran fisik dalam mm) ---------- */
+  .label { position: relative; overflow: hidden; color: #000; font-family: var(--font); display: flex; }
+  .label .qr svg { display: block; width: 100%; height: 100%; }
+  .label .txt { display: flex; flex-direction: column; justify-content: center; min-width: 0; flex: 1; }
+  .label .logo { display: block; }
+  .label .aid { font-weight: 800; letter-spacing: 0; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .label .host, .label .sn { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .label .bc svg { display: block; width: 100%; height: 100%; }
+
+  /* 50 x 25 mm (printer label) */
+  .f-roll .label { width: 50mm; height: 25mm; padding: 2mm 1.8mm 2mm 2mm; gap: 1.6mm; align-items: center; }
+  .f-roll .label .qr { width: 19.5mm; height: 19.5mm; flex: none; }
+  .f-roll .label .logo { height: 3.6mm; margin-bottom: 1.2mm; }
+  .f-roll .label .aid { font-size: 7.3pt; }
+  .f-roll .label .host { font-size: 6.6pt; margin-top: .6mm; }
+  .f-roll .label .sn { font-size: 6pt; }
+  .f-roll .label.code128 { flex-direction: column; align-items: stretch; gap: .4mm; padding: 1.6mm 2.2mm; }
+  .f-roll .label.code128 .top { display: flex; justify-content: space-between; align-items: center; }
+  .f-roll .label.code128 .bc { height: 9.5mm; }
+  .f-roll .label.code128 .aid { text-align: center; font-size: 8pt; }
+
+  /* A4 3 x 8 (70 x 37.125 mm) */
+  .f-a4 .sheet { width: 210mm; height: 297mm; display: grid; grid-template-columns: repeat(3, 70mm); grid-auto-rows: 37.125mm; }
+  .f-a4 .label { width: 70mm; height: 37.125mm; padding: 3mm 3.5mm; gap: 3mm; align-items: center; border: .2mm dashed transparent; }
+  .preview .f-a4 .label { border-color: #E3D6DF; }
+  .f-a4 .label .qr { width: 26mm; height: 26mm; flex: none; }
+  .f-a4 .label .logo { height: 4.6mm; margin-bottom: 2mm; }
+  .f-a4 .label .aid { font-size: 9.4pt; }
+  .f-a4 .label .host { font-size: 8.5pt; margin-top: 1mm; }
+  .f-a4 .label .sn { font-size: 7.5pt; }
+  .f-a4 .label.code128 { flex-direction: column; align-items: stretch; gap: 1mm; padding: 3mm 4mm; }
+  .f-a4 .label.code128 .top { display: flex; justify-content: space-between; align-items: center; }
+  .f-a4 .label.code128 .bc { height: 13mm; }
+  .f-a4 .label.code128 .aid { text-align: center; }
+
+  #print-area { display: none; }
+  @media print {
+    body { background: #fff; }
+    .app-header, .wrap, #login { display: none !important; }
+    #print-area { display: block; }
+    .f-a4 .sheet { break-after: page; box-shadow: none; margin: 0; }
+    .f-roll .label { break-after: page; box-shadow: none; }
+    .label { border-color: transparent !important; }
+  }
+</style>
+<style id="page-size">@page { size: A4; margin: 0; }</style>
+</head>
+<body>
+<header class="app-header">
+  <img src="../shared/aeon-logo.svg" alt="AEON">
+  <span class="app-name">Label aset</span>
+  <span class="spacer"></span>
+  <span class="who" id="who"></span>
+  <a href="../stocktake/">Stocktake</a>
+  <a href="/" >Console</a>
+  <a href="#" id="logout">Keluar</a>
+</header>
+
+<section class="login" id="login" hidden>
+  <img src="../shared/aeon-logo.svg" alt="AEON">
+  <h1>Masuk</h1>
+  <p class="lead">Gunakan akun OCS yang sama dengan console.</p>
+  <form id="login-form" autocomplete="on">
+    <label class="field">Username<input class="input" name="username" autocomplete="username" required></label>
+    <label class="field">Password<input class="input" name="password" type="password" autocomplete="current-password" required></label>
+    <div class="msg err" id="login-msg" hidden></div>
+    <button class="btn primary" type="submit">Masuk</button>
+  </form>
+</section>
+
+<main class="wrap" id="app" hidden>
+  <h1>Cetak label aset</h1>
+  <p class="lead">Pilih aset, atur format kertas, lalu cetak. Label memuat Asset ID dalam bentuk kode yang bisa dipindai saat stocktake.</p>
+
+  <div class="toolbar">
+    <label class="field grow">Cari
+      <input class="input" id="q" placeholder="Asset ID, hostname, serial, PIC">
+    </label>
+    <label class="field">Lokasi
+      <select class="select" id="f-lokasi"><option value="">Semua lokasi</option></select>
+    </label>
+    <label class="field">Kertas
+      <select class="select" id="f-format">
+        <option value="a4">A4 stiker 3 × 8 (70 × 37 mm)</option>
+        <option value="roll">Printer label 50 × 25 mm</option>
+      </select>
+    </label>
+    <label class="field">Kode
+      <select class="select" id="f-code">
+        <option value="qr">QR code</option>
+        <option value="code128">Barcode Code128</option>
+      </select>
+    </label>
+  </div>
+
+  <p class="count" id="count">Memuat aset…</p>
+  <div class="msg err" id="err" hidden></div>
+  <div class="tablebox">
+    <table>
+      <thead><tr>
+        <th><input type="checkbox" id="all" aria-label="Pilih semua yang tampil"></th>
+        <th>Asset ID</th><th>Hostname</th><th>Serial</th><th>Lokasi</th><th>Area</th><th>PIC</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <div class="preview-head">
+    <h2>Pratinjau cetak</h2>
+    <button class="btn primary" id="print" disabled>Cetak 0 label</button>
+  </div>
+  <div class="preview" id="preview"><p class="count" style="margin:0">Belum ada aset yang dipilih.</p></div>
+</main>
+
+<div id="print-area"></div>
+
+<script src="../vendor/qrcode.js?v=__VER__"></script>
+<script src="../vendor/JsBarcode.all.min.js?v=__VER__"></script>
+<script src="../shared/ocs.js?v=__VER__"></script>
+<script src="labels.js?v=__VER__"></script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+/* ==========================================================================
+   AEON — tema OCS Inventory 3 (frontend Vue + Tabler/Bootstrap 5)
+   Repo: itcnelita/ocsaeon  ·  branding/aeon-ocs3
+   Dimuat SETELAH CSS bawaan.
+
+   Arah desain
+   - Aplikasi tenang: kanvas putih, logo AEON magenta, aksen magenta hanya untuk
+     status aktif & aksi utama.
+   - Satu momen berani: panel login magenta dengan motif orbit dari swoosh logo.
+   - Font: Plus Jakarta Sans (Tokotype, OFL) — di-host sendiri di /aeon/fonts.
+
+   Token
+     --aeon-magenta   #BC1A8D   aksi utama, status aktif
+     --aeon-deep      #8C1268   hover/pressed, ujung gradasi
+     --aeon-plum      #5E0F47   judul & teks penekanan
+     --aeon-blush     #F7E9F2   area lembut (header halaman, hover)
+     --aeon-ink       #2A2430   teks utama
+     --aeon-line      #ECE3EA   garis & border
+   ========================================================================== */
+
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("/aeon/fonts/PlusJakartaSans-var.woff2") format("woff2");
+    font-weight: 200 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --aeon-magenta: #BC1A8D;
+    --aeon-deep: #8C1268;
+    --aeon-plum: #5E0F47;
+    --aeon-blush: #F7E9F2;
+    --aeon-tint: #FBF4F8;
+    --aeon-ink: #2A2430;
+    --aeon-muted: #6E6470;
+    --aeon-line: #ECE3EA;
+    --aeon-field: #E2D6DF;
+    --aeon-font: "Plus Jakarta Sans", "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+
+/* ---------- Variabel Tabler / Bootstrap ---------- */
+:root,
+html[data-bs-theme],
+[data-bs-theme=light],
+[data-bs-theme=dark] {
+    --tblr-primary: #BC1A8D;
+    --tblr-primary-rgb: 188, 26, 141;
+    --tblr-primary-darken: #8C1268;
+    --tblr-primary-fg: #ffffff;
+    --tblr-primary-lt: #FBF4F8;
+    --tblr-primary-lt-rgb: 251, 244, 248;
+    --tblr-primary-text-emphasis: #5E0F47;
+    --tblr-primary-bg-subtle: #F7E9F2;
+    --tblr-primary-border-subtle: #E9C7DF;
+    --tblr-link-color: #BC1A8D;
+    --tblr-link-color-rgb: 188, 26, 141;
+    --tblr-link-hover-color: #8C1268;
+    --tblr-link-hover-color-rgb: 140, 18, 104;
+    --tblr-focus-ring-color: rgba(188, 26, 141, .22);
+    --tblr-font-sans-serif: var(--aeon-font);
+    --tblr-body-font-family: var(--aeon-font);
+    --bs-primary: #BC1A8D;
+    --bs-primary-rgb: 188, 26, 141;
+    --bs-link-color: #BC1A8D;
+    --bs-link-color-rgb: 188, 26, 141;
+    --bs-link-hover-color: #8C1268;
+    --bs-link-hover-color-rgb: 140, 18, 104;
+    --bs-focus-ring-color: rgba(188, 26, 141, .22);
+    --bs-body-font-family: var(--aeon-font);
+}
+
+html, body {
+    font-family: var(--aeon-font);
+    color: var(--aeon-ink);
+    -webkit-font-smoothing: antialiased;
+}
+body { background-color: #FBF8FA; }
+h1, h2, h3, h4, .page-title, .card-title { letter-spacing: -.01em; }
+
+:focus-visible { outline: 2px solid var(--aeon-magenta); outline-offset: 2px; }
+
+/* ==========================================================================
+   HEADER APLIKASI — putih, logo magenta, garis magenta tipis di atas
+   ========================================================================== */
+.navbar-overlap {
+    --tblr-navbar-color: #3B3340;
+    --tblr-navbar-hover-color: #BC1A8D;
+    --tblr-navbar-active-color: #BC1A8D;
+    --tblr-navbar-brand-color: #5E0F47;
+    --tblr-navbar-brand-hover-color: #5E0F47;
+    --tblr-navbar-disabled-color: #A79CA6;
+    background: #ffffff !important;
+    border-top: 3px solid var(--aeon-magenta) !important;
+    border-bottom: 1px solid var(--aeon-line) !important;
+    box-shadow: none !important;
+    color-scheme: light;
+}
+/* pita di bawah header (tempat judul halaman) */
+.navbar-overlap::after {
+    background: linear-gradient(180deg, #FFFFFF 0%, var(--aeon-blush) 100%) !important;
+    box-shadow: none !important;
+}
+.navbar-brand-image.logo-size {
+    width: auto !important;
+    height: 34px !important;
+    max-width: none;
+    filter: none !important;
+}
+
+.navbar-overlap .nav-link,
+.navbar-overlap .nav-link-title,
+.navbar-overlap .nav-link-icon,
+.navbar-overlap .dropdown-toggle,
+.navbar-overlap .fa-gear {
+    color: #3B3340 !important;
+    font-weight: 500;
+}
+.navbar-overlap .nav-link { border-radius: 8px; transition: background-color .15s, color .15s; }
+.navbar-overlap .nav-link:hover,
+.navbar-overlap .nav-link:hover .nav-link-title,
+.navbar-overlap .nav-link:hover .nav-link-icon {
+    color: var(--aeon-magenta) !important;
+    background-color: var(--aeon-tint);
+}
+.navbar-overlap .router-link-active,
+.navbar-overlap .router-link-active .nav-link-title,
+.navbar-overlap .nav-link.active,
+.navbar-overlap .nav-link.active .nav-link-title {
+    color: var(--aeon-magenta) !important;
+    font-weight: 600;
+    text-decoration-color: var(--aeon-magenta) !important;
+    text-decoration-thickness: 2px !important;
+    text-underline-offset: 8px !important;
+}
+
+/* pemilih bahasa & tombol di kanan header */
+.navbar-overlap .form-select,
+.navbar-overlap select {
+    background-color: #ffffff !important;
+    color: var(--aeon-ink) !important;
+    border: 1px solid var(--aeon-field) !important;
+    border-radius: 8px !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23BC1A8D' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M4 6l4 4 4-4'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right .7rem center !important;
+    background-size: 14px !important;
+}
+.navbar-overlap .form-select option { color: var(--aeon-ink); background: #fff; }
+.navbar-overlap .btn-yellow {
+    background-color: #ffffff !important;
+    border: 1px solid var(--aeon-field) !important;
+    color: #D99A00 !important;
+    box-shadow: none !important;
+}
+.navbar-overlap .btn-yellow:hover { background-color: var(--aeon-tint) !important; border-color: #E9C7DF !important; }
+.navbar-overlap .navbar-toggler { border-color: var(--aeon-field); }
+.navbar-overlap .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='%235E0F47' stroke-linecap='round' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+/* judul halaman di pita */
+.page-header.text-white,
+.page-header.text-white .page-title,
+.navbar-overlap ~ .page-wrapper .page-title { color: var(--aeon-ink) !important; }
+.page-title { font-weight: 700; font-size: 1.5rem; }
+.page-header .breadcrumb,
+.page-header .breadcrumb-item,
+.page-header .breadcrumb-item a,
+.page-header .breadcrumb-item span {
+    color: #9A2F7C !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-size: .8125rem;
+    font-weight: 600;
+}
+.page-header .breadcrumb-item + .breadcrumb-item::before { color: #C9A6BD !important; }
+
+/* ==========================================================================
+   DROPDOWN & MEGA-MENU
+   ========================================================================== */
+.dropdown-menu,
+.navbar-overlap .dropdown-menu {
+    --tblr-dropdown-bg: #ffffff;
+    --tblr-dropdown-color: var(--aeon-ink);
+    --tblr-dropdown-link-color: var(--aeon-ink);
+    --tblr-dropdown-link-hover-color: var(--aeon-magenta);
+    --tblr-dropdown-link-hover-bg: var(--aeon-tint);
+    --tblr-dropdown-link-active-bg: var(--aeon-magenta);
+    background-color: #ffffff !important;
+    color: var(--aeon-ink) !important;
+    border: 1px solid var(--aeon-line) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 18px 44px rgba(42, 36, 48, .12) !important;
+    padding: 10px;
+}
+.navbar-overlap .dropdown-menu a,
+.navbar-overlap .dropdown-menu .dropdown-item,
+.navbar-overlap .dropdown-menu .nav-link {
+    color: var(--aeon-ink) !important;
+    border-radius: 8px;
+    font-weight: 500;
+}
+.dropdown-item:hover, .dropdown-item:focus,
+.navbar-overlap .dropdown-menu a:hover {
+    color: var(--aeon-magenta) !important;
+    background-color: var(--aeon-tint) !important;
+}
+.dropdown-item.active, .dropdown-item:active { color: #fff !important; background-color: var(--aeon-magenta) !important; }
+/* judul seksi mega-menu (General / Networks / Tools) */
+.navbar-overlap .dropdown-menu h1, .navbar-overlap .dropdown-menu h2, .navbar-overlap .dropdown-menu h3,
+.navbar-overlap .dropdown-menu h4, .navbar-overlap .dropdown-menu h5, .navbar-overlap .dropdown-menu h6,
+.navbar-overlap .dropdown-menu .dropdown-header,
+.navbar-overlap .dropdown-menu strong,
+.navbar-overlap .dropdown-menu b {
+    color: var(--aeon-plum) !important;
+    text-transform: none !important;
+    text-decoration: none !important;
+    letter-spacing: 0 !important;
+    font-size: .875rem;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   KONTEN: kartu, tabel, form, tombol
+   ========================================================================== */
+.card {
+    border: 1px solid var(--aeon-line);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(94, 15, 71, .04);
+}
+.card-header { border-bottom-color: var(--aeon-line); }
+.card-title { color: var(--aeon-ink); font-weight: 700; }
+
+.table thead th,
+.table > thead > tr > th {
+    background-color: var(--aeon-tint) !important;
+    color: var(--aeon-plum) !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-size: .8125rem !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid var(--aeon-line) !important;
+}
+.table-hover > tbody > tr:hover > * { --tblr-table-accent-bg: var(--aeon-tint); --bs-table-accent-bg: var(--aeon-tint); }
+
+.form-control, .form-select {
+    border-color: var(--aeon-field);
+    border-radius: 8px;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--aeon-magenta);
+    box-shadow: 0 0 0 3px rgba(188, 26, 141, .14);
+}
+.form-check-input:checked { background-color: var(--aeon-magenta); border-color: var(--aeon-magenta); }
+
+.btn { border-radius: 8px; font-weight: 600; }
+.btn-primary {
+    --tblr-btn-bg: #BC1A8D; --tblr-btn-border-color: #BC1A8D;
+    --tblr-btn-hover-bg: #8C1268; --tblr-btn-hover-border-color: #8C1268;
+    --tblr-btn-active-bg: #8C1268; --tblr-btn-active-border-color: #8C1268;
+    --tblr-btn-color: #fff; --tblr-btn-hover-color: #fff; --tblr-btn-active-color: #fff;
+    --bs-btn-bg: #BC1A8D; --bs-btn-border-color: #BC1A8D;
+    --bs-btn-hover-bg: #8C1268; --bs-btn-hover-border-color: #8C1268;
+}
+.btn-outline-primary {
+    --tblr-btn-color: #BC1A8D; --tblr-btn-border-color: #BC1A8D;
+    --tblr-btn-hover-bg: #BC1A8D; --tblr-btn-hover-border-color: #BC1A8D;
+    --bs-btn-color: #BC1A8D; --bs-btn-border-color: #BC1A8D;
+    --bs-btn-hover-bg: #BC1A8D; --bs-btn-hover-border-color: #BC1A8D;
+}
+.nav-tabs .nav-link.active { color: var(--aeon-magenta); border-bottom-color: var(--aeon-magenta); }
+.nav-pills .nav-link.active { background-color: var(--aeon-magenta); }
+.page-item.active .page-link { background-color: var(--aeon-magenta); border-color: var(--aeon-magenta); }
+.page-link { color: var(--aeon-magenta); }
+.bg-primary, .badge.bg-primary { background-color: var(--aeon-magenta) !important; }
+.text-primary { color: var(--aeon-magenta) !important; }
+.progress-bar { background-color: var(--aeon-magenta); }
+
+.alert-info {
+    background-color: var(--aeon-tint) !important;
+    border: 1px solid #EBD3E2 !important;
+    color: var(--aeon-plum) !important;
+}
+.alert-info .alert-title, .alert-info .alert-description, .alert-info div { color: var(--aeon-plum) !important; }
+.alert-info .alert-icon, .alert-info svg { color: var(--aeon-magenta) !important; }
+
+/* ==========================================================================
+   LOGIN — layar terbelah: panel AEON (kiri) + form (kanan)
+   ========================================================================== */
+body:has(.auth-page) { background: #ffffff; }
+.auth-page {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-y: auto;
+}
+.auth-page > .row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    min-height: 100vh;
+    margin: 0 !important;
+    text-align: left !important;
+}
+.auth-page > .row > .col-2 { display: none !important; }
+.auth-page > .row > [class*=col-] {
+    width: auto !important;
+    max-width: none !important;
+    flex: none !important;
+    padding: 0;
+}
+
+/* panel AEON */
+.auth-page > .row > .col-4:not(.form-login) {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 9vh 7vw;
+    background: radial-gradient(120% 95% at 12% 8%, #D22FA0 0%, #BC1A8D 42%, #8C1268 100%);
+    color: #ffffff;
+}
+/* motif orbit, diambil dari swoosh logo AEON */
+.auth-page > .row > .col-4:not(.form-login)::before {
+    content: "";
+    position: absolute;
+    width: 1100px;
+    height: 1100px;
+    right: -420px;
+    bottom: -460px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'%3E%3Cg fill='none' stroke='%23ffffff' transform='rotate(-14 500 500)'%3E%3Cellipse cx='500' cy='500' rx='480' ry='150' stroke-width='2' opacity='.30'/%3E%3Cellipse cx='500' cy='500' rx='390' ry='122' stroke-width='1.6' opacity='.22'/%3E%3Cellipse cx='500' cy='500' rx='300' ry='94' stroke-width='1.3' opacity='.16'/%3E%3Cellipse cx='500' cy='500' rx='210' ry='66' stroke-width='1' opacity='.12'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+    pointer-events: none;
+}
+.auth-page .logo {
+    position: relative;
+    text-align: left !important;
+    max-width: 440px;
+}
+.auth-page .logo img,
+.auth-page img.ocs-logo {
+    display: block;
+    width: min(340px, 78%);
+    height: auto;
+}
+.auth-page .logo::after {
+    content: "Inventaris aset IT untuk seluruh toko dan kantor AEON.";
+    display: block;
+    margin-top: 30px;
+    max-width: 26ch;
+    font-size: 1.25rem;
+    line-height: 1.45;
+    font-weight: 500;
+    color: rgba(255, 255, 255, .9);
+}
+
+/* panel form */
+.auth-page .form-login {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 9vh 7vw !important;
+    background: #ffffff;
+}
+.auth-page .form-login > * { width: 100%; max-width: 380px; }
+.auth-page .form-login::before {
+    content: "Masuk";
+    width: 100%;
+    max-width: 380px;
+    font-size: 2rem;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--aeon-ink);
+}
+.auth-page .form-login form { margin-top: 0 !important; }
+.auth-page .form-login form::before {
+    content: "Gunakan akun OCS Anda untuk melanjutkan.";
+    display: block;
+    margin: 8px 0 28px;
+    color: var(--aeon-muted);
+    font-size: .95rem;
+}
+/* pemilih bahasa dipindah ke pojok kanan atas panel form */
+.auth-page .form-login .locale-changer {
+    position: absolute;
+    top: 28px;
+    right: 32px;
+    width: 150px;
+    margin: 0 !important;
+}
+.auth-page .form-login .locale-changer .form-select { height: 38px; font-size: .875rem; }
+.auth-page .form-login .form-group { margin-bottom: 14px; }
+.auth-page .form-control,
+.auth-page .form-select {
+    height: 48px;
+    border-radius: 10px;
+    border: 1px solid var(--aeon-field);
+    background-color: #FCFAFB;
+    font-size: .975rem;
+    padding-left: 14px;
+}
+.auth-page .form-control:focus {
+    background-color: #ffffff;
+    border-color: var(--aeon-magenta);
+    box-shadow: 0 0 0 4px rgba(188, 26, 141, .12);
+}
+.auth-page .btn,
+.auth-page .auth-btn,
+.auth-page button[type=submit] {
+    width: 100%;
+    height: 48px;
+    margin-top: 8px;
+    border-radius: 10px;
+    background-color: var(--aeon-magenta) !important;
+    border-color: var(--aeon-magenta) !important;
+    color: #fff !important;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.auth-page .btn:hover,
+.auth-page .auth-btn:hover,
+.auth-page button[type=submit]:hover {
+    background-color: var(--aeon-deep) !important;
+    border-color: var(--aeon-deep) !important;
+}
+
+@media (max-width: 860px) {
+    .auth-page > .row { grid-template-columns: 1fr; min-height: 0; }
+    .auth-page > .row > .col-4:not(.form-login) { padding: 56px 28px 40px; }
+    .auth-page > .row > .col-4:not(.form-login)::before { width: 760px; height: 760px; right: -330px; bottom: -380px; }
+    .auth-page .logo img, .auth-page img.ocs-logo { width: min(220px, 70%); }
+    .auth-page .logo::after { font-size: 1.05rem; margin-top: 20px; }
+    .auth-page .form-login { padding: 72px 28px 48px !important; align-items: stretch; }
+    .auth-page .form-login > *, .auth-page .form-login::before { max-width: none; }
+    .auth-page .form-login .locale-changer { top: 20px; right: 28px; }
+}
+
+/* tombol login dibungkus .row > .col-3 oleh aplikasi: lebarkan penuh */
+.auth-page form .row { margin-left: 0; margin-right: 0; }
+.auth-page form .row > [class*=col-] { flex: 0 0 100% !important; max-width: 100% !important; padding-left: 0; padding-right: 0; }
+.auth-page form button.auth-btn { justify-content: center; }
+
+/* ==========================================================================
+   LOGO TAHAN-CACHE
+   File logo bawaan (assets/logo-white-*.png, assets/illu_communaute-*.png) bisa
+   tetap tersaji versi lama dari cache proxy/CDN. Logo AEON ditampilkan dari URL
+   /aeon/... bernomor versi; gambar asli di dalam <img> didorong keluar kotak.
+   __AEON_VER__ diganti nomor versi oleh task pemasangan.
+   ========================================================================== */
+.navbar-brand-image.logo-size {
+    box-sizing: border-box !important;
+    width: 240px !important;
+    height: 34px !important;
+    padding-left: 240px !important;
+    background: url("/aeon/header-logo.png?v=__AEON_VER__") left center / contain no-repeat !important;
+    overflow: hidden;
+}
+.auth-page img.ocs-logo,
+.auth-page .logo img {
+    box-sizing: border-box !important;
+    width: 340px !important;
+    height: 105px !important;
+    padding-left: 340px !important;
+    background: url("/aeon/login-logo.png?v=__AEON_VER__") left center / contain no-repeat !important;
+    overflow: hidden;
+}
+@media (max-width: 860px) {
+    .navbar-brand-image.logo-size { width: 190px !important; height: 27px !important; padding-left: 190px !important; }
+    .auth-page img.ocs-logo, .auth-page .logo img { width: 220px !important; height: 68px !important; padding-left: 220px !important; }
+}

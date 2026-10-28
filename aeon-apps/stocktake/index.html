@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#BC1A8D">
+<title>Stocktake — AEON IT</title>
+<link rel="icon" href="/aeon/favicon.ico">
+<link rel="stylesheet" href="../shared/aeon-app.css?v=__VER__">
+<style>
+  body { background: #FBF8FA; }
+  .wrap { max-width: 560px; padding: 18px 16px 120px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 14px; }
+  .setup { display: grid; gap: 14px; }
+  .setup .select, .setup .input { width: 100%; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* sesi */
+  .session { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .session .place { font-weight: 700; font-size: 1.05rem; }
+  .session .place small { display: block; font-weight: 500; color: var(--muted); font-size: .8125rem; }
+  .session .spacer { flex: 1; }
+  .linkbtn { background: none; border: 0; color: var(--magenta); font-weight: 600; cursor: pointer; padding: 6px 0; }
+
+  .progress { margin-bottom: 16px; }
+  .progress .bar { height: 8px; background: var(--blush); border-radius: 99px; overflow: hidden; }
+  .progress .bar span { display: block; height: 100%; width: 0; background: var(--magenta); border-radius: 99px; transition: width .3s; }
+  .progress p { margin: 8px 0 0; font-size: .9rem; color: var(--muted); }
+  .progress b { color: var(--ink); }
+
+  /* pemindai: momen utama halaman */
+  .scan { padding: 0; overflow: hidden; }
+  .scan .viewer { position: relative; background: #1E1A21; aspect-ratio: 1 / 1; display: none; }
+  .scan.on .viewer { display: block; }
+  #reader { width: 100%; height: 100%; }
+  #reader video { object-fit: cover; }
+  .scan .bigbtn {
+    width: 100%; min-height: 64px; border: 0; cursor: pointer;
+    background: var(--magenta); color: #fff; font-size: 1.1rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .scan .bigbtn:active { background: var(--deep); }
+  .scan.on .bigbtn { background: #fff; color: var(--magenta); border-top: 1px solid var(--line); }
+  .manual { display: flex; gap: 8px; padding: 14px; border-top: 1px solid var(--line); }
+  .manual .input { flex: 1; min-width: 0; }
+  .note { margin: 0; padding: 12px 14px; font-size: .85rem; color: var(--warn); background: var(--warn-bg); }
+
+  /* hasil pindai */
+  .result .aid { font-size: 1.7rem; font-weight: 800; letter-spacing: -.01em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .result .host { font-size: 1rem; font-weight: 600; margin-top: 4px; }
+  .result dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 14px 0 0; font-size: .9rem; }
+  .result dt { color: var(--muted); }
+  .result dd { margin: 0; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+  .flag { margin-top: 14px; padding: 10px 12px; border-radius: 10px; font-size: .9rem; font-weight: 600; }
+  .flag.warn { background: var(--warn-bg); color: var(--warn); }
+  .flag.ok { background: var(--ok-bg); color: var(--ok); }
+  .flag.bad { background: var(--bad-bg); color: var(--bad); }
+  .actions { display: grid; gap: 10px; margin-top: 16px; }
+  .actions .btn { min-height: 52px; font-size: 1rem; }
+
+  /* daftar */
+  .tabs { display: flex; gap: 6px; margin: 22px 0 10px; }
+  .tabs button { flex: 1; min-height: 40px; border-radius: 10px; border: 1px solid var(--field); background: #fff; font-weight: 600; cursor: pointer; }
+  .tabs button[aria-selected=true] { background: var(--plum); border-color: var(--plum); color: #fff; }
+  .list { list-style: none; margin: 0; padding: 0; background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .list li { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .list li:last-child { border-bottom: 0; }
+  .list .meta { flex: 1; min-width: 0; }
+  .list .meta b { display: block; font-variant-numeric: tabular-nums; }
+  .list .meta span { display: block; color: var(--muted); font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .list .empty { color: var(--muted); justify-content: center; font-size: .9rem; }
+  .chip { flex: none; font-size: .75rem; font-weight: 700; padding: 4px 9px; border-radius: 99px; }
+  .chip.ok { background: var(--ok-bg); color: var(--ok); }
+  .chip.move { background: var(--warn-bg); color: var(--warn); }
+  .chip.bad { background: var(--bad-bg); color: var(--bad); }
+  .list .btn { min-height: 36px; padding: 0 12px; font-size: .85rem; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 12px; font-weight: 600; font-size: .95rem;
+    opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; max-width: calc(100% - 32px);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .toast, .progress .bar span { transition: none; } }
+</style>
+</head>
+<body>
+<header class="app-header">
+  <img src="../shared/aeon-logo.svg" alt="AEON">
+  <span class="app-name">Stocktake</span>
+  <span class="spacer"></span>
+  <a href="#" id="logout">Keluar</a>
+</header>
+
+<section class="login" id="login" hidden>
+  <img src="../shared/aeon-logo.svg" alt="AEON">
+  <h1>Masuk</h1>
+  <p class="lead">Gunakan akun OCS yang sama dengan console.</p>
+  <form id="login-form" autocomplete="on">
+    <label class="field">Username<input class="input" name="username" autocomplete="username" required></label>
+    <label class="field">Password<input class="input" name="password" type="password" autocomplete="current-password" required></label>
+    <div class="msg err" id="login-msg" hidden></div>
+    <button class="btn primary" type="submit">Masuk</button>
+  </form>
+</section>
+
+<main class="wrap" id="app" hidden>
+  <div class="msg err" id="err" hidden></div>
+
+  <!-- 1. Mulai sesi -->
+  <section id="setup">
+    <h1>Mulai stocktake</h1>
+    <p class="lead">Pilih tempat yang sedang kamu cek. Aset yang tercatat di sana akan muncul sebagai daftar yang perlu ditemukan.</p>
+    <form class="card setup" id="setup-form">
+      <label class="field">Lokasi
+        <select class="select" id="s-lokasi" required><option value="">Pilih lokasi</option></select>
+      </label>
+      <label class="field">Area (opsional)
+        <select class="select" id="s-area"><option value="">Semua area</option></select>
+      </label>
+      <label class="field">Nama petugas
+        <input class="input" id="s-petugas" required>
+      </label>
+      <button class="btn primary" type="submit">Mulai</button>
+    </form>
+  </section>
+
+  <!-- 2. Sesi berjalan -->
+  <section id="run" hidden>
+    <div class="session">
+      <div class="place" id="place"></div>
+      <span class="spacer"></span>
+      <button class="linkbtn" id="change">Ganti tempat</button>
+    </div>
+    <div class="progress"><div class="bar"><span id="bar"></span></div><p id="progress-text"></p></div>
+
+    <div class="card scan" id="scan">
+      <div class="viewer"><div id="reader"></div></div>
+      <p class="note" id="insecure" hidden>Kamera hanya bisa dipakai lewat https://ocsaeon.itcnelita.com. Di sini, ketik Asset ID secara manual.</p>
+      <button class="bigbtn" id="scan-btn" type="button">Pindai label</button>
+      <form class="manual" id="manual">
+        <input class="input" id="manual-q" placeholder="Asset ID, hostname, serial" autocomplete="off" autocapitalize="characters">
+        <button class="btn" type="submit">Cari</button>
+      </form>
+    </div>
+
+    <div class="card result" id="result" hidden></div>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="todo" id="tab-todo">Belum dicek</button>
+      <button role="tab" aria-selected="false" data-tab="done" id="tab-done">Sudah dicek</button>
+    </div>
+    <ul class="list" id="list"></ul>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../vendor/html5-qrcode.min.js?v=__VER__"></script>
+<script src="../shared/ocs.js?v=__VER__"></script>
+<script src="stocktake.js?v=__VER__"></script>
+</body>
+</html>

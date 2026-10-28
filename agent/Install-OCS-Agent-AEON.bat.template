@@ -1,0 +1,131 @@
+@echo off
+setlocal EnableExtensions
+title Install OCS Inventory Agent - AEON
+rem ==========================================================================
+rem  Installer otomatis OCS Inventory Agent untuk PC AEON (LAN & internet)
+rem  Dibuat oleh server OCS (repo itcnelita/ocsaeon, task 0033).
+rem  Berisi akun agent: jangan dibagikan ke luar AEON.
+rem ==========================================================================
+set "URL_NET=__URL_NET__"
+set "URL_LAN=__URL_LAN__"
+set "DL_NET=__DL_NET__"
+set "DL_LAN=__DL_LAN__"
+set "OCS_USER=__AGENT_USER__"
+set "OCS_PASS=__AGENT_PASSWORD__"
+set "SETUP_NAME=__SETUP_NAME__"
+set "SETUP_SHA256=__SETUP_SHA256__"
+set "WORKDIR=%ProgramData%\OCSAEON-Setup"
+set "LOG=%WORKDIR%\install.log"
+set "PS=powershell -NoProfile -ExecutionPolicy Bypass -Command"
+set "TLS=[Net.ServicePointManager]::SecurityProtocol=[Net.ServicePointManager]::SecurityProtocol -bor 3072;"
+
+rem --- 0. Hak administrator: minta lewat UAC kalau belum ---
+net session >nul 2>&1
+if errorlevel 1 (
+  echo Meminta hak administrator...
+  %PS% "Start-Process -FilePath '%~f0' -Verb RunAs"
+  exit /b
+)
+
+echo.
+echo  ================================================
+echo   OCS Inventory Agent - AEON
+echo   PC: %COMPUTERNAME%
+echo  ================================================
+echo.
+
+if not exist "%WORKDIR%" mkdir "%WORKDIR%"
+echo [%date% %time%] Mulai instalasi di %COMPUTERNAME% > "%LOG%"
+
+if /i not "%PROCESSOR_ARCHITECTURE%"=="AMD64" if /i not "%PROCESSOR_ARCHITEW6432%"=="AMD64" (
+  set "ERRMSG=Windows ini bukan 64-bit. Agent OCS 3 hanya untuk Windows 64-bit."
+  goto :fail
+)
+
+echo [1/5] Mencari jalur ke server OCS ...
+set "OK_NET=0"
+set "OK_LAN=0"
+%PS% "%TLS% try{$r=Invoke-WebRequest -UseBasicParsing -TimeoutSec 10 '%URL_NET%/api-check/'; if($r.StatusCode -eq 200){exit 0}else{exit 1}}catch{exit 1}"
+if not errorlevel 1 set "OK_NET=1"
+%PS% "try{$r=Invoke-WebRequest -UseBasicParsing -TimeoutSec 4 '%URL_LAN%/api-check/'; if($r.StatusCode -eq 200){exit 0}else{exit 1}}catch{exit 1}"
+if not errorlevel 1 set "OK_LAN=1"
+echo       internet/domain: %OK_NET%   LAN kantor: %OK_LAN%
+echo [%date% %time%] Jalur internet=%OK_NET% LAN=%OK_LAN% >> "%LOG%"
+
+if "%OK_NET%%OK_LAN%"=="00" (
+  set "ERRMSG=Server OCS tidak bisa dihubungi lewat internet maupun LAN. Periksa koneksi PC."
+  goto :fail
+)
+rem agent diarahkan ke domain bila bisa, supaya tetap jalan di mana pun PC berada
+if "%OK_NET%"=="1" (
+  set "OCS_URL=%URL_NET%"
+  set "VARIAN=Internet - domain"
+) else (
+  set "OCS_URL=%URL_LAN%"
+  set "VARIAN=LAN kantor"
+)
+rem installer diunduh dari LAN bila bisa, karena lebih cepat
+if "%OK_LAN%"=="1" (
+  set "SETUP_URL=%DL_LAN%/aeon/agent/%SETUP_NAME%"
+) else (
+  set "SETUP_URL=%DL_NET%/aeon/agent/%SETUP_NAME%"
+)
+echo       Agent akan mengirim data lewat: %VARIAN%
+echo [%date% %time%] Server agent: %OCS_URL% >> "%LOG%"
+
+echo [2/5] Mengunduh installer agent ...
+%PS% "%TLS% $ProgressPreference='SilentlyContinue'; try{Invoke-WebRequest -UseBasicParsing -TimeoutSec 600 '%SETUP_URL%' -OutFile '%WORKDIR%\%SETUP_NAME%'; exit 0}catch{exit 1}"
+if errorlevel 1 (
+  set "ERRMSG=Gagal mengunduh installer dari %SETUP_URL%"
+  goto :fail
+)
+
+echo [3/5] Memeriksa keaslian installer ...
+%PS% "if((Get-FileHash -Algorithm SHA256 '%WORKDIR%\%SETUP_NAME%').Hash -ieq '%SETUP_SHA256%'){exit 0}else{exit 1}"
+if errorlevel 1 (
+  set "ERRMSG=Checksum installer tidak cocok. File rusak atau bukan installer resmi."
+  goto :fail
+)
+
+echo [4/5] Memasang agent, mohon tunggu 1-3 menit ...
+start "" /wait "%WORKDIR%\%SETUP_NAME%" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%WORKDIR%\setup.log" /URL=%OCS_URL% /USERNAME=%OCS_USER% /PASSWORD=%OCS_PASS% /MODE=1 /LOG_LEVEL=3 /SERVICE=1 /NOW=1
+set "RC=%ERRORLEVEL%"
+echo [%date% %time%] Installer selesai, kode %RC% >> "%LOG%"
+%PS% "$p='%WORKDIR%\setup.log'; if(Test-Path $p){(Get-Content $p) -replace '%OCS_PASS%','********' | Set-Content $p}"
+if not "%RC%"=="0" (
+  set "ERRMSG=Installer gagal dengan kode %RC%. Lihat %WORKDIR%\setup.log"
+  goto :fail
+)
+
+echo [5/5] Memeriksa service agent ...
+timeout /t 5 /nobreak >nul
+%PS% "$s=Get-Service | Where-Object {$_.Name -like 'OCS*' -or $_.DisplayName -like 'OCS*'} | Select-Object -First 1; if(-not $s){exit 1}; if($s.Status -ne 'Running'){try{Start-Service $s.Name; Start-Sleep 3; $s.Refresh()}catch{}}; Write-Host ('      Service: '+$s.DisplayName+' = '+$s.Status); if($s.Status -eq 'Running'){exit 0}else{exit 2}"
+if errorlevel 1 (
+  set "ERRMSG=Service OCS Inventory Agent tidak ditemukan atau tidak berjalan."
+  goto :fail
+)
+
+del /q "%WORKDIR%\%SETUP_NAME%" >nul 2>&1
+echo [%date% %time%] BERHASIL >> "%LOG%"
+echo.
+echo  ================================================
+echo   BERHASIL: OCS Agent terpasang di %COMPUTERNAME%
+echo   Jalur: %VARIAN%
+echo   Data PC akan muncul di console OCS
+echo   dalam beberapa menit.
+echo  ================================================
+echo.
+echo  Jendela ini tertutup otomatis.
+timeout /t 20
+exit /b 0
+
+:fail
+echo.
+echo  ================================================
+echo   GAGAL: %ERRMSG%
+echo  ================================================
+echo [%date% %time%] GAGAL: %ERRMSG% >> "%LOG%"
+echo  Log: %LOG%
+echo.
+pause
+exit /b 1

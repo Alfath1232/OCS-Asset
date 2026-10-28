@@ -1,0 +1,86 @@
+/* AEON apps (label & stocktake) — gaya bersama, selaras tema console OCS AEON */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("PlusJakartaSans-var.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+:root {
+  --magenta: #BC1A8D;
+  --deep: #8C1268;
+  --plum: #5E0F47;
+  --blush: #F7E9F2;
+  --tint: #FBF4F8;
+  --ink: #2A2430;
+  --muted: #6E6470;
+  --line: #ECE3EA;
+  --field: #E2D6DF;
+  --ok: #1F7A4D;
+  --ok-bg: #E8F5EE;
+  --warn: #9A5B00;
+  --warn-bg: #FFF4DE;
+  --bad: #B3261E;
+  --bad-bg: #FDECEA;
+  --font: "Plus Jakarta Sans", "Segoe UI", -apple-system, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: #FBF8FA;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.45;
+}
+:focus-visible { outline: 2px solid var(--magenta); outline-offset: 2px; }
+button, input, select { font: inherit; color: inherit; }
+
+/* header */
+.app-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 20px;
+  background: #fff;
+  border-top: 3px solid var(--magenta);
+  border-bottom: 1px solid var(--line);
+}
+.app-header img { height: 26px; display: block; }
+.app-header .app-name { font-weight: 600; color: var(--plum); padding-left: 16px; border-left: 2px solid var(--field); }
+.app-header .spacer { flex: 1; }
+.app-header .who { color: var(--muted); font-size: .875rem; }
+.app-header a { color: var(--magenta); text-decoration: none; font-size: .875rem; font-weight: 600; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 20px 48px; }
+h1 { font-size: 1.6rem; line-height: 1.2; margin: 0 0 6px; letter-spacing: -.01em; }
+.lead { margin: 0 0 22px; color: var(--muted); max-width: 62ch; }
+
+/* kontrol */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 42px; padding: 0 18px;
+  border-radius: 10px; border: 1px solid var(--field);
+  background: #fff; color: var(--ink); font-weight: 600; cursor: pointer;
+}
+.btn:hover { border-color: #D6BCCD; background: var(--tint); }
+.btn.primary { background: var(--magenta); border-color: var(--magenta); color: #fff; }
+.btn.primary:hover { background: var(--deep); border-color: var(--deep); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.input, .select {
+  height: 42px; padding: 0 12px;
+  border: 1px solid var(--field); border-radius: 10px; background: #fff;
+}
+.input:focus, .select:focus { outline: none; border-color: var(--magenta); box-shadow: 0 0 0 3px rgba(188, 26, 141, .14); }
+label.field { display: flex; flex-direction: column; gap: 6px; font-size: .875rem; font-weight: 600; color: var(--muted); }
+
+/* login */
+.login {
+  max-width: 380px; margin: 9vh auto; padding: 32px;
+  background: #fff; border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: 0 18px 44px rgba(94, 15, 71, .08);
+}
+.login img { height: 34px; margin-bottom: 22px; }
+.login h1 { font-size: 1.4rem; }
+.login form { display: grid; gap: 14px; margin-top: 18px; }
+.msg { padding: 10px 12px; border-radius: 10px; font-size: .9rem; }
+.msg.err { background: var(--bad-bg); color: var(--bad); }
+.msg.info { background: var(--tint); color: var(--plum); }
+[hidden] { display: none !important; }
